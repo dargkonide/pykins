@@ -1,0 +1,7 @@
+<p>jobs works!</p>
+<p *ngIf="jobList$ |async">
+  {{ (jobList$ |async)?.type }}
+  {{ (jobList$ |async)?.message }}
+</p>
+<input (keyup)="sendMessage($event)">
+
