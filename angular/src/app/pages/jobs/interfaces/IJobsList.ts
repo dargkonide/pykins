@@ -1,11 +1,7 @@
 export interface IJobsList {
   type: string,
   message: string
-  table: Array<IJobsTable>
-}
-export interface IJobsTable{
-  name: string,
-  status: string
+  table: Array< {name: string, status: string} >
 }
 export interface Variable{
   name: string,
