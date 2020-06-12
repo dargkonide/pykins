@@ -2,13 +2,15 @@ from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from json import loads,dumps
 from time import sleep
 from threading import Thread
+from random import randint
 
 def run(client):
     i=0
     while 1:
-        client.sendMessage(dumps({'type':'jobList','message':f'hi {i}'}))
+        client.sendMessage(dumps({'type':'jobList','message':f'hi {i}',\
+            'table':[{'name':f'job{i}','status':'pass'} for j,n in enumerate(range(0,randint(1,20)))]}))
         i+=1
-        sleep(0.01)
+        sleep(1)
 
 class SimpleEcho(WebSocket):
 
