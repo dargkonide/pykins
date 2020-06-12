@@ -1,7 +1,15 @@
 <p>jobs works!</p>
-<p *ngIf="jobList$ |async">
-  {{ (jobList$ |async)?.type }}
-  {{ (jobList$ |async)?.message }}
+<p *ngIf="(jobList$ |async) as jobList">
+  {{ jobList?.type }}
+  {{ jobList?.message }}
 </p>
+<button (click)="reconnect()">Reconnect</button>
 <input (keyup)="sendMessage($event)">
+<table *ngIf="(jobList$ |async) as jobsTable">
+  <th>Table</th>
+  <tr *ngFor="let item of jobsTable.table">
+    <td>{{item.name}}</td>
+    <td>{{item.status}}</td>
+  </tr>
+</table>
 
