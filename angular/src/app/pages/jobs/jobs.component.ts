@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { Observable } from 'rxjs';
-import { IJobsList } from 'src/app/pages/jobs/interfaces/IJobsList';
+import { IJobsList, IRows } from 'src/app/pages/jobs/interfaces/IJobsList';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-jobs',
@@ -12,14 +14,23 @@ export class JobsComponent implements OnInit {
 
   jobList$: Observable<IJobsList>
 
+  displayedColumns: string[] = ['name', 'status'];
+  dataSource: MatTableDataSource<IRows>
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
   constructor(private webSocketService: WebSocketService) {
     this.jobList$ = this.webSocketService.getObservable("jobList")
     this.jobList$.subscribe(
-      message => console.log(message)
+      message => {
+        console.log(message)
+        this.dataSource = new MatTableDataSource(message.table)
+      }
     )
    }
 
   ngOnInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   reconnect(){

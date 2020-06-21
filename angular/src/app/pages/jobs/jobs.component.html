@@ -5,11 +5,27 @@
 </p>
 <button (click)="reconnect()">Reconnect</button>
 <input (keyup)="sendMessage($event)">
-<table *ngIf="(jobList$ |async) as jobsTable">
+<!-- <table *ngIf="(jobList$ |async) as jobsTable">
   <th>Table</th>
   <tr *ngFor="let item of jobsTable.table">
     <td>{{item.name}}</td>
     <td>{{item.status}}</td>
   </tr>
-</table>
+</table> -->
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
+    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
