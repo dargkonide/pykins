@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WebSocketService } from 'src/app/core/web-socket/web-socket.service';
+import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { Observable } from 'rxjs';
 import { IJobsList } from 'src/app/pages/jobs/interfaces/IJobsList';
 
