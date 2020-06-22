@@ -1,0 +1,24 @@
+table {
+  width: 100%;
+  
+}
+.example-viewport {
+  height: 95%;
+}
+.example-item {
+  height: 40px;
+}
+.example-item:hover{
+  // color: darkcyan;
+  background-color: darkcyan;
+}
+.example-alternate {
+  background: lightgrey;
+}
+thead{
+  background-color: primary;
+}
+th{
+  height: 40px;
+}
+

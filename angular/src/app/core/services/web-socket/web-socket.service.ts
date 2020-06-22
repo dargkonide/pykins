@@ -9,7 +9,7 @@ export class WebSocketService {
   ws: WebSocketSubject<any> ;
 
   constructor() {
-    this.ws = webSocket('ws:/95.24.211.79:8123')
+    this.ws = webSocket('ws:/localhost:8123')
     this.ws.subscribe()
   }
 

@@ -1,13 +1,11 @@
-
-
-mat-toolbar {
+.app-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
   min-height: 0px;
-  position: fixed;
-  top: 0;
-}
-mat-toolbar-row {
   height: 50px;
 }
-.header-margin{
-  height: 60px;
+.spacer{
+  flex: 1 1 auto;
 }

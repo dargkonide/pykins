@@ -9,6 +9,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {  MatCheckboxModule} from '@angular/material/checkbox';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 const modules = [
   MatCardModule,
@@ -20,7 +25,11 @@ const modules = [
   MatPaginatorModule,
   MatSortModule,
   MatTabsModule,
-  MatIconModule
+  MatIconModule,
+  MatButtonToggleModule,
+  ScrollingModule,
+  MatCheckboxModule,
+  MatProgressBarModule,
 ];
 
 @NgModule({

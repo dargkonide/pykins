@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JobsRoutingModule } from './jobs-routing.module';
 import { JobsComponent } from './jobs.component';
 import { MaterialModule } from 'src/app/util/material/material.module';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MaterialModule } from 'src/app/util/material/material.module';
   imports: [
     CommonModule,
     JobsRoutingModule,
-    MaterialModule
+    MaterialModule,
+    ScrollingModule
   ]
 })
 export class JobsModule { }

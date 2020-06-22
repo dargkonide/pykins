@@ -1,9 +1,17 @@
-<div class="d-flex mt-3 ml-3 align-items-center mb-3">
-  <span class="mr-5">SomeJobName</span>
-  <button mat-stroked-button color="primary" routerLink="history" routerLinkActive="mat-accent">History</button >
-  <button mat-stroked-button color="primary" routerLink="job" routerLinkActive="mat-accent">Job</button>
-  <button mat-stroked-button color="primary" routerLink="build" routerLinkActive="mat-accent">Build</button>
+<div class="mat-background-primary">
+
+  <mat-form-field class="form">
+    <mat-label>Job Name</mat-label>
+    <input matInput value="Disco party!">
+    <mat-hint>folder/dir/fold</mat-hint>
+  </mat-form-field>
+
+  <span class="button-row">
+  <button mat-stroked-button routerLink="history" routerLinkActive="mat-accent">History</button>
+  <button mat-stroked-button routerLink="job" routerLinkActive="mat-accent">Job</button>
+  <button mat-stroked-button routerLink="build" routerLinkActive="mat-accent">Build</button>
+  </span>
 </div>
-<div class="job-page-tab">
+<div class="job-page-tab, mat-background-primary">
   <router-outlet></router-outlet>
 </div>
