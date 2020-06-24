@@ -9,7 +9,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class TaskComponent implements OnInit {
 
   job_name: string
-  code: string = "Cacaбенза"
+  // code: string = "Cacaбенза"
+
+  // https://www.npmjs.com/package/ngx-monaco-editor
+  editorOptions = {theme: 'vs-dark', language: 'python', automaticLayout: true};
+  code: string= '';
 
   constructor(
     private route: ActivatedRoute,

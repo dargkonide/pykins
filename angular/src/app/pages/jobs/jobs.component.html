@@ -1,20 +1,22 @@
-<ng-container class="mat-background-primary">
-  <cdk-virtual-scroll-viewport *ngIf="(jobList$ | async) as joblist" itemSize="40" class="example-viewport">
-    <table class=".mat-table">
-      <thead class=".mat-header-cell">
-        <tr>
-          <th>No.</th>
-          <th>Name</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody class=".mat-cell">
+<ng-container class="container-table100" >
+  <!-- <table class="">
+    <thead class="table100-head">
+      <tr>
+        <th style="width: 100px;">No.</th>
+        <th>Name</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+  </table> -->
+  <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as joblist" itemSize="22">
+    <table class="">
+      <tbody class="table100-body">
         <tr *cdkVirtualFor="let item of joblist.table,
                             let index = index;,
                             let odd = odd;"
-                            class="example-item"  [class.example-alternate]="odd"
+                            class=""  [class.example-alternate]="odd"
                             [routerLink]="['/jobs/', item.name]">
-          <td>{{index}}</td>
+          <td style="width: 100px;">{{index}}</td>
           <td>{{item.name}}</td>
           <td>{{item.status}}</td>
         </tr>
@@ -22,6 +24,7 @@
     </table>
   </cdk-virtual-scroll-viewport>
 </ng-container>
+
 
 <!-- <ng-container *ngIf="(jobList$ | async)" class="mat-background-primary">
   <cdk-virtual-scroll-viewport  itemSize="40" class="example-viewport">

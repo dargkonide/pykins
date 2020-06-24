@@ -1,11 +1,8 @@
-.inner-component {
-  margin: 10px;
-}
-.code-editor {
-  height: 100%;
-  width: 100%;
-  // border: solid;
-  // border-width: 1px;
-  // text-align: left;
-
+.my-code-editor {
+  height: 80vh;
+  overflow: hidden;
+  .editor-container {
+    height: calc(100vh - 100px);
+    width: calc(100vw - 100px);
+  }
 }

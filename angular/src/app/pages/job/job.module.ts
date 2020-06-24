@@ -10,7 +10,7 @@ import { MaterialModule } from 'src/app/util/material/material.module';
 import { TaskComponent } from './components/job/components/task/task.component';
 import { VariablesComponent } from './components/job/components/variables/variables.component';
 import { FormsModule } from '@angular/forms';
-
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [JobPageComponent, JobComponent, HistoryComponent, BuildComponent, TaskComponent, VariablesComponent],
@@ -18,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     JobRoutingModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    MonacoEditorModule
   ]
 })
 export class JobModule { }

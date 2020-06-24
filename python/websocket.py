@@ -9,9 +9,10 @@ def run(client):
     i=0
     while 1:
         client.sendMessage(dumps({'type':'jobList','message':f'hi {i}',\
-            'table':[{'name':f'job{i}','status':'pass'} for j,n in enumerate(range(0,randint(100,100)))]}))
+            'table':[{'name':f'job{i}','status':'pass'} for j,n in enumerate(range(5000))]}))
         i+=1
         sleep(1)
+        break
 
 class SimpleEcho(WebSocket):
 
