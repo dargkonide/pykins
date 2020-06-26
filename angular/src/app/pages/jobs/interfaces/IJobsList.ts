@@ -1,17 +1,10 @@
-export interface IJobsList {
-  type: string,
-  message: string
-  table: IRows[]
+import { Protocol } from 'src/app/core/services/web-socket/web-socket.service';
+
+export interface JobList extends Protocol {
+  msg: Job[]
 }
-export interface IRows {
+export interface Job {
   name: string,
   status: string
-}
-export interface Variable{
-  name: string,
-  type: string,
-  description: string,
-  default: any,
-  input: any
 }
 

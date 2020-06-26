@@ -1,4 +1,7 @@
-<ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+<ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="webSocketService.currentJob.msg.code"></ngx-monaco-editor>
+<span>
+  <button mat-raised-button color="primary" (click)="sendChangedCode()" >Save</button>
+</span>
 
 <!-- If need diff editor -->
 <!-- <ngx-monaco-diff-editor [options]="options" [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor> -->

@@ -11,7 +11,7 @@
   <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as joblist" itemSize="22">
     <table class="">
       <tbody class="table100-body">
-        <tr *cdkVirtualFor="let item of joblist.table,
+        <tr *cdkVirtualFor="let item of joblist.msg,
                             let index = index;,
                             let odd = odd;"
                             class=""  [class.example-alternate]="odd"
@@ -24,63 +24,3 @@
     </table>
   </cdk-virtual-scroll-viewport>
 </ng-container>
-
-
-<!-- <ng-container *ngIf="(jobList$ | async)" class="mat-background-primary">
-  <cdk-virtual-scroll-viewport  itemSize="40" class="example-viewport">
-    <table class=".mat-table">
-      <thead class=".mat-header-cell">
-        <tr>
-          <th>No.</th>
-          <th>Name</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody class=".mat-cell">
-        <tr *cdkVirtualFor="let item of jobList,
-                            let index = index;,
-                            let odd = odd;"
-                            class="example-item"  [class.example-alternate]="odd"
-                            [routerLink]="['/jobs/', item.name]">
-          <td>{{index}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.status}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </cdk-virtual-scroll-viewport>
-</ng-container> -->
-
-<!-- Это, пушо  *matRowDef - гавно и не использует *cdkVirtualFor -->
-<!-- <ng-container *ngIf="(jobList$ | async) as jobsTable">
-  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-    <table mat-table [dataSource]="jobsTable.table">
-
-
-      <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element, let index = index">{{index}} </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element">{{element.name}}</td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-      </ng-container>
-
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row;
-                              columns: displayedColumns;
-                              let odd = odd,
-                              let element" class="example-item" [class.example-alternate]="odd"
-                              [routerLink]="['/jobs/', element.name]"></tr>
-    </table>
-  </cdk-virtual-scroll-viewport>
-</ng-container> -->
