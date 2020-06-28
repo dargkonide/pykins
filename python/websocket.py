@@ -20,15 +20,21 @@ class SimpleEcho(WebSocket):
 
     def handleMessage(self):
         try:
-
             msg=loads(self.data)
             print(msg)
+            if msg.get('type')=="code":
+                job=gdata['x']['jobs'].get(msg['name'])
+                job['code']=msg['code']
+                xjob=job.copy()
+                xjob['name']=msg['name']
+                [n.sendMessage(dumps({'type':'job','msg':xjob})) for n in clients if n is not self]
             if msg.get('type')=="jobs":
                 jobs=[{'name':k,'status':v['status']} for k,v in gdata['x']['jobs'].items()]
                 print(jobs)
                 self.sendMessage(dumps({'type':'jobs','msg':jobs}))
             if msg.get('type')=="job":
-                job=gdata['x']['jobs'].get(msg['msg'])
+                job=gdata['x']['jobs'].get(msg['msg']).copy()
+                job['name']=msg['msg']
                 self.sendMessage(dumps({'type':'job','msg':job}))
         except:
             print(self.data)
@@ -36,12 +42,15 @@ class SimpleEcho(WebSocket):
 
     def handleConnected(self):
         print(self.address, 'connected')
+        clients.append(self)
         # Thread(target=run,args=(self,)).start()
         
 
     def handleClose(self):
         print(self.address, 'closed')
+        clients.remove(self)
 
+clients=[]
 gdata=None
 def work(data):
     global gdata

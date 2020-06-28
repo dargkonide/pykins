@@ -12,7 +12,8 @@ export interface JobInfo extends Protocol{
 export interface Job{
   code?: string,
   vars?: {},
-  history?: []
+  history?: [],
+  name?: string
 }
 
 @Injectable({
