@@ -15,28 +15,42 @@ export class JobComponent implements OnInit {
 
   index = 0
   jobCode: string = ""
+  code
+  vars
+  jobName
 
   constructor(
     public webSocketService: WebSocketService
   ) { }
 
   ngOnInit(): void {
+    this.webSocketService.currentJob$.subscribe(
+      m => {
+        this.code = m.msg.code
+        this.vars = m.msg.vars
+        this.jobName = m.msg.name
+
+        this.jobCode = this.index == 0 && this.code || this.vars
+      }
+    )
   }
 
+  sendChangedCode() {
+    if (this.index == 0) this.code = this.jobCode
+    else this.vars = this.jobCode
 
-
-  sendChangedCode(job: JobInfo) {
-      this.webSocketService.sendMessage({
-        type: this.index == 0 && 'code' || 'vars',
-        code: job.msg.code,
-        vars: job.msg.vars,
-        name: job.msg.name
-      });
-    }
-
+    this.webSocketService.sendMessage({
+      type: this.index == 0 && 'code' || 'vars',
+      code: this.code,
+      vars: this.vars,
+      name: this.jobName
+    });
+  }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.index = tabChangeEvent.index
+    this.jobCode = this.index == 0 && this.code || this.vars
+    console.log(this.index)
   }
 
 }

@@ -5,8 +5,7 @@
 <ngx-monaco-editor
     class="my-code-editor"
     [options]="editorOptions"
-    *ngIf="(webSocketService.currentJob$|async) as job"
-    [(ngModel)]="index==0 && job.msg.code || job.msg.vars"
-    (ngModelChange)="sendChangedCode(job)">
+    [(ngModel)]="jobCode"
+    (ngModelChange)="sendChangedCode()">
 </ngx-monaco-editor>
 

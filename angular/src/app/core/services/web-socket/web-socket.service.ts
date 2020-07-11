@@ -27,7 +27,7 @@ export class WebSocketService {
   currentJob$: Observable<JobInfo>
 
   constructor() {
-    this.ws = webSocket('ws:/localhost:8123') //95.24.211.79
+    this.ws = webSocket('ws:/95.24.211.79:8123') //95.24.211.79
     this.ws.subscribe()
   }
 
