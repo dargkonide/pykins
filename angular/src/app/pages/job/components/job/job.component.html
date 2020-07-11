@@ -1,4 +1,12 @@
-<mat-tab-group mat-align-tabs="start">
-  <mat-tab label="Task"><app-task></app-task></mat-tab>
-  <mat-tab label="Variables"><app-variables></app-variables></mat-tab>
+<mat-tab-group mat-align-tabs="start" (selectedTabChange)="tabChanged($event)">
+  <mat-tab label="Task"></mat-tab>
+  <mat-tab label="Variables"></mat-tab>
 </mat-tab-group>
+<ngx-monaco-editor
+    class="my-code-editor"
+    [options]="editorOptions"
+    *ngIf="(webSocketService.currentJob$|async) as job"
+    [(ngModel)]="index==0 && job.msg.code || job.msg.vars"
+    (ngModelChange)="sendChangedCode(job)">
+</ngx-monaco-editor>
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { retryWhen, tap, delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export interface Protocol{
   type: string
@@ -11,7 +12,7 @@ export interface JobInfo extends Protocol{
 }
 export interface Job{
   code?: string,
-  vars?: {},
+  vars?: string,
   history?: [],
   name?: string
 }
@@ -23,9 +24,10 @@ export class WebSocketService {
   ws: WebSocketSubject<any> ;
 
   currentJob: JobInfo = {type:"job", msg:{}}
+  currentJob$: Observable<JobInfo>
 
   constructor() {
-    this.ws = webSocket('ws:/95.24.211.79:8123')
+    this.ws = webSocket('ws:/localhost:8123') //95.24.211.79
     this.ws.subscribe()
   }
 

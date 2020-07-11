@@ -23,16 +23,21 @@ export class JobPageComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
+    // this.currentJobSub$ = this.route.params.pipe(map(p => p.name))
+    // .subscribe(
+    //   m => this.currentJob.msg = m
+    // )
+    // this.currentJobSub$.add(
+    //   this.webSocketService.getObservable(this.currentJob)
+    //   .subscribe(
+    //     m => this.webSocketService.currentJob = m
+    //   )
+    // )
     this.currentJobSub$ = this.route.params.pipe(map(p => p.name))
     .subscribe(
       m => this.currentJob.msg = m
     )
-    this.currentJobSub$.add(
-      this.webSocketService.getObservable(this.currentJob)
-      .subscribe(
-        m => this.webSocketService.currentJob = m
-      )
-    )
+    this.webSocketService.currentJob$ = this.webSocketService.getObservable(this.currentJob)
   }
 
   ngOnDestroy(): void {
