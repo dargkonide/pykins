@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { WebSocketService, JobInfo } from 'src/app/core/services/web-socket/web-socket.service';
+
+
 
 @Component({
   selector: 'app-job',
@@ -10,29 +12,36 @@ import { WebSocketService, JobInfo } from 'src/app/core/services/web-socket/web-
 export class JobComponent implements OnInit {
 
   // https://www.npmjs.com/package/ngx-monaco-editor
-  editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true };
-
+  editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
 
   index = 0
   jobCode: string = ""
+  
   code
   vars
   jobName
+
+  sub
 
   constructor(
     public webSocketService: WebSocketService
   ) { }
 
   ngOnInit(): void {
-    this.webSocketService.currentJob$.subscribe(
+    this.sub = this.webSocketService.currentJob$.subscribe(
       m => {
         this.code = m.msg.code
         this.vars = m.msg.vars
         this.jobName = m.msg.name
 
         this.jobCode = this.index == 0 && this.code || this.vars
+        console.log('recieve change')
       }
     )
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe()
   }
 
   sendChangedCode() {
@@ -45,6 +54,7 @@ export class JobComponent implements OnInit {
       vars: this.vars,
       name: this.jobName
     });
+    console.log('send change')
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -52,5 +62,7 @@ export class JobComponent implements OnInit {
     this.jobCode = this.index == 0 && this.code || this.vars
     console.log(this.index)
   }
+
+  
 
 }

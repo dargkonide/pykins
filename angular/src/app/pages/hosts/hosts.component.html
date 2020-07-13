@@ -1,1 +1,15 @@
-<p>hosts works!</p>
+<div *ngIf="(hosts$|async) as hosts" class="hosts">
+    <mat-card>
+            <p>Master: {{hosts.msg.master}}</p>
+    </mat-card>
+    <mat-card class="servers">
+        <mat-card-header><p>Servers</p></mat-card-header>
+        <mat-card-content>
+            <mat-selection-list #servers [multiple]="false">
+                <mat-list-option *ngFor="let server of hosts.msg.servers" [value]="server">
+                    {{server}}
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -6,6 +6,6 @@
     class="my-code-editor"
     [options]="editorOptions"
     [(ngModel)]="jobCode"
-    (ngModelChange)="sendChangedCode()">
+    (keyup)="sendChangedCode()">
 </ngx-monaco-editor>
 

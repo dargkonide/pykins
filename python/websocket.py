@@ -28,12 +28,19 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="jobs":
                 jobs=[{'name':k,'status':v['status']} for k,v in gdata['x']['jobs'].items()]
                 print('Send', {'type':'jobs','msg':jobs})
+                print('=======================')
+                print(gdata['x'])
+                print('=======================')
                 self.sendMessage(dumps({'type':'jobs','msg':jobs}))
             if msg.get('type')=="job":
                 job=gdata['x']['jobs'].get(msg['msg']).copy()
                 job['name']=msg['msg']
                 print('Send', {'type':'job','msg':job})
                 self.sendMessage(dumps({'type':'job','msg':job}))
+            if msg.get('type')=="hosts":
+                hosts={'master':gdata['x']['master'], 'servers':gdata['x']['servers']} 
+                print('Send', {'type':'hosts','msg':hosts})
+                self.sendMessage(dumps({'type':'hosts','msg':hosts}))
         except:
             print(self.data)
             traceback.print_exc()
