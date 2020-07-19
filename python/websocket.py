@@ -41,6 +41,10 @@ class SimpleEcho(WebSocket):
                 hosts={'master':gdata['x']['master'], 'servers':gdata['x']['servers']} 
                 print('Send', {'type':'hosts','msg':hosts})
                 self.sendMessage(dumps({'type':'hosts','msg':hosts}))
+            if msg.get('type')=="name":
+                job: dict=gdata['x']['jobs'].pop(msg['old'])
+                print(f'Change job name from {msg["old"]} to {msg["new"]}')
+                gdata['x']['jobs'][msg['new']]=job
         except:
             print(self.data)
             traceback.print_exc()
@@ -57,10 +61,9 @@ class SimpleEcho(WebSocket):
         clients.remove(self)
 
 clients=[]
-gdata=None
+gdata: dict=None
 def work(data):
     global gdata
     gdata=data
     server = SimpleWebSocketServer('0.0.0.0', 8123, SimpleEcho)
     server.serveforever()
-

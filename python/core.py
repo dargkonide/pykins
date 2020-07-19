@@ -16,7 +16,13 @@ data={'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[
         'code':'print(1)',
         'status':True,
         'history':[]
+    },'test2':{
+        'vars':'',
+        'code':'print(1)',
+        'status':True,
+        'history':[]
     }
+    
 },
 'scheduler':[]
 }}

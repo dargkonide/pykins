@@ -44,6 +44,20 @@ export class JobComponent implements OnInit {
     this.sub.unsubscribe()
   }
 
+  public updateJob(){
+    this.sub.unsubscribe()
+    this.sub = this.webSocketService.currentJob$.subscribe(
+      m => {
+        this.code = m.msg.code
+        this.vars = m.msg.vars
+        this.jobName = m.msg.name
+
+        this.jobCode = this.index == 0 && this.code || this.vars
+        console.log('recieve change')
+      }
+    )
+  }
+
   sendChangedCode() {
     if (this.index == 0) this.code = this.jobCode
     else this.vars = this.jobCode

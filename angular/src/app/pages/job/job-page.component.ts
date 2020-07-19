@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Protocol, WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
+import { JobComponent } from './components/job/job.component';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { Protocol, WebSocketService } from 'src/app/core/services/web-socket/web
 })
 export class JobPageComponent implements OnInit,OnDestroy {
 
+  jobRoute: string
   currentJob: Protocol = {type:"job"}
   currentJobSub$: Subscription
 
@@ -25,9 +27,17 @@ export class JobPageComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.currentJobSub$ = this.route.params.pipe(map(p => p.name))
     .subscribe(
-      m => this.currentJob.msg = m
+      m => {
+        this.currentJob.msg = m
+        this.jobRoute = m
+      }
     )
+    this.updateJobObservable()
+  }
+
+  updateJobObservable(){
     this.webSocketService.currentJob$ = this.webSocketService.getObservable(this.currentJob)
+    // this.jobPage.updateJob()
   }
 
   ngOnDestroy(): void {
@@ -36,12 +46,14 @@ export class JobPageComponent implements OnInit,OnDestroy {
 
 
   changeJobName(event){
-    // this.currentJob.msg = event
-    // console.log("Job name changed on: ", this.currentJob.msg)
-    this.webSocketService.sendMessage({type:'name',
-      name:this.webSocketService.currentJob.msg.name,
-
+    this.webSocketService.sendMessage({
+      type:'name',
+      new:this.currentJob.msg,
+      old:this.jobRoute
     })
+    this.updateJobObservable()
   }
+    
+    
 
 }

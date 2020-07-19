@@ -31,7 +31,7 @@ export interface Host{
 export class WebSocketService {
   ws: WebSocketSubject<any> ;
 
-  currentJob: JobInfo = {type:"job", msg:{}}
+  // currentJob: JobInfo = {type:"job", msg:{}}
   currentJob$: Observable<JobInfo>
 
   constructor() {

@@ -2,7 +2,7 @@
 
   <mat-form-field class="form">
     <mat-label>Job Name</mat-label>
-    <input matInput [(ngModel)]="currentJob.msg" (ngModelChange)="changeJobName($event)">
+    <input matInput [(ngModel)]="currentJob.msg" (ngModelChange)="changeJobName($event)" [ngModelOptions]="{updateOn:'blur'}">
     <mat-hint>folder/dir/fold</mat-hint>
   </mat-form-field>
 
