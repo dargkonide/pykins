@@ -35,11 +35,11 @@ export class WebSocketService {
   currentJob$: Observable<JobInfo>
 
   constructor() {
-    this.ws = webSocket('ws:/localhost:8123') //95.24.211.79
+    this.ws = webSocket('ws:/95.24.211.79:8123') //95.24.211.79
     this.ws.subscribe()
   }
 
-  getObservable(subscribeType: Protocol){
+  getObservable(subscribeType){
     return this.ws.multiplex(
       () => {
         console.log("Try sub: ", subscribeType)
@@ -49,7 +49,7 @@ export class WebSocketService {
         console.log("Unsub: ", subscribeType)
         return ( {type: "unsubscribe", msg: subscribeType.type} )
       },
-      (message: Protocol) => {
+      (message) => {
          if (message.type === subscribeType.type){
            console.log("Subbed: ", subscribeType)
          }

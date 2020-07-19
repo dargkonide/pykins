@@ -1,1 +1,15 @@
-<p>build works!</p>
+<div style="margin: 2%;">
+    <div *ngFor="let item of vars">
+        <!-- <p>Type: {{item.type}}</p>
+        <p>Key: {{item.name}}</p>
+        <p>Value: {{item.value}}</p> -->
+        <div *ngIf="item.type=='string'">
+            <mat-form-field class="form" >
+                <mat-label>{{item.name}}</mat-label>
+                <input matInput [(ngModel)]="item.value">
+            </mat-form-field>
+        </div>
+    </div>
+    <button mat-stroked-button (click)="runJob()">Run Job</button>
+</div>
+

@@ -12,7 +12,7 @@ const routes: Routes = [{
     { path: '', redirectTo: 'history' },
 
     {path: 'history', component: HistoryComponent},
-    {path: 'job', component: JobComponent},
+    {path: 'job', loadChildren: () => import('./components/job/job.module').then(m => m.JobModule)},
     {path: 'build', component: BuildComponent},
 
     { path: '**', redirectTo: '' },

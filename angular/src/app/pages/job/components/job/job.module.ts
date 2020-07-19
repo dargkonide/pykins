@@ -2,16 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { JobRoutingModule } from './job-routing.module';
-import { JobPageComponent } from './job-page.component';
-import { HistoryComponent } from './components/history/history.component';
-import { BuildComponent } from './components/build/build.component';
-import { JobComponent } from './components/job/job.component';
+import { CodeComponent } from './code/code.component';
+import { VarsComponent } from './vars/vars.component';
 import { MaterialModule } from 'src/app/util/material/material.module';
-import { FormsModule } from '@angular/forms';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
-  declarations: [JobPageComponent, JobComponent, HistoryComponent, BuildComponent],
+  declarations: [CodeComponent, VarsComponent],
   imports: [
     CommonModule,
     JobRoutingModule,

@@ -1,11 +1,10 @@
-<mat-tab-group mat-align-tabs="start" (selectedTabChange)="tabChanged($event)">
-  <mat-tab label="Task"></mat-tab>
-  <mat-tab label="Variables"></mat-tab>
-</mat-tab-group>
-<ngx-monaco-editor
-    class="my-code-editor"
-    [options]="editorOptions"
-    [(ngModel)]="jobCode"
-    (keyup)="sendChangedCode()">
-</ngx-monaco-editor>
+<nav mat-tab-nav-bar [backgroundColor]="background">
+  <a mat-tab-link *ngFor="let link of links"
+     [routerLink]="link"
+     (click)="activeLink = link"
+     [active]="activeLink == link"> {{link}} </a>
+</nav>
+<div>
+  <router-outlet></router-outlet>
+</div>
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { WebSocketService, JobInfo } from 'src/app/core/services/web-socket/web-socket.service';
-
-
+import { JobService } from '../../service/job.service';
 
 @Component({
   selector: 'app-job',
@@ -11,70 +11,17 @@ import { WebSocketService, JobInfo } from 'src/app/core/services/web-socket/web-
 })
 export class JobComponent implements OnInit {
 
-  // https://www.npmjs.com/package/ngx-monaco-editor
-  editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
-
-  index = 0
-  jobCode: string = ""
-  
-  code
-  vars
-  jobName
-
-  sub
+  links = ['code', 'vars'];
+  // TODO: Вставить активный линк из роута
+  // Еще бы и вкладку запоминала, а?
+  activeLink = this.links[0];
+  background: ThemePalette = undefined;
 
   constructor(
-    public webSocketService: WebSocketService
+
   ) { }
 
   ngOnInit(): void {
-    this.sub = this.webSocketService.currentJob$.subscribe(
-      m => {
-        this.code = m.msg.code
-        this.vars = m.msg.vars
-        this.jobName = m.msg.name
-
-        this.jobCode = this.index == 0 && this.code || this.vars
-        console.log('recieve change')
-      }
-    )
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe()
-  }
-
-  public updateJob(){
-    this.sub.unsubscribe()
-    this.sub = this.webSocketService.currentJob$.subscribe(
-      m => {
-        this.code = m.msg.code
-        this.vars = m.msg.vars
-        this.jobName = m.msg.name
-
-        this.jobCode = this.index == 0 && this.code || this.vars
-        console.log('recieve change')
-      }
-    )
-  }
-
-  sendChangedCode() {
-    if (this.index == 0) this.code = this.jobCode
-    else this.vars = this.jobCode
-
-    this.webSocketService.sendMessage({
-      type: this.index == 0 && 'code' || 'vars',
-      code: this.code,
-      vars: this.vars,
-      name: this.jobName
-    });
-    console.log('send change')
-  }
-
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.index = tabChangeEvent.index
-    this.jobCode = this.index == 0 && this.code || this.vars
-    console.log(this.index)
   }
 
   
