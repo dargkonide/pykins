@@ -37,11 +37,6 @@ export class VarsComponent implements OnInit, OnDestroy {
       name: this.jobService.jobRoute,
       vars: this.jobVars,
     });
-    console.log('send change: ', {
-      type: 'setVars',
-      name: this.jobService.jobRoute,
-      vars: this.jobVars,
-    })
   }
 
 

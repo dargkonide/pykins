@@ -69,6 +69,7 @@ export class WebSocketService {
 
   sendMessage(message){
     this.ws.next(message)
+    console.log(message)
   }
 
   ngOnDestroy(){

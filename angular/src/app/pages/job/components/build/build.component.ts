@@ -35,11 +35,6 @@ export class BuildComponent implements OnInit {
       name:this.jobService.jobRoute,
       vars:this.vars
     })
-    console.log('Run job: ', {
-      type:'runJob',
-      name:this.jobService.jobRoute,
-      vars:this.vars
-    })
   }
 
 }

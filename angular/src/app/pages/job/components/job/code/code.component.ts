@@ -37,11 +37,6 @@ export class CodeComponent implements OnInit {
       name: this.jobService.jobRoute,
       code: this.jobCode,
     });
-    console.log('send change: ', {
-      type: 'setCode',
-      name: this.jobService.jobRoute,
-      code: this.jobCode,
-    })
   }
 
 }

@@ -8,7 +8,6 @@ import { BuildComponent } from './components/build/build.component';
 import { JobComponent } from './components/job/job.component';
 import { MaterialModule } from 'src/app/util/material/material.module';
 import { FormsModule } from '@angular/forms';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [JobPageComponent, JobComponent, HistoryComponent, BuildComponent],
@@ -17,7 +16,6 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     JobRoutingModule,
     MaterialModule,
     FormsModule,
-    // MonacoEditorModule
   ]
 })
 export class JobModule { }
