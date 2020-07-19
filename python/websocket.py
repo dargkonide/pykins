@@ -5,20 +5,30 @@ from threading import Thread
 from random import randint
 import traceback
 
+tiper={int:'string',str:'string',list:'select',tuple:'multiselect',bool:'checkbox'}
+
 class SimpleEcho(WebSocket):
 
     def handleMessage(self):
         try:
             msg=loads(self.data)
             print(msg)
-            if msg.get('type')=="code":
+            if msg.get('type')=="getCode":
+                job=gdata['x']['jobs'].get(msg['name'])
+                print('Send', {'type':'getCode','code':job['code']})
+                self.sendMessage(dumps({'type':'getCode','code':job['code']}))
+            if msg.get('type')=="getVars":
+                job=gdata['x']['jobs'].get(msg['name'])
+                print('Send', {'type':'getVars','code':job['vars']})
+                self.sendMessage(dumps({'type':'getVars','vars':job['vars']}))
+            if msg.get('type')=="setCode":
                 job=gdata['x']['jobs'].get(msg['name'])
                 job['code']=msg['code']
                 xjob=job.copy()
                 xjob['name']=msg['name']
                 print('Send', {'type':'job','msg':xjob})
                 [n.sendMessage(dumps({'type':'job','msg':xjob})) for n in clients if n is not self]
-            if msg.get('type')=="vars":
+            if msg.get('type')=="setVars":
                 job=gdata['x']['jobs'].get(msg['name'])
                 job['vars']=msg['vars']
                 xjob=job.copy()
@@ -45,6 +55,11 @@ class SimpleEcho(WebSocket):
                 job: dict=gdata['x']['jobs'].pop(msg['old'])
                 print(f'Change job name from {msg["old"]} to {msg["new"]}')
                 gdata['x']['jobs'][msg['new']]=job
+            if msg.get('type')=="build":
+                job=gdata['x']['jobs'].get(msg['name']).copy()
+                job_vars=gdata['imports']['executor'].run(job['vars'],gdata,{})
+                job_vars=[{'name':k,'value':v,'type':tiper.get(type(v),'xzchto')} for k,v in job_vars.items()]
+                self.sendMessage(dumps({'type':'build','msg':job_vars}))
         except:
             print(self.data)
             traceback.print_exc()

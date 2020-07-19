@@ -95,6 +95,7 @@ def run(code,data,vrs):
     os.chdir(target_dir)
     result=ufilt(vars(x))
     del x
+    del spec
     remove(path)
     remove(f'exe/__pycache__/{module}.cpython-38.pyc')
     return result

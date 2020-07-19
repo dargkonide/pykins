@@ -12,7 +12,7 @@ data={'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[
 'master':'DESKTOP-50TJ75T',
 'jobs':{
     'test':{
-        'vars':'',
+        'vars':'string=1',
         'code':'print(1)',
         'status':True,
         'history':[]
