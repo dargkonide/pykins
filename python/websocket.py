@@ -4,7 +4,10 @@ from time import sleep
 from dateutil import parser
 from threading import Thread
 from random import randint
+from datetime import datetime
 import traceback
+
+iso=lambda x:datetime.fromtimestamp(x).isoformat()
 
 tiper={int:'string',str:'string',list:'select',tuple:'multiselect',bool:'checkbox'}
 class SimpleEcho(WebSocket):
@@ -26,12 +29,19 @@ class SimpleEcho(WebSocket):
                 print(msg)
                 gdata['x']['scheduler'].append({'time':msg['time'],'name':msg['name'],'vars':msg['vars']})
 
+            if msg.get('type')=="get_schedule":
+                events=[{'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in gdata['x']['scheduler']]
+                self.xsend(dumps({'type':'get_schedule','events':events}))
+
             if msg.get('type')=="schedule_select":
                 print(msg)
                 job_vars={n['name']:n['value'] for n in msg['vars']}
                 start=parser.parse(msg['start']).timestamp()
                 end=parser.parse(msg['end']).timestamp()
                 gdata['x']['scheduler'].append({'start':start,'end':end,'name':msg['name'],'vars':job_vars})
+                events=[{'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in gdata['x']['scheduler']]
+                [n.send_message(dumps({'type':'get_schedule','events':events})) for n in clients]
+
             if msg.get('type')=="getCode":
                 job=gdata['x']['jobs'].get(msg['name'])
                 self.xsend(dumps({'type':'getCode','code':job['code']}))
@@ -71,9 +81,12 @@ class SimpleEcho(WebSocket):
                 print('Send', {'type':'hosts','msg':hosts})
                 self.send_message(dumps({'type':'hosts','msg':hosts}))
             if msg.get('type')=="name":
-                job: dict=gdata['x']['jobs'].pop(msg['old'])
-                print(f'Change job name from {msg["old"]} to {msg["new"]}')
-                gdata['x']['jobs'][msg['new']]=job
+                if msg["old"]=='New Job':
+                    gdata['x']['jobs'][msg['new']]={'vars':'','code':'','history':[],'status':1}
+                else:
+                    job: dict=gdata['x']['jobs'].pop(msg['old'])
+                    print(f'Change job name from {msg["old"]} to {msg["new"]}')
+                    gdata['x']['jobs'][msg['new']]=job
             if msg.get('type')=="build":
                 job=gdata['x']['jobs'].get(msg['name']).copy()
                 job_vars=gdata['imports']['executor'].run(job['vars'],gdata,{},-1)

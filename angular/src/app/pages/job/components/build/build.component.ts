@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../service/job.service';
@@ -51,7 +52,7 @@ export class BuildComponent implements OnInit {
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
     })
-    console.log(this.calendarComponent.getApi().getDate());
+    // console.log();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -61,7 +62,17 @@ export class BuildComponent implements OnInit {
   }
 
   handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
+    this.varsSub = this.webSocketService.getObservable({
+      type: 'get_schedule',
+      name: this.jobService.jobRoute,
+      date: formatDate(this.calendarComponent.getApi().getDate(), "yyyy-MM-ddThh:mm:ssZZZZZ", "en")
+    }).subscribe(
+      m => {
+        this.currentEvents = m.events;
+        console.log('events_set')
+      }
+    )
+
   }
 
 
