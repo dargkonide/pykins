@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../service/job.service';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
+import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 @Component({
   selector: 'app-build',
   templateUrl: './build.component.html',
@@ -32,7 +32,7 @@ export class BuildComponent implements OnInit {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
   };
-
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   currentEvents: EventApi[] = [];
 
   constructor(
@@ -51,6 +51,7 @@ export class BuildComponent implements OnInit {
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
     })
+    console.log(this.calendarComponent.getApi().getDate());
   }
 
   handleEventClick(clickInfo: EventClickArg) {
