@@ -1,16 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../service/job.service';
 import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-build',
   templateUrl: './build.component.html',
   styleUrls: ['./build.component.scss']
 })
-export class BuildComponent implements OnInit {
+export class BuildComponent implements OnInit, OnDestroy {
 
   varsSub
   vars
+
+  currentEventsSub
+
+
+  currentEvents: [] = [];
+
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     firstDay: 1,
@@ -22,7 +29,7 @@ export class BuildComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: 'timeGridWeek,timeGridDay'
     },
     locale: 'ru',
     selectable: true,
@@ -30,10 +37,11 @@ export class BuildComponent implements OnInit {
     dayMaxEvents: true,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this)
+    datesSet: this.handleEvents.bind(this),
+    events: this.currentEvents,
   };
+
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
-  currentEvents: EventApi[] = [];
 
   constructor(
     private webSocketService: WebSocketService,
@@ -51,7 +59,6 @@ export class BuildComponent implements OnInit {
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
     })
-    console.log(this.calendarComponent.getApi().getDate());
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -61,7 +68,20 @@ export class BuildComponent implements OnInit {
   }
 
   handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
+    if(this.currentEventsSub){
+      this.currentEventsSub.unsubscribe()
+    }
+    this.currentEventsSub = this.webSocketService.getObservable({
+      type: 'get_schedule',
+      name: this.jobService.jobRoute,
+      date: formatDate(this.calendarComponent.getApi().getDate(), "yyyy-MM-ddThh:mm:ssZZZZZ", "en")
+    }).subscribe(
+      m => {
+        this.calendarOptions.events = m.events;
+        console.log('events_set', this.currentEvents)
+        // this.calendarComponent.getApi().refetchEvents()
+      }
+    )
   }
 
 
@@ -76,6 +96,10 @@ export class BuildComponent implements OnInit {
         console.log(m)
       }
     )
+  }
+  
+  ngOnDestroy(): void {
+    this.varsSub.unsubscribe()
   }
 
   runJob(){
