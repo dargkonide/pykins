@@ -11,7 +11,9 @@ def work(data):
         try:
             con,x=q.get()
             if x['n']=='logs':
-                print(*x['v'])
+                data['history'][x['i']].setdefault('logs',[]).append(x['v'])
+                # print(data['history'][x['i']])
+                print(x['v'])
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()

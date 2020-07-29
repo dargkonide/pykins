@@ -1,24 +1,25 @@
-from exe.mysql import *
 from socket import gethostbyname
+from requests import get
 from datetime import datetime
+from exe.mysql import *
 
-stend='NT2'
-group='NT2'
-scenario_id='319'
-branchLTScripts='upos'
-branchDatapools='master'
-scheduler='L'
-profile_percentage='100'
-target_comment='НТ2 надежность upos'
-test_time=True
-influx_drop=True
-skip_pending=True
-disable_transactions=True
-M_TEST=''
-jira_comment=''
-user='out-andrusenko-da'
-wait_shd=False
-properties_scheduler=''
+# stend='NT1'
+# group='NT1'
+# scenario_id='252'
+# branchLTScripts='master'
+# branchDatapools='master'
+# scheduler='L'
+# profile_percentage='100'
+# target_comment='НТ1 надежность'
+# test_time=True
+# influx_drop=True
+# skip_pending=True
+# disable_transactions=True
+# M_TEST=''
+# jira_comment=''
+# user='khudyakov1-ad'
+# wait_shd=False
+# properties_scheduler=''
 
 controllers=['tvsi-erib0031']
 
@@ -26,6 +27,9 @@ controller_path={}
 controller_path["tksi-erib0108"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
 controller_path["tvsi-erib0021"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
 controller_path["tvsi-erib0031"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
+
+
+get(f'https://tvsi-erib0054:8123/properties?run=803&stend={stend}',auth=('eriblt','1qaz@WSX'),verify=False)#Подготовка бд
 
 with connect('test') as con:
     #Получаем список генераторов
@@ -101,6 +105,9 @@ with node(controller):
     from random import randint
     import sys
     
+    def println(*args,**kwargs):
+        print(*args,**kwargs)
+
     sys.path.insert(1,r'//TVSI-ERIB0054/auto/scenario_generate/')
     spec=util.spec_from_file_location('scenario_generate',"//TVSI-ERIB0054/auto/scenario_generate/scenario_generate_ci.py")
     x=util.module_from_spec(spec)
@@ -115,7 +122,7 @@ with node(controller):
         'target_comment':target_comment,
         'skip_pending':skip_pending,
         'disable_transactions':disable_transactions,
-        'print':print})
+        'print':println})
     spec.loader.exec_module(x)
 
 with connect() as con:

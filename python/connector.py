@@ -1,6 +1,9 @@
 from socket import socket,AF_INET,SOCK_STREAM,gethostbyname,gethostname
 from threading import Thread,Lock
 from time import sleep
+
+from exe.proto import *
+
 import traceback
 
 
@@ -15,8 +18,23 @@ def acceptor(data):
             con,addr=s.accept()
             ips=data['x']['ip']
             if ips.get(addr[0]):  
+                host=read(con)
                 data['connects'].setdefault(addr[0],[]).append(con)
-                print(f'{ips[addr[0]].split(".")[0]} s connected')
+                print(f'{host} s connected')
+            else:
+                host=read(con)
+                data['x']['servers'].append(host)
+                data['x']['ip'][addr[0]]=host
+                data['x']['host'][host.split('.')[0]]=addr[0]
+                data['connects'].setdefault(addr[0],[]).append(con)
+                print(f'New host {host} connected',)
+                if data['host']==data['x']['master']:
+                    for n in ips:
+                        if data['connects'].get(n):
+                            data['send'].put((data['x']['ip'][n].split('.')[0],{'n':'new','v':data['x']}))
+                            
+                
+
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()
@@ -35,6 +53,7 @@ def work(data):
                     try:
                         s=socket(AF_INET,SOCK_STREAM)
                         s.connect((n,5032))
+                        send(s,data['host'])
                         data['connects'].setdefault(n,[]).append(s)
                         print(f'{ips[n].split(".")[0]} c connected')
                     except:

@@ -8,14 +8,16 @@ import { BuildComponent } from './components/build/build.component';
 import { JobComponent } from './components/job/job.component';
 import { MaterialModule } from 'src/app/util/material/material.module';
 import { FormsModule } from '@angular/forms';
+import {FullCalendarModule} from "@fullcalendar/angular";
 
 @NgModule({
   declarations: [JobPageComponent, JobComponent, HistoryComponent, BuildComponent],
-  imports: [
-    CommonModule,
-    JobRoutingModule,
-    MaterialModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        JobRoutingModule,
+        MaterialModule,
+        FormsModule,
+        FullCalendarModule,
+    ]
 })
 export class JobModule { }

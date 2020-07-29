@@ -6,6 +6,7 @@ from re import search,findall
 from os import popen,remove
 
 import os
+import shutil
 
 from exe.proto import *
 
@@ -37,14 +38,14 @@ def patch(code):
                 k=search(r'^\s*',n)[0]
                 node=findall(r"(node\(.*)\)",n)
                 min_len=len(k)
-                patch_code+=k+f"{node[0]},vars(),data,'''\n"
+                patch_code+=k+f"{node[0]},vars(),data,run_id,'''\n"
                 continue
+        n=n.replace('print(','print(data,run_id,')
         patch_code+=n+'\n'
     if min_len is not None:
         patch_code=patch_code[:-1]
         patch_code+="''')\n"
     return patch_code
-
 
 def ufilt(d):
     newd={}
@@ -59,15 +60,15 @@ def ufilt(d):
     # print(newd)
     return newd
 
-def println(*args,**kwargs):
+def println(data,run_id,*args,**kwargs):
     # print(*args,**kwargs)
-    master=gdata['x']['master']
-    ip_master=gdata['x']['host'].get(master)
-    z=gdata['connects'].get(ip_master)
-    gdata['send'].put((master,{'n':'logs','v':args}))
+    master=data['x']['master']
+    ip_master=data['x']['host'].get(master)
+    z=data['connects'].get(ip_master)
+    data['send'].put((master,{'n':'logs','v':str(' '.join(str(n) for n in args)),'i':run_id}))
 
-def node(host,vrs,data,code):
-    data['send'].put((host,{'n':'exec','c':code,'v':ufilt(vrs)}))
+def node(host,vrs,data,run_id,code):
+    data['send'].put((host,{'n':'exec','c':code,'v':ufilt(vrs),'r':run_id}))
     ret=Queue()
     data['subscribe'][host]=ret
     while 1:
@@ -76,7 +77,7 @@ def node(host,vrs,data,code):
             vrs.update(x['v'])
             break
 
-def run(code,data,vrs):
+def run(code,data,vrs,run_id):
     module=str(uuid4())
     path=f'exe/{module}.py'
     with open(path,'w',encoding='utf-8') as f:
@@ -84,38 +85,41 @@ def run(code,data,vrs):
     spec=util.spec_from_file_location(module,f"exe/{module}.py")
     x=util.module_from_spec(spec)
     vars(x).update(vrs)
-    vars(x).update({'data':data,'node':node,'send':send,'print':println})
+    vars(x).update({'data':data,'run_id':run_id,'node':node,'send':send,'print':println})
     target_dir=os.path.abspath(os.getcwd())
     try:
         spec.loader.exec_module(x)
     except:
         trace=traceback.format_exc()
-        master=gdata['x']['master']
-        data['send'].put((master,{'n':'logs','v':(trace,)}))
+        master=data['x']['master']
+        data['send'].put((master,{'n':'logs','i':run_id,'v':trace}))
     os.chdir(target_dir)
     result=ufilt(vars(x))
     del x
-    del spec
     remove(path)
-    remove(f'exe/__pycache__/{module}.cpython-38.pyc')
+    shutil.rmtree('exe/__pycache__', ignore_errors=True)
     return result
 
 def work(data):
-    global gdata
-    gdata=data
-    if gethostname() in data['x']['master']:
-        sleep(0.05)
-        t=time()
-        run(open('exe/test.py',encoding='utf-8').read(),data,{})
-        print(time()-t)
+
     q=Queue()
     data['subproxy'].append(q)
     while 1:
         try:
             host,x=q.get()
-            if x['n']=='exec':
-                v=run(x.get('c'),data,x['v'])
+            if host and x['n']=='exec':
+                v=run(x.get('c'),data,x['v'],x['r'])
                 data['send'].put((host,{'n':'executed','v':v}))
+            if x['n']=='run':
+                job=data['x']['jobs'][x['v']]
+                ids=data['history']
+                run_id=max(ids.keys() or [0])+1
+                job['history'].append(run_id)
+                ids[run_id]={}
+                ids[run_id]['name']=x['v']
+                ids[run_id]['status']='running'
+                v=run(job['code'],data,x['vars'],run_id)
+                ids[run_id]['status']='end'
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()

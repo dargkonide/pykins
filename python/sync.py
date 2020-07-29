@@ -40,7 +40,7 @@ def work(data):
         try:
             if data.get('connects'):
                 for n in list(data['connects'].keys()):
-                    if gethostname()==data['x']['master']:
+                    if data['host']==data['x']['master']:
                         try:send(data['connects'][n][0],{'n':'new','v':data['x']})
                         except:pass
                     for con in set(data['connects'][n])-lisn:
