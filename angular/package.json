@@ -26,11 +26,13 @@
     "@fullcalendar/interaction": "^5.1.0",
     "@fullcalendar/list": "^5.1.0",
     "@fullcalendar/timegrid": "^5.1.0",
+    "material-design-icons": "^3.0.1",
     "ng-table-virtual-scroll": "^1.3.3",
     "ngx-monaco-editor": "^9.0.0",
     "npm": "^6.14.6",
     "rxjs": "~6.5.4",
     "tslib": "^2.0.0",
+    "typeface-roboto": "0.0.75",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

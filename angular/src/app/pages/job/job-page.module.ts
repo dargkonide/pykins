@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { JobRoutingModule } from './job-page-routing.module';
@@ -12,12 +12,13 @@ import {FullCalendarModule} from "@fullcalendar/angular";
 
 @NgModule({
   declarations: [JobPageComponent, JobComponent, HistoryComponent, BuildComponent],
-    imports: [
+  imports: [
         CommonModule,
         JobRoutingModule,
         MaterialModule,
         FormsModule,
         FullCalendarModule,
-    ]
+    ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class JobModule { }

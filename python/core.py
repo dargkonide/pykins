@@ -6,10 +6,14 @@ from queue import Queue
 from time import time
 from os import listdir
 
-
+# TODO: 'servers':['artem_pc', 'ilya_pc'], 'master':'artem_pc' - add property and change this overlap setup
 imports={}
 data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[],'x':{
+<<<<<<< HEAD
         'servers':['artem_pc','ilya_pc'],
+=======
+        'servers':['artem_pc', 'ilya_pc'],
+>>>>>>> e3e2894048c4ebd7230ac3c1925e82a172629b08
         'master':'artem_pc',
         'jobs':{
             'start_scenario':{

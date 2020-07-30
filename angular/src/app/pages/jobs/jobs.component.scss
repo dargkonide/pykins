@@ -1,5 +1,5 @@
 cdk-virtual-scroll-viewport{
-  height: calc(100vh - 50px)
+  height: calc(100vh - 150px)
 }
 
 
@@ -46,77 +46,77 @@ cdk-virtual-scroll-viewport{
 
 
 
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
-* {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
-}
+// /*//////////////////////////////////////////////////////////////////
+// [ RESTYLE TAG ]*/
+// * {
+// 	margin: 0px;
+// 	padding: 0px;
+// 	box-sizing: border-box;
+// }
 
-body, html {
-	height: 100%;
-	font-family: sans-serif;
-}
+// body, html {
+// 	height: 100%;
+// 	font-family: sans-serif;
+// }
 
-/* ------------------------------------ */
-a {
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-}
+// /* ------------------------------------ */
+// a {
+// 	margin: 0px;
+// 	transition: all 0.4s;
+// 	-webkit-transition: all 0.4s;
+//   -o-transition: all 0.4s;
+//   -moz-transition: all 0.4s;
+// }
 
-a:focus {
-	outline: none !important;
-}
+// a:focus {
+// 	outline: none !important;
+// }
 
-a:hover {
-	text-decoration: none;
-}
+// a:hover {
+// 	text-decoration: none;
+// }
 
-/* ------------------------------------ */
-h1,h2,h3,h4,h5,h6 {margin: 0px;}
+// /* ------------------------------------ */
+// h1,h2,h3,h4,h5,h6 {margin: 0px;}
 
-p {margin: 0px;}
+// p {margin: 0px;}
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
-}
+// ul, li {
+// 	margin: 0px;
+// 	list-style-type: none;
+// }
 
 
-/* ------------------------------------ */
-input {
-  display: block;
-	outline: none;
-	border: none !important;
-}
+// /* ------------------------------------ */
+// input {
+//   display: block;
+// 	outline: none;
+// 	border: none !important;
+// }
 
-textarea {
-  display: block;
-  outline: none;
-}
+// textarea {
+//   display: block;
+//   outline: none;
+// }
 
-textarea:focus, input:focus {
-  border-color: transparent !important;
-}
+// textarea:focus, input:focus {
+//   border-color: transparent !important;
+// }
 
-/* ------------------------------------ */
-button {
-	outline: none !important;
-	border: none;
-	background: transparent;
-}
+// /* ------------------------------------ */
+// button {
+// 	outline: none !important;
+// 	border: none;
+// 	background: transparent;
+// }
 
-button:hover {
-	cursor: pointer;
-}
+// button:hover {
+// 	cursor: pointer;
+// }
 
-iframe {
-	border: none !important;
-}
+// iframe {
+// 	border: none !important;
+// }
 
 
 

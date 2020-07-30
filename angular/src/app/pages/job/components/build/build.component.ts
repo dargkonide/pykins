@@ -23,7 +23,7 @@ export class BuildComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: 'timeGridWeek,timeGridDay'
     },
     locale: 'ru',
     selectable: true,
@@ -31,10 +31,11 @@ export class BuildComponent implements OnInit {
     dayMaxEvents: true,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this)
+    datesSet: this.handleEvents.bind(this),
+    events: this.currentEvents,
   };
+
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
-  currentEvents: EventApi[] = [];
 
   constructor(
     private webSocketService: WebSocketService,
@@ -62,17 +63,32 @@ export class BuildComponent implements OnInit {
   }
 
   handleEvents(events: EventApi[]) {
+<<<<<<< HEAD
     this.varsSub = this.webSocketService.getObservable({
+=======
+    if(this.currentEventsSub){
+      this.currentEventsSub.unsubscribe()
+    }
+    this.currentEventsSub = this.webSocketService.getObservable({
+>>>>>>> e3e2894048c4ebd7230ac3c1925e82a172629b08
       type: 'get_schedule',
       name: this.jobService.jobRoute,
       date: formatDate(this.calendarComponent.getApi().getDate(), "yyyy-MM-ddThh:mm:ssZZZZZ", "en")
     }).subscribe(
       m => {
+<<<<<<< HEAD
         this.currentEvents = m.events;
         console.log('events_set')
       }
     )
 
+=======
+        this.calendarOptions.events = m.events;
+        console.log('events_set', this.currentEvents)
+        // this.calendarComponent.getApi().refetchEvents()
+      }
+    )
+>>>>>>> e3e2894048c4ebd7230ac3c1925e82a172629b08
   }
 
 
@@ -87,6 +103,10 @@ export class BuildComponent implements OnInit {
         console.log(m)
       }
     )
+  }
+  
+  ngOnDestroy(): void {
+    this.varsSub.unsubscribe()
   }
 
   runJob(){
