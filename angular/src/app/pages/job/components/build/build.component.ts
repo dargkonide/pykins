@@ -1,17 +1,23 @@
-import { formatDate } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../service/job.service';
 import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-build',
   templateUrl: './build.component.html',
   styleUrls: ['./build.component.scss']
 })
-export class BuildComponent implements OnInit {
+export class BuildComponent implements OnInit, OnDestroy {
 
   varsSub
   vars
+
+  currentEventsSub
+
+
+  currentEvents: [] = [];
+
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     firstDay: 1,
@@ -53,7 +59,6 @@ export class BuildComponent implements OnInit {
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
     })
-    // console.log();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -63,32 +68,20 @@ export class BuildComponent implements OnInit {
   }
 
   handleEvents(events: EventApi[]) {
-<<<<<<< HEAD
-    this.varsSub = this.webSocketService.getObservable({
-=======
     if(this.currentEventsSub){
       this.currentEventsSub.unsubscribe()
     }
     this.currentEventsSub = this.webSocketService.getObservable({
->>>>>>> e3e2894048c4ebd7230ac3c1925e82a172629b08
       type: 'get_schedule',
       name: this.jobService.jobRoute,
       date: formatDate(this.calendarComponent.getApi().getDate(), "yyyy-MM-ddThh:mm:ssZZZZZ", "en")
     }).subscribe(
       m => {
-<<<<<<< HEAD
-        this.currentEvents = m.events;
-        console.log('events_set')
-      }
-    )
-
-=======
         this.calendarOptions.events = m.events;
         console.log('events_set', this.currentEvents)
         // this.calendarComponent.getApi().refetchEvents()
       }
     )
->>>>>>> e3e2894048c4ebd7230ac3c1925e82a172629b08
   }
 
 
@@ -104,7 +97,7 @@ export class BuildComponent implements OnInit {
       }
     )
   }
-  
+
   ngOnDestroy(): void {
     this.varsSub.unsubscribe()
   }
@@ -118,3 +111,4 @@ export class BuildComponent implements OnInit {
   }
 
 }
+
