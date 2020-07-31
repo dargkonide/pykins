@@ -9,8 +9,8 @@ from os import listdir
 # TODO: 'servers':['artem_pc', 'ilya_pc'], 'master':'artem_pc' - add property and change this overlap setup
 imports={}
 data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[],'x':{
-        'servers':['artem_pc', 'ilya_pc'],
-        'master':'artem_pc',
+        'servers':['DESKTOP-50TJ75T', 'ilya_pc'],
+        'master':'DESKTOP-50TJ75T',
         'jobs':{
             'start_scenario':{
                 'vars':"""stend='NT1'
