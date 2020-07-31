@@ -14,6 +14,8 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {  MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatListModule} from '@angular/material/list';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSelectModule} from '@angular/material/select';
 
 
 const modules = [
@@ -33,6 +35,8 @@ const modules = [
   MatProgressBarModule,
   MatListModule,
   MatCardModule,
+  MatSlideToggleModule,
+  MatSelectModule,
 
 ];
 

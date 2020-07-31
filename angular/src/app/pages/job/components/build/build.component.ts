@@ -16,6 +16,7 @@ export class BuildComponent implements OnInit, OnDestroy {
   currentEventsSub
 
 
+
   currentEvents: [] = [];
 
   calendarOptions: CalendarOptions = {

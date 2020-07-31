@@ -10,6 +10,27 @@
                     <input matInput [(ngModel)]="item.value">
                 </mat-form-field>
             </div>
+            <div *ngIf="item.type=='checkbox'">
+                <mat-slide-toggle [(ngModel)]="item.value">{{item.name}}</mat-slide-toggle>
+            </div>
+            <div *ngIf="item.type=='select'">
+                <mat-form-field appearance="fill">
+                    <mat-label>{{item.name}}</mat-label>
+                    <mat-select [(ngModel)]="item.select">
+                      <mat-option *ngFor="let value of item.value" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div *ngIf="item.type=='multiselect'">
+                <mat-form-field appearance="fill">
+                    <mat-label>{{item.name}}</mat-label>
+                    <mat-select [(ngModel)]="item.selected" multiple>
+                      <mat-option *ngFor="let value of item.value" [value]="value">{{value}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
         </div>
         <button mat-stroked-button (click)="runJob()">Run Job</button>
     </div>
