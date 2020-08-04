@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
-import {JobService} from './service/job.service'
+import {JobService} from './service/job.service';
 
 
 @Component({
@@ -10,7 +10,7 @@ import {JobService} from './service/job.service'
   styleUrls: ['./job-page.component.scss']
 })
 export class JobPageComponent implements OnInit {
-  jobRoute: string
+  jobRoute: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,8 +23,8 @@ export class JobPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.jobService.jobRoute = params['jobName'];    
-      this.jobRoute = params['jobName'];
+      this.jobService.jobRoute = params.jobName;
+      this.jobRoute = params.jobName;
   });
   }
 
@@ -40,6 +40,6 @@ export class JobPageComponent implements OnInit {
         ));
     // replace parameter of navigateByUrl function to your required url
 }
-    
+
 
 }

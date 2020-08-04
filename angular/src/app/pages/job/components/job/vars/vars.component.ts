@@ -11,8 +11,8 @@ export class VarsComponent implements OnInit, OnDestroy {
 
   // https://www.npmjs.com/package/ngx-monaco-editor
   editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
-  jobVars
-  jobVarsSub
+  jobVars;
+  jobVarsSub;
   constructor(
     public webSocketService: WebSocketService,
     public jobService: JobService
@@ -20,15 +20,15 @@ export class VarsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.jobVarsSub = this.webSocketService.getObservable({
-      type:'getVars',
-      name:this.jobService.jobRoute
+      type: 'getVars',
+      name: this.jobService.jobRoute
     }).subscribe(
       m => this.jobVars = m.vars
-    )
+    );
   }
 
   ngOnDestroy(): void {
-    this.jobVarsSub.unsubscribe()
+    this.jobVarsSub.unsubscribe();
   }
 
   sendChangedVars() {

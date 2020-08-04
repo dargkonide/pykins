@@ -16,7 +16,8 @@ import listPlugin from '@fullcalendar/list';
 const monacoConfig: NgxMonacoEditorConfig = {
   baseUrl: 'app-name/assets', // configure base path for monaco editor default: './assets'
   defaultOptions: { scrollBeyondLastLine: false }, // pass default options to be used
-  onMonacoLoad: () => { console.log((<any>window).monaco); } // here monaco object will be available as window.monaco use this function to extend monaco editor functionalities.
+  // tslint:disable-next-line:max-line-length
+  onMonacoLoad: () => { console.log((window as any).monaco); } // here monaco object will be available as window.monaco use this function to extend monaco editor functionalities.
 };
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins

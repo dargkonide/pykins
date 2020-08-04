@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class JobService {
 
-  jobRoute: string
+  jobRoute: string;
 
   constructor() { }
 
-  
+
 }

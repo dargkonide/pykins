@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
-import { webSocket, WebSocketSubject } from "rxjs/webSocket";
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { retryWhen, tap, delay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 export interface Protocol{
-  type: string
-  msg?: any
+  type: string;
+  msg?: any;
 }
 export interface JobInfo extends Protocol{
-  msg: Job
+  msg: Job;
 }
 export interface Job{
-  code?: string,
-  vars?: string,
-  history?: [],
-  name?: string
+  code?: string;
+  vars?: string;
+  history?: [];
+  name?: string;
 }
 
 export interface Hosts extends Protocol{
-  msg: Host
+  msg: Host;
 }
 export interface Host{
-  master: string
-  servers: []
+  master: string;
+  servers: [];
 }
 
 @Injectable({
@@ -32,28 +32,28 @@ export class WebSocketService {
   ws: WebSocketSubject<any> ;
 
   // currentJob: JobInfo = {type:"job", msg:{}}
-  currentJob$: Observable<JobInfo>
+  currentJob$: Observable<JobInfo>;
 
   constructor() {
-    this.ws = webSocket('ws:/95.24.211.79:5123') //95.24.211.79
-    this.ws.subscribe()
+    this.ws = webSocket('ws:/127.0.0.1:5123'); // 95.24.211.79
+    this.ws.subscribe();
   }
 
   getObservable(subscribeType){
     return this.ws.multiplex(
       () => {
-        console.log("Try sub: ", subscribeType)
-        return (subscribeType)
+        console.log('Try sub: ', subscribeType);
+        return (subscribeType);
       },
       () => {
-        console.log("Unsub: ", subscribeType)
-        return ( {type: "unsubscribe", msg: subscribeType.type} )
+        console.log('Unsub: ', subscribeType);
+        return ( {type: 'unsubscribe', msg: subscribeType.type} );
       },
       (message) => {
          if (message.type === subscribeType.type){
-           console.log("Subbed: ", subscribeType)
+           console.log('Subbed: ', subscribeType);
          }
-         return message.type === subscribeType.type
+         return message.type === subscribeType.type;
       }
     ).pipe(
       retryWhen(errors =>
@@ -64,16 +64,16 @@ export class WebSocketService {
           delay(1000)
         )
       )
-    )
+    );
   }
 
   sendMessage(message){
-    this.ws.next(message)
-    console.log(message)
+    this.ws.next(message);
+    console.log(message);
   }
 
   ngOnDestroy(){
-    this.ws.unsubscribe()
+    this.ws.unsubscribe();
   }
 
 }

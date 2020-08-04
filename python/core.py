@@ -9,32 +9,9 @@ from os import listdir
 # TODO: 'servers':['artem_pc', 'ilya_pc'], 'master':'artem_pc' - add property and change this overlap setup
 imports={}
 data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[],'x':{
-        'servers':['DESKTOP-50TJ75T', 'ilya_pc'],
-        'master':'DESKTOP-50TJ75T',
-        'jobs':{
-            'start_scenario':{
-                'vars':"""stend='NT1'
-group='NT1'
-scenario_id='252'
-branchLTScripts='master'
-branchDatapools='master'
-scheduler='L'
-profile_percentage='100'
-target_comment='НТ1 надежность'
-test_time=True
-influx_drop=True
-skip_pending=True
-disable_transactions=True
-M_TEST=''
-jira_comment=''
-user='khudyakov1-ad'
-wait_shd=False
-properties_scheduler=''""",
-                'code':open('exe/start_scenario.py',encoding='utf-8').read(),
-                'history':[],
-                'status':1
-            }
-        },
+        'servers':["CAB-WSM-0003132"],
+        'master':"CAB-WSM-0003132",
+        'jobs':{},
         'scheduler':[]
     },
     'history':{}

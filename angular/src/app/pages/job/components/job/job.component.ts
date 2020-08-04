@@ -24,6 +24,6 @@ export class JobComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+
 
 }

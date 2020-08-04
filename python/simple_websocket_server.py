@@ -74,10 +74,11 @@ class HTTPRequest(BaseHTTPRequestHandler):
 
 
 class WebSocket(object):  # pylint: disable=too-many-instance-attributes
-    def __init__(self, server, sock, address):
+    def __init__(self, server, sock, address, gdata):
         self.server = server
         self.client = sock
         self.address = address
+        self.gdata = gdata
 
         self.handshaked = False
         self.headerbuffer = bytearray()
@@ -553,7 +554,7 @@ class WebSocketServer(object):
     request_queue_size = 5
 
     # pylint: disable=too-many-arguments
-    def __init__(self, host, port, websocketclass, certfile=None, keyfile=None,
+    def __init__(self, host, port, websocketclass, gdata, certfile=None, keyfile=None,
                  ssl_version=ssl.PROTOCOL_TLSv1, select_interval=0.1):
         self.websocketclass = websocketclass
         self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -563,6 +564,7 @@ class WebSocketServer(object):
         self.selectInterval = select_interval
         self.connections = {}
         self.listeners = [self.serversocket]
+        self.gdata=gdata
 
         self._using_ssl = bool(certfile and keyfile)
 
@@ -577,7 +579,7 @@ class WebSocketServer(object):
         return sock
 
     def _construct_websocket(self, sock, address):
-        ws = self.websocketclass(self, sock, address)
+        ws = self.websocketclass(self, sock, address, self.gdata)
         if self._using_ssl:
             ws.usingssl = True
 

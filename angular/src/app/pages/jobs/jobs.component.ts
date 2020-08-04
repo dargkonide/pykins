@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { Observable } from 'rxjs';
 import { JobList} from 'src/app/pages/jobs/interfaces/IJobsList';
@@ -12,7 +12,7 @@ import { interval } from 'rxjs';
 })
 export class JobsComponent implements OnInit {
 
-  jobList$: Observable<JobList>
+  jobList$: Observable<JobList>;
 
   seconds = interval(1000);
 
@@ -21,11 +21,7 @@ export class JobsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.jobList$ = this.webSocketService.getObservable( {type:"jobs"} )
+    this.jobList$ = this.webSocketService.getObservable( {type: 'jobs'} );
   }
-
-  ngOnDestroy(): void {
-  }
-
 
 }

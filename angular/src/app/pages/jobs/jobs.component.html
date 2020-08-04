@@ -1,18 +1,9 @@
 <ng-container class="container-table100">
-  <!-- <table class="">
-    <thead class="table100-head">
-      <tr>
-        <th style="width: 100px;">No.</th>
-        <th>Name</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-  </table> -->
   <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as joblist" itemSize="22">
     <table class="">
       <tbody class="table100-body">
         <tr *cdkVirtualFor="let item of joblist.msg,
-                            let index = index;,
+                            let index = index;
                             let odd = odd;"
                             class=""  [class.example-alternate]="odd"
                             [routerLink]="['/jobs/', item.name]">
