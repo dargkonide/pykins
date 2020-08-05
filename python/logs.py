@@ -11,7 +11,7 @@ def work(data):
         try:
             con,x=q.get()
             if x['n']=='logs':
-                data['history'][x['i']].setdefault('logs',[]).append(x['v'])
+                # data['history'][x['i']].setdefault('logs',[]).append(x['v'])
                 # print(data['history'][x['i']])
                 print(x['v'])
         except:

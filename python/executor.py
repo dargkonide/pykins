@@ -77,7 +77,7 @@ def node(host,vrs,data,run_id,code):
             vrs.update(x['v'])
             break
 
-def run(code,data,vrs,run_id):
+def run(code,data,vrs,run_id,name):
     module=str(uuid4())
     path=f'exe/{module}.py'
     with open(path,'w',encoding='utf-8') as f:
@@ -112,14 +112,16 @@ def work(data):
                 data['send'].put((host,{'n':'executed','v':v}))
             if x['n']=='run':
                 job=data['x']['jobs'][x['v']]
-                ids=data['history']
-                run_id=max(ids.keys() or [0])+1
-                job['history'].append(run_id)
-                ids[run_id]={}
-                ids[run_id]['name']=x['v']
-                ids[run_id]['status']='running'
+                history=job['history']
+                if x.get('r'):
+                    run_id=x['r']
+                else:
+                    run_id=str(job['last_build_id'])
+                    job['last_build_id']+=1
+                    history[run_id]={'name':x['v']}
+                history[run_id]['status']='running'
                 v=run(job['code'],data,x['vars'],run_id)
-                ids[run_id]['status']='end'
+                history[run_id]['status']='end'
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()

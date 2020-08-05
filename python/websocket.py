@@ -30,7 +30,7 @@ class SimpleEcho(WebSocket):
     def handle(self):
         try:
             msg=loads(self.data)
-            # print(f"Receive: {msg}")
+            print(f"Receive: {msg}")
             if msg.get('type')=="unsubscribe":
                 print(f"Receive: {msg}")
                 if msg['msg']=="getCode":
@@ -42,19 +42,26 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="scheds":
                 self.send_message(self.gdata['x']['scheduler'])
             if msg.get('type')=="schedule":
-                # print(msg)
                 self.gdata['x']['scheduler'].append({'time':msg['time'],'name':msg['name'],'vars':msg['vars']})
             if msg.get('type')=="get_schedule":
-                # n['date'] TODO: 
-                events=[{'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in self.gdata['x']['scheduler']]
+                # TODO: n['date']
+                events=[{'id':n['id'],'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in self.gdata['x']['scheduler']]
                 self.xsend({'type':'get_schedule','events':events})
             if msg.get('type')=="schedule_select":
-                # print(msg)
-                job_vars={n['name']:n['value'] for n in msg['vars']}
+                job=self.gdata['x']['jobs'].get(msg['name'])
+                run_id=str(job['last_build_id'])
+                job['last_build_id']+=1
+                job_vars={n['name']:n.get('select') or n.get('selected') or n['value'] for n in msg['vars']}
                 start=parser.parse(msg['start']).timestamp()
                 end=parser.parse(msg['end']).timestamp()
-                self.gdata['x']['scheduler'].append({'start':start,'end':end,'name':msg['name'],'vars':job_vars})
-                events=[{'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in self.gdata['x']['scheduler']]
+                scheduler=self.gdata['x']['scheduler']
+                scheduler.append({'id':run_id,'start':start,'end':end,'name':msg['name'],'vars':job_vars})
+                events=[{'id':n['id'],'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
+                self.xsend_all({'type':'get_schedule','events':events})
+            if msg.get('type')=="schedule_delete":
+                scheduler=self.gdata['x']['scheduler']
+                [scheduler.remove(n) for n in scheduler.copy() if n['id']==msg['id'] and n['name']==msg['name']]
+                events=[{'id':n['id'],'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
                 self.xsend_all({'type':'get_schedule','events':events})
             if msg.get('type')=="getCode":
                 self.lastname=msg['name']

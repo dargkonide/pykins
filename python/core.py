@@ -9,12 +9,11 @@ from os import listdir
 # TODO: 'servers':['artem_pc', 'ilya_pc'], 'master':'artem_pc' - add property and change this overlap setup
 imports={}
 data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[],'x':{
-        'servers':["CAB-WSM-0003132"],
-        'master':"CAB-WSM-0003132",
+        'servers':[gethostname()],
+        'master':gethostname(),
         'jobs':{},
         'scheduler':[]
-    },
-    'history':{}
+    }
 }
 # if data['host']==data['x']['master']:
 #     data['x']['scheduler'].append({'time':time(),'name':'start_scenario',

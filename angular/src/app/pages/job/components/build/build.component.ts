@@ -10,12 +10,10 @@ import { formatDate } from '@angular/common';
 })
 export class BuildComponent implements OnInit, OnDestroy {
 
-  varsSub
-  vars
+  varsSub;
+  vars;
 
-  currentEventsSub
-
-
+  currentEventsSub;
 
   currentEvents: [] = [];
 
@@ -40,6 +38,7 @@ export class BuildComponent implements OnInit, OnDestroy {
     eventClick: this.handleEventClick.bind(this),
     datesSet: this.handleEvents.bind(this),
     events: this.currentEvents,
+    height: 'parent'
   };
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
@@ -59,30 +58,35 @@ export class BuildComponent implements OnInit, OnDestroy {
       start: selectInfo.startStr,
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
-    })
+    });
   }
 
   handleEventClick(clickInfo: EventClickArg) {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
+      // clickInfo.event.remove();
+      this.webSocketService.sendMessage({
+        type: 'schedule_delete',
+        name: this.jobService.jobRoute,
+        id: clickInfo.event.id
+      });
     }
   }
 
   handleEvents(events: EventApi[]) {
-    if(this.currentEventsSub){
-      this.currentEventsSub.unsubscribe()
+    if (this.currentEventsSub){
+      this.currentEventsSub.unsubscribe();
     }
     this.currentEventsSub = this.webSocketService.getObservable({
       type: 'get_schedule',
       name: this.jobService.jobRoute,
-      date: formatDate(this.calendarComponent.getApi().getDate(), "yyyy-MM-ddThh:mm:ssZZZZZ", "en")
+      date: formatDate(this.calendarComponent.getApi().getDate(), 'yyyy-MM-ddThh:mm:ssZZZZZ', 'en')
     }).subscribe(
       m => {
         this.calendarOptions.events = m.events;
-        console.log('events_set', this.currentEvents)
+        console.log('events_set', this.currentEvents);
         // this.calendarComponent.getApi().refetchEvents()
       }
-    )
+    );
   }
 
 
@@ -93,14 +97,14 @@ export class BuildComponent implements OnInit, OnDestroy {
       name: this.jobService.jobRoute
     }).subscribe(
       m => {
-        this.vars = m.msg
-        console.log(m)
+        this.vars = m.msg;
+        console.log(m);
       }
-    )
+    );
   }
 
   ngOnDestroy(): void {
-    this.varsSub.unsubscribe()
+    this.varsSub.unsubscribe();
   }
 
   runJob(){
@@ -108,7 +112,7 @@ export class BuildComponent implements OnInit, OnDestroy {
       type: 'runJob',
       name: this.jobService.jobRoute,
       vars: this.vars
-    })
+    });
   }
 
 }

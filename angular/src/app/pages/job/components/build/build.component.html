@@ -21,7 +21,7 @@
                         {{value}}
                       </mat-option>
                     </mat-select>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
             <div *ngIf="item.type=='multiselect'">
                 <mat-form-field appearance="fill">
@@ -29,7 +29,7 @@
                     <mat-select [(ngModel)]="item.selected" multiple>
                       <mat-option *ngFor="let value of item.value" [value]="value">{{value}}</mat-option>
                     </mat-select>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
         </div>
         <button mat-stroked-button (click)="runJob()">Run Job</button>
