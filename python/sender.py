@@ -18,6 +18,7 @@ def work(data):
                 print(f"Node {host} is offline, waiting ...")
                 Thread(target=sleeper,args=((host,msg),data['send'])).start()
                 continue
+            # print(f'send: {msg}')
             send(z[0],msg)
         except:
             with open('err.log','a') as ff:

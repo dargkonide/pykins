@@ -3,6 +3,7 @@ import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.se
 import { JobService } from '../../service/job.service';
 import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 import { formatDate } from '@angular/common';
+import {EventDropArg} from '@fullcalendar/interaction';
 @Component({
   selector: 'app-build',
   templateUrl: './build.component.html',
@@ -36,6 +37,7 @@ export class BuildComponent implements OnInit, OnDestroy {
     dayMaxEvents: true,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
+    eventDrop: this.handleEventDrop.bind(this),
     datesSet: this.handleEvents.bind(this),
     events: this.currentEvents,
     height: 'parent'
@@ -58,6 +60,19 @@ export class BuildComponent implements OnInit, OnDestroy {
       start: selectInfo.startStr,
       end: selectInfo.endStr,
       allDay: selectInfo.allDay
+    });
+  }
+
+  handleEventDrop(dropInfo: EventDropArg) {
+    const calendarApi = dropInfo.view.calendar;
+    calendarApi.unselect(); // clear date selection
+    this.webSocketService.sendMessage({
+      type: 'schedule_move',
+      name: this.jobService.jobRoute,
+      id: dropInfo.event.id,
+      start: dropInfo.event.startStr,
+      end: dropInfo.event.endStr,
+      allDay: dropInfo.event.allDay
     });
   }
 

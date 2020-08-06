@@ -8,6 +8,7 @@ from datetime import datetime,timedelta
 import traceback
 
 iso=lambda x:datetime.fromtimestamp(x).isoformat()
+tsp=lambda x:parser.parse(x).timestamp()
 
 tiper={int:'string',str:'string',list:'select',tuple:'multiselect',bool:'checkbox'}
 class SimpleEcho(WebSocket):
@@ -45,24 +46,27 @@ class SimpleEcho(WebSocket):
                 self.gdata['x']['scheduler'].append({'time':msg['time'],'name':msg['name'],'vars':msg['vars']})
             if msg.get('type')=="get_schedule":
                 # TODO: n['date']
-                events=[{'id':n['id'],'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in self.gdata['x']['scheduler']]
+                events=[{'id':n['id'],'title':f"#{n['id']} {n['name']}",'start':iso(n['start']),'end':iso(n['end'])} for n in self.gdata['x']['scheduler']]
                 self.xsend({'type':'get_schedule','events':events})
             if msg.get('type')=="schedule_select":
                 job=self.gdata['x']['jobs'].get(msg['name'])
                 run_id=str(job['last_build_id'])
                 job['last_build_id']+=1
                 job_vars={n['name']:n.get('select') or n.get('selected') or n['value'] for n in msg['vars']}
-                start=parser.parse(msg['start']).timestamp()
-                end=parser.parse(msg['end']).timestamp()
                 scheduler=self.gdata['x']['scheduler']
-                scheduler.append({'id':run_id,'start':start,'end':end,'name':msg['name'],'vars':job_vars})
-                events=[{'id':n['id'],'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
+                scheduler.append({'id':run_id,'start':tsp(msg['start']),'end':tsp(msg['end']),'name':msg['name'],'vars':job_vars})
+                events=[{'id':n['id'],'title':f"#{n['id']} {n['name']}",'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
                 self.xsend_all({'type':'get_schedule','events':events})
             if msg.get('type')=="schedule_delete":
                 scheduler=self.gdata['x']['scheduler']
                 [scheduler.remove(n) for n in scheduler.copy() if n['id']==msg['id'] and n['name']==msg['name']]
-                events=[{'id':n['id'],'title':n['name'],'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
+                events=[{'id':n['id'],'title':f"#{n['id']} {n['name']}",'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
                 self.xsend_all({'type':'get_schedule','events':events})
+            if msg.get('type')=="schedule_move":
+                scheduler=self.gdata['x']['scheduler']
+                [n.update({'start':tsp(msg['start']),'end':tsp(msg['end'])}) for n in scheduler.copy() if n['id']==msg['id'] and n['name']==msg['name']]
+                events=[{'id':n['id'],'title':f"#{n['id']} {n['name']}",'start':iso(n['start']),'end':iso(n['end'])} for n in scheduler]
+                self.xsend_xall({'type':'get_schedule','events':events})
             if msg.get('type')=="getCode":
                 self.lastname=msg['name']
                 job=self.gdata['x']['jobs'].get(msg['name'])
@@ -98,7 +102,7 @@ class SimpleEcho(WebSocket):
                 self.xsend({'type':'hosts','msg':hosts})
             if msg.get('type')=="name":
                 if msg["old"]=='New Job':
-                    self.gdata['x']['jobs'][msg['new']]={'vars':'','code':'','history':[],'status':1}
+                    self.gdata['x']['jobs'][msg['new']]={'vars':'','code':'','history':{},'status':1,'last_build_id':1}
                 else:
                     job=self.gdata['x']['jobs'].pop(msg['old'])
                     self.gdata['x']['jobs'][msg['new']]=job
@@ -106,8 +110,9 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="build":
                 self.lastname=msg['name']
                 job=self.gdata['x']['jobs'].get(msg['name']).copy()
-                job_vars=self.gdata['imports']['executor'].run(job['vars'],self.gdata,{},-1)
+                job_vars=self.gdata['imports']['executor'].run(job['vars'],self.gdata,{},-1,msg['name'])
                 job_vars.pop('run_id')
+                job_vars.pop('job_name')
                 job_vars=[{'name':k,'value':v,'type':tiper.get(type(v),'xzchto')} for k,v in job_vars.items()]
                 self.xsend({'type':'build','msg':job_vars})
         except:

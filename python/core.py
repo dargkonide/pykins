@@ -12,7 +12,8 @@ data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subsc
         'servers':[gethostname()],
         'master':gethostname(),
         'jobs':{},
-        'scheduler':[]
+        'scheduler':[],
+        
     }
 }
 # if data['host']==data['x']['master']:
@@ -22,7 +23,7 @@ data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subsc
 data['x']['ip']={gethostbyname(n):n for n in data['x']['servers']}
 data['x']['host']={n.split('.')[0]:gethostbyname(n) for n in data['x']['servers']}
 threads=[]
-tcount={}
+tcount={'executor':100}
 
 filtr=['simple_websocket_server','core']
 

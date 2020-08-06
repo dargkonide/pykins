@@ -21,7 +21,8 @@ def lisner(ip,con,data):
             if x['n']=='ping':
                 send(con,{'n':'pong'})
             if data['subscribe'].get(host):
-                data['subscribe'][host].put(x)
+                for n in data['subscribe'][host]:
+                    n.put(x)
             for n in data['subproxy']:
                 n.put((host,x))
         except:
