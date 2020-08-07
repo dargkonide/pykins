@@ -19,6 +19,7 @@ export class CodeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.jobService.jobPath = 'code';
     this.jobCodeSub = this.webSocketService.getObservable({
       type: 'getCode',
       name: this.jobService.jobRoute

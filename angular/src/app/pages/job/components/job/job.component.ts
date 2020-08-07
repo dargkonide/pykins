@@ -14,7 +14,7 @@ export class JobComponent implements OnInit {
   links = ['code', 'vars'];
   // TODO: Вставить активный линк из роута
   // Еще бы и вкладку запоминала, а?
-  activeLink = this.links[0];
+  activeLink = location.pathname.split('/')[4];
   background: ThemePalette = undefined;
 
   constructor(

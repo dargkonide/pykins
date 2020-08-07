@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, Router} from '@angular/router';
 import {JobComponent} from './job.component';
+import {JobService} from '../../service/job.service';
 import { CodeComponent } from './code/code.component';
 import { VarsComponent } from './vars/vars.component';
 
-const routes: Routes = [{
+
+export let routes: Routes = [{
   path: '', component: JobComponent,
   children: [
-    { path: '', redirectTo: 'code' },
+    { path: '', redirectTo: 'code'},
 
     {path: 'code', component: CodeComponent},
     {path: 'vars', component: VarsComponent},
@@ -17,8 +19,10 @@ const routes: Routes = [{
   ]
  }];
 
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class JobRoutingModule { }
+export class JobRoutingModule {
+}

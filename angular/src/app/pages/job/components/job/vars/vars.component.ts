@@ -13,18 +13,22 @@ export class VarsComponent implements OnInit, OnDestroy {
   editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
   jobVars;
   jobVarsSub;
+
+
   constructor(
     public webSocketService: WebSocketService,
     public jobService: JobService
   ) { }
 
   ngOnInit(): void {
+    this.jobService.jobPath = 'vars';
     this.jobVarsSub = this.webSocketService.getObservable({
       type: 'getVars',
       name: this.jobService.jobRoute
     }).subscribe(
       m => this.jobVars = m.vars
     );
+
   }
 
   ngOnDestroy(): void {
