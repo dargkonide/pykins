@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { WebSocketService, JobInfo } from 'src/app/core/services/web-socket/web-socket.service';
-import { JobService } from '../../service/job.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-job',
@@ -14,15 +12,12 @@ export class JobComponent implements OnInit {
   links = ['code', 'vars'];
   // TODO: Вставить активный линк из роута
   // Еще бы и вкладку запоминала, а?
-  activeLink = location.pathname.split('/')[4];
+  activeLink: string;
   background: ThemePalette = undefined;
 
-  constructor(
+  constructor(public router: Router){}
 
-  ) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 
 

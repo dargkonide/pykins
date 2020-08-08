@@ -12,10 +12,10 @@ def load():
         if not b:
             for n in c:
                 if '.py' in n:
-                    with open(os.path.join(a,n)) as f:
+                    with open(os.path.join(a,n),encoding='utf-8') as f:
                         jobs.setdefault(a.split(os.sep)[1],{}).update({n.split('.')[0]:f.read()})
                 if '.json' in n:
-                    with open(os.path.join(a,n)) as f:
+                    with open(os.path.join(a,n),encoding='utf-8') as f:
                         jobs.setdefault(a.split(os.sep)[1],{}).update({n.split('.')[0]:loads(f.read())})
     return jobs
 
@@ -26,7 +26,7 @@ def dump(data):
             os.mkdir(job_dir)
         for k,v in p.items():
             item=os.path.join(job_dir,k)
-            with open(item+'.py' if type(v)==str else item+'.json','w') as f:
+            with open(item+'.py' if type(v)==str else item+'.json','w',encoding='utf-8') as f:
                 f.write(v if type(v)==str else dumps(v))
 
 def work(data):

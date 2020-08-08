@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
-import {JobService} from './service/job.service';
+import { JobService } from './service/job.service';
 
 
 @Component({
@@ -25,7 +25,6 @@ export class JobPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.jobService.jobRoute = params.jobName;
       this.jobRoute = params.jobName;
-      // console.log(location.pathname.split('/')[3]);
   });
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../../service/job.service';
+import { JobComponent } from "../job.component";
 
 @Component({
   selector: 'app-vars',
@@ -17,18 +18,19 @@ export class VarsComponent implements OnInit, OnDestroy {
 
   constructor(
     public webSocketService: WebSocketService,
-    public jobService: JobService
+    public jobService: JobService,
+    public jobComponent: JobComponent,
   ) { }
 
   ngOnInit(): void {
     this.jobService.jobPath = 'vars';
+    this.jobComponent.activeLink = 'vars';
     this.jobVarsSub = this.webSocketService.getObservable({
       type: 'getVars',
       name: this.jobService.jobRoute
     }).subscribe(
       m => this.jobVars = m.vars
     );
-
   }
 
   ngOnDestroy(): void {
@@ -42,6 +44,5 @@ export class VarsComponent implements OnInit, OnDestroy {
       vars: this.jobVars,
     });
   }
-
 
 }

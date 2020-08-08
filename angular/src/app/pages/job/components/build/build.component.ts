@@ -3,7 +3,7 @@ import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.se
 import { JobService } from '../../service/job.service';
 import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 import { formatDate } from '@angular/common';
-import {EventDropArg, EventResizeDoneArg} from '@fullcalendar/interaction';
+import { EventDropArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 @Component({
   selector: 'app-build',
   templateUrl: './build.component.html',
@@ -13,9 +13,7 @@ export class BuildComponent implements OnInit, OnDestroy {
 
   varsSub;
   vars;
-
   currentEventsSub;
-
   currentEvents: [] = [];
 
   calendarOptions: CalendarOptions = {
@@ -98,23 +96,15 @@ export class BuildComponent implements OnInit, OnDestroy {
   }
 
   handleEvents(events: EventApi[]) {
-    if (this.currentEventsSub){
+    if (this.currentEventsSub)
       this.currentEventsSub.unsubscribe();
-    }
+
     this.currentEventsSub = this.webSocketService.getObservable({
       type: 'get_schedule',
       name: this.jobService.jobRoute,
       date: formatDate(this.calendarComponent.getApi().getDate(), 'yyyy-MM-ddThh:mm:ssZZZZZ', 'en')
-    }).subscribe(
-      m => {
-        this.calendarOptions.events = m.events;
-        console.log('events_set', this.currentEvents);
-        // this.calendarComponent.getApi().refetchEvents()
-      }
-    );
+    }).subscribe(m => {this.calendarOptions.events = m.events;});
   }
-
-
 
   ngOnInit(): void {
     this.varsSub = this.webSocketService.getObservable({
@@ -130,6 +120,7 @@ export class BuildComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.varsSub.unsubscribe();
+    this.currentEventsSub.unsubscribe();
   }
 
   runJob(){
