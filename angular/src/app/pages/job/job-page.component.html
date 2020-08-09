@@ -1,4 +1,3 @@
-<!-- <div class="mat-toolbar-row"> -->
 <mat-toolbar-row>
 
   <mat-form-field class="form" >
@@ -12,9 +11,8 @@
   <button mat-stroked-button routerLink="job" routerLinkActive="mat-accent">Job</button>
   <button mat-stroked-button routerLink="build" routerLinkActive="mat-accent">Build</button>
   <span class="spacer"></span>
-  <button mat-raised-button color="warn" (click)="deleteJobDialog()">Delete</button>
+  <button mat-stroked-button color="warn" (click)="deleteJobDialog()">Delete</button>
 </mat-toolbar-row>
-<!-- </div> -->
-<div class="job-page-tab, mat-background-primary">
+<div> <!-- class="job-page-tab, mat-background-primary" -->
   <router-outlet></router-outlet>
 </div>

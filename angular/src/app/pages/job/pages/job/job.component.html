@@ -1,8 +1,8 @@
 <nav mat-tab-nav-bar [backgroundColor]="background">
-  <a mat-tab-link *ngFor="let link of links"
+  <button mat-button mat-tab-link *ngFor="let link of links"
      [routerLink]="link"
      (click)="activeLink = link"
-     [active]="activeLink == link"> {{link}} </a>
+     [active]="activeLink == link"> {{link}} </button>
 </nav>
 <div>
   <router-outlet></router-outlet>

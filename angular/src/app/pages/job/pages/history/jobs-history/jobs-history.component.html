@@ -1,0 +1,9 @@
+<div *ngIf="(jobHistory$ | async) as jobHistory">
+    <mat-card *ngFor="let job of jobHistory.msg" [routerLink]="['id', job.id]">
+            <mat-spinner [diameter]="20" *ngIf="job.status == 'running'"></mat-spinner>
+            <mat-icon class="success" *ngIf="job.status == 'success'">check_circle</mat-icon>
+            <mat-icon class="failed" *ngIf="job.status == 'failed'">report</mat-icon>
+
+            <mat-card-content >Build: #{{job.id}} Date: {{job.date}}</mat-card-content>
+    </mat-card>
+</div>

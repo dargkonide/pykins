@@ -4,7 +4,7 @@
       <button mat-button routerLink="/jobs"  routerLinkActive="mat-accent">Job list</button>
       <button mat-button routerLink="/hosts"  routerLinkActive="mat-accent">Hosts</button>
       <button mat-button routerLink="/calendar"  routerLinkActive="mat-accent">Calendar</button>
-      <button mat-raised-button style="background-color: #757de8; color: whitesmoke; margin-left: 15px;" [routerLink]="['/jobs/', 'New Job']">
+      <button mat-raised-button [routerLink]="['/jobs/', 'New Job']">
         Create Job
         <!-- <mat-icon>add_box</mat-icon> -->
       </button>
