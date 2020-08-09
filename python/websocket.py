@@ -15,7 +15,7 @@ class SimpleEcho(WebSocket):
 
     def xsend(self,msg):
         self.send_message(dumps(msg))
-        # print(f"Send: {msg}")
+        print(f"Send: {msg}")
 
     def xsend_all(self,msg):
         for n in clients:
@@ -115,6 +115,12 @@ class SimpleEcho(WebSocket):
                 job_vars.pop('job_name')
                 job_vars=[{'name':k,'value':v,'type':tiper.get(type(v),'xzchto')} for k,v in job_vars.items()]
                 self.xsend({'type':'build','msg':job_vars})
+            if msg.get('type')=="delete":
+                pass
+            if msg.get('type')=="history":
+                job=self.gdata['x']['jobs'].get(msg['name'])
+                history=[{'id':k,'status':v['status']} for k,v in job['history'].items()]
+                self.xsend({'type':'history','msg':history})
         except:
             print(self.data)
             traceback.print_exc()
