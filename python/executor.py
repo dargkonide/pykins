@@ -94,6 +94,7 @@ def run(code,data,vrs,run_id,job_name):
         spec.loader.exec_module(x)
     except:
         trace=traceback.format_exc()
+        vars(x).update({'trace':trace})
         master=data['x']['master']
         data['send'].put((master,{'n':'logs','i':run_id,'j':job_name,'v':trace}))
     os.chdir(target_dir)
@@ -125,7 +126,7 @@ def work(data):
                     history[run_id]={'name':x['v']}
                 history[run_id]['status']='running'
                 v=run(job['code'],data,x['vars'],run_id,x['v'])
-                history[run_id]['status']='end'
+                history[run_id]['status']='failed' if v.get('trace') else 'success'
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()
