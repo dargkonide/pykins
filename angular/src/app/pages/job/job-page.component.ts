@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
+import { DeleteJobDialogComponent } from './pages/delete-job-dialog/delete-job-dialog.component';
 import { JobService } from './service/job.service';
 
 
@@ -16,7 +18,8 @@ export class JobPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public jobService: JobService,
-    public webSocketService: WebSocketService
+    public webSocketService: WebSocketService,
+    public dialog: MatDialog
   ) {
 
   }
@@ -41,5 +44,8 @@ export class JobPageComponent implements OnInit {
     // replace parameter of navigateByUrl function to your required url
 }
 
+deleteJobDialog(){
+  this.dialog.open(DeleteJobDialogComponent);
+}
 
 }

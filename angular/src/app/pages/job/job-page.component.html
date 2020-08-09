@@ -1,4 +1,5 @@
-<div class="mat-background-primary">
+<!-- <div class="mat-toolbar-row"> -->
+<mat-toolbar-row>
 
   <mat-form-field class="form" >
     <mat-label>Job Name</mat-label>
@@ -6,12 +7,14 @@
     <mat-hint>folder/dir/fold</mat-hint>
   </mat-form-field>
 
-  <span class="button-row">
+
   <button mat-stroked-button routerLink="history" routerLinkActive="mat-accent">History</button>
   <button mat-stroked-button routerLink="job" routerLinkActive="mat-accent">Job</button>
   <button mat-stroked-button routerLink="build" routerLinkActive="mat-accent">Build</button>
-  </span>
-</div>
+  <span class="spacer"></span>
+  <button mat-raised-button color="warn" (click)="deleteJobDialog()">Delete</button>
+</mat-toolbar-row>
+<!-- </div> -->
 <div class="job-page-tab, mat-background-primary">
   <router-outlet></router-outlet>
 </div>

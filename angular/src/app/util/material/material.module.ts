@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 const modules = [
@@ -37,6 +38,7 @@ const modules = [
   MatCardModule,
   MatSlideToggleModule,
   MatSelectModule,
+  MatDialogModule,
 
 ];
 

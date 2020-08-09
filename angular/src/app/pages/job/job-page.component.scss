@@ -1,20 +1,18 @@
-.button-row{
-  display: inline-block;
-  width: 230px;
-}
-.button-row button {
-  display: table-cell;
-  margin-right: 8px;
-}
 .form {
-  margin: 8px;
+  margin: 10px;
   min-width: 100px;
   max-width: 350px;
   width: 100%;
 }
-.full-width {
-  width: 100%;
-}
 mat-form-field {
-  margin-right: 12px;
+  margin-right: 15px;
+}
+
+.spacer{
+  flex: 1 1 auto;
+}
+
+button{
+  margin-right: 5px;
+  margin-left: 5px;
 }
