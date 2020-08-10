@@ -123,7 +123,7 @@ def work(data):
                 else:
                     run_id=str(job['last_build_id'])
                     job['last_build_id']+=1
-                    history[run_id]={'name':x['v']}
+                history[run_id]={}
                 history[run_id]['status']='running'
                 v=run(job['code'],data,x['vars'],run_id,x['v'])
                 history[run_id]['status']='failed' if v.get('trace') else 'success'

@@ -14,11 +14,11 @@
 
 .calendar {
   flex-grow: 1;
-  //padding: 3em;
+  padding-left: 3em;
 }
 
 .fc { /* the calendar root */
   max-width: 2100px;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 170px);
   margin: 0 auto;
 }

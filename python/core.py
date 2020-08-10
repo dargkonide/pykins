@@ -12,8 +12,7 @@ data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subsc
         'servers':[gethostname()],
         'master':gethostname(),
         'jobs':{},
-        'scheduler':[],
-        
+        'scheduler':[]
     }
 }
 # if data['host']==data['x']['master']:

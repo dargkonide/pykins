@@ -1,1 +1,1 @@
-az='1234'
+[globals().update({f'var_{n}':list(range(10))}) for n in range(10)]

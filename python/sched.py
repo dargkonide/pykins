@@ -12,7 +12,7 @@ def scheduler(data):
                     if time()>=n['start']:
                         data['x']['scheduler'].remove(n)
                         master=data['x']['master']
-                        data['send'].put((master,{'n':'run','v':n['name'],'vars':n['vars']}))
+                        data['send'].put((master,{'n':'run','v':n['name'],'vars':n['vars'],'r':n['id']}))
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()

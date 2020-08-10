@@ -24,9 +24,9 @@ class SimpleEcho(WebSocket):
 
     def xsend_xall(self,msg):
         for n in clients:
-            if self!=n:
+            if self is not n:
                 n.send_message(dumps(msg))
-        # print(f"Send xall: {msg}")
+                print(f"Send: {msg}")
 
     def handle(self):
         try:
@@ -79,16 +79,12 @@ class SimpleEcho(WebSocket):
                 self.lastname=msg['name']
                 job=self.gdata['x']['jobs'].get(msg['name'])
                 job['code']=msg['code']
-                xjob=job.copy()
-                xjob['name']=msg['name']
-                self.xsend_xall({'type':'job','msg':xjob})
+                self.xsend_xall({'type':'getCode','code':job['code']})
             if msg.get('type')=="setVars":
                 self.lastname=msg['name']
                 job=self.gdata['x']['jobs'].get(msg['name'])
                 job['vars']=msg['vars']
-                xjob=job.copy()
-                xjob['name']=msg['name']
-                self.xsend_xall({'type':'job','msg':xjob})
+                self.xsend_xall({'type':'getVars','vars':job['vars']})
             if msg.get('type')=="jobs":
                 jobs=[{'name':k,'status':v['status']} for k,v in self.gdata['x']['jobs'].items()]
                 self.xsend({'type':'jobs','msg':jobs})
@@ -116,7 +112,7 @@ class SimpleEcho(WebSocket):
                 job_vars=[{'name':k,'value':v,'type':tiper.get(type(v),'xzchto')} for k,v in job_vars.items()]
                 self.xsend({'type':'build','msg':job_vars})
             if msg.get('type')=="delete":
-                pass
+                self.gdata['x']['jobs'].pop(msg['name'])
             if msg.get('type')=="history":
                 job=self.gdata['x']['jobs'].get(msg['name'])
                 history=[{'id':k,'status':v['status']} for k,v in job['history'].items()]

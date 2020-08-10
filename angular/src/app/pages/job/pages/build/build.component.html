@@ -1,4 +1,5 @@
 <div class='build' style="margin: 2%;">
+  <mat-card>
     <div class='variables'>
         <div *ngFor="let item of vars">
             <!-- <p>Type: {{item.type}}</p>
@@ -34,6 +35,7 @@
         </div>
         <button mat-stroked-button (click)="runJob()">Run Job</button>
     </div>
+  </mat-card>
     <div class='calendar'>
         <full-calendar #calendar [options]="calendarOptions"></full-calendar>
     </div>
