@@ -1,10 +1,10 @@
+
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../service/job.service';
 import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 import { formatDate } from '@angular/common';
 import { EventDropArg, EventResizeDoneArg } from '@fullcalendar/interaction';
-
 
 @Component({
   selector: 'app-build',
@@ -41,8 +41,7 @@ export class BuildComponent implements OnInit, OnDestroy {
     eventResize: this.handleEventResize.bind(this),
     datesSet: this.handleEvents.bind(this),
     events: this.currentEvents,
-    height: 'parent',
-    themeSystem: 'bootstrap'
+    height: 'parent'
   };
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
