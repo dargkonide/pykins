@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../../service/job.service';
-import { JobComponent } from "../job.component";
+import { JobComponent } from '../job.component';
 
 @Component({
   selector: 'app-code',

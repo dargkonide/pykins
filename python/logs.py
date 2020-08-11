@@ -1,8 +1,9 @@
 from queue import Queue
+from json import dumps
 
 import traceback
 
-qsend=Queue()
+qsend={}
 
 def work(data):
     q=Queue()
@@ -11,9 +12,11 @@ def work(data):
         try:
             con,x=q.get()
             if x['n']=='logs':
-                # data['history'][x['i']].setdefault('logs',[]).append(x['v'])
-                # print(data['history'][x['i']])
-                print(x['v'])
+                data['logs'].setdefault(x['i']+x['j'],[]).append(x['v'])
+                for n in qsend.get(x['i']+x['j'],[]):
+                    n.send_message(dumps({'type':'glu','logs':x['v']}))
+
+                # print(f"{x['j']} #{x['i']}: {x['v']}")
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()

@@ -12,6 +12,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import { HttpClientModule } from '@angular/common/http';
 
 const monacoConfig: NgxMonacoEditorConfig = {
   baseUrl: 'app-name/assets', // configure base path for monaco editor default: './assets'
@@ -35,8 +36,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     BrowserAnimationsModule,
     MaterialModule,
     MonacoEditorModule.forRoot(),
-    FullCalendarModule
-
+    FullCalendarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

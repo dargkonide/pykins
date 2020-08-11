@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIconRegistry } from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
+
 
 @Component({
   selector: 'app-head-bar',
@@ -7,7 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeadBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer){
+    this.matIconRegistry.addSvgIcon(
+      "python",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/python.svg")
+    );
+  }
 
   ngOnInit(): void {
   }

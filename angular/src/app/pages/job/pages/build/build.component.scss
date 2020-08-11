@@ -15,6 +15,9 @@
 .calendar {
   flex-grow: 1;
   padding-left: 3em;
+  margin-left: 1em;
+  background-color: #fafafa;
+  color: #121212;
 }
 
 .fc { /* the calendar root */
@@ -22,3 +25,4 @@
   height: calc(100vh - 170px);
   margin: 0 auto;
 }
+

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Params, Router} from '@angular/router';
+import {CanActivate, Router} from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,12 @@ export class JobService implements CanActivate {
 
   jobRoute: string;
   jobPath = 'code';
-  jobPaths = ['code','vars'];
+  jobPaths = ['code', 'vars'];
 
   canActivate(route: any) {
-    let target = route.parent._routerState.url.split('/')[4];
-    console.log(target,this.jobPath);
-    if (this.jobPaths.includes(target) && target!=this.jobPath) {
+    const target = route.parent._routerState.url.split('/')[4];
+    console.log(target, this.jobPath);
+    if (this.jobPaths.includes(target) && target != this.jobPath) {
       this.router.navigate([route.parent._routerState.url.replace(target, this.jobPath)]);
       return false;
     }

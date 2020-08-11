@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { JobHistoryComponent } from './job-history/job-history.component';
 import { JobsHistoryComponent } from './jobs-history/jobs-history.component';
 
 
 
 const routes: Routes = [
     { path: '', component: JobsHistoryComponent },
-    { path: 'id/:runId', component: JobHistoryComponent },
+    { path: 'id/:runId', loadChildren: () => import('./job-history/job-history.module').then(m => m.JobHistoryModule) },
  ];
 
 @NgModule({

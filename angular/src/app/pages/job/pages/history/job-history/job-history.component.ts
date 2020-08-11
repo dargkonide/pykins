@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ThemePalette} from '@angular/material/core';
 
 @Component({
   selector: 'app-job-history',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./job-history.component.scss']
 })
 export class JobHistoryComponent implements OnInit {
+  links = ['logs'];
+  activeLink = 'logs';
+  background: ThemePalette = undefined;
 
   constructor() { }
 

@@ -30,6 +30,7 @@
     "@fullcalendar/interaction": "^5.1.0",
     "@fullcalendar/list": "^5.1.0",
     "@fullcalendar/timegrid": "^5.1.0",
+    "angular-svg-icon": "^10.0.0",
     "bootstrap": "^4.5.2",
     "material-design-icons": "^3.0.1",
     "ng-table-virtual-scroll": "^1.3.3",
