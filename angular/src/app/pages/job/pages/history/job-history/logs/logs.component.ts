@@ -10,7 +10,12 @@ import { JobService } from '../../../../service/job.service';
 })
 export class LogsComponent implements OnInit, OnDestroy {
 
-  editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
+  editorOptions = { theme: 'vs-dark',
+    language: 'python',
+    automaticLayout: true,
+    forceMoveMarkers: false,
+    wordWrap: 'off',
+    readOnly: true };
   jobLogsSub;
   jobLogsUpdateSub;
   jobLogs;

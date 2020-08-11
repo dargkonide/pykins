@@ -1,1 +1,1 @@
-[globals().update({f'var_{n}':list(range(10))}) for n in range(10)]
+[globals().update({f'var_{n}':list(range(10))}) for n in range(20)]

@@ -11,7 +11,10 @@ import { JobComponent } from '../job.component';
 export class CodeComponent implements OnInit, OnDestroy {
 
   // https://www.npmjs.com/package/ngx-monaco-editor
-  editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
+  editorOptions = { theme: 'vs-dark',
+    language: 'python',
+    automaticLayout: true,
+    forceMoveMarkers: false};
   jobCodeSub;
   jobCode;
 
