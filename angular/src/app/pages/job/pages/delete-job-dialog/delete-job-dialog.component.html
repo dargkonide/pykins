@@ -1,5 +1,6 @@
 <h2 mat-dialog-title>Delete job "{{jobService.jobRoute}}"?</h2>
 <mat-dialog-actions >
-  <button mat-button color="warn" [mat-dialog-close]="true" (click)="deleteJob()" routerLink="/jobs">Delete</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button mat-stroked-button color="warn" [mat-dialog-close]="true" (click)="deleteJob()" routerLink="/jobs">Delete</button>
+  <span class="spacer"></span>
+  <button mat-stroked-button mat-dialog-close cdkFocusInitial>Cancel</button>
 </mat-dialog-actions>
