@@ -5,6 +5,9 @@ import { HistoryRoutingModule } from './history-routing.module';
 import { MaterialModule } from 'src/app/util/material/material.module';
 import { JobsHistoryComponent } from './jobs-history/jobs-history.component';
 import { JobHistoryComponent } from './job-history/job-history.component';
+import {FormsModule} from '@angular/forms';
+import {MonacoEditorModule} from 'ngx-monaco-editor';
+import {JobsRoutingModule} from './job-history/jobs-history-routing.module';
 
 
 @NgModule({
@@ -12,7 +15,10 @@ import { JobHistoryComponent } from './job-history/job-history.component';
   imports: [
     CommonModule,
     HistoryRoutingModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    MonacoEditorModule,
+    JobsRoutingModule
   ]
 })
 export class HistoryModule { }

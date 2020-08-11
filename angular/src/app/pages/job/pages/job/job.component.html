@@ -1,5 +1,5 @@
 <nav mat-tab-nav-bar [backgroundColor]="background">
-  <button mat-button mat-tab-link routerLinkActive="mat-accent" *ngFor="let link of links"
+  <button mat-button mat-tab-link *ngFor="let link of links"
      [routerLink]="link"
      (click)="activeLink = link"
      [active]="activeLink == link"> {{link}} </button>

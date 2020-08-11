@@ -98,14 +98,15 @@ export class BuildComponent implements OnInit, OnDestroy {
   }
 
   handleEvents(events: EventApi[]) {
-    if (this.currentEventsSub)
+    if (this.currentEventsSub) {
       this.currentEventsSub.unsubscribe();
+    }
 
     this.currentEventsSub = this.webSocketService.getObservable({
       type: 'get_schedule',
       name: this.jobService.jobRoute,
       date: formatDate(this.calendarComponent.getApi().getDate(), 'yyyy-MM-ddThh:mm:ssZZZZZ', 'en')
-    }).subscribe(m => {this.calendarOptions.events = m.events;});
+    }).subscribe(m => {this.calendarOptions.events = m.events; });
   }
 
   ngOnInit(): void {

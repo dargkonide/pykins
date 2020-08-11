@@ -135,7 +135,7 @@ cdk-virtual-scroll-viewport{
 table {
   border-spacing: 1;
   border-collapse: collapse;
-  background: white;
+  background: #494949;
   overflow: hidden;
   width: 100%;
   margin: 0 auto;
@@ -180,20 +180,20 @@ table td.r, table th.r {
 }
 
 tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
+  background-color: #424242;
 }
 
 tbody tr {
   font-family: OpenSans-Regular;
   font-size: 15px;
-  color: #808080;
+  color: #fafafa;
   line-height: 1.2;
   font-weight: unset;
 }
 
 tbody tr:hover {
-  color: #555555;
-  background-color: #dfdfdf;
+  color: #fafafa;
+  background-color: #535353;
   cursor: pointer;
 }
 

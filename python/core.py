@@ -13,7 +13,7 @@ data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subsc
         'master':gethostname(),
         'jobs':{},
         'scheduler':[]
-    }
+    },'logs':{}
 }
 # if data['host']==data['x']['master']:
 #     data['x']['scheduler'].append({'time':time(),'name':'start_scenario',

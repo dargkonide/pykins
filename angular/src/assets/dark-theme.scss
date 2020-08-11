@@ -42,6 +42,13 @@ $mat-grey: (
   )
 );
 
+mat-ink-bar{
+  background-color: #ffd740 !important;
+}
+.mat-progress-spinner circle, .mat-spinner circle{
+  stroke: #ffd740 !important;
+}
+
 $candy-app-primary: mat-palette($mat-grey);
 $candy-app-accent:  mat-palette($mat-amber, A200, A100, A400);
 

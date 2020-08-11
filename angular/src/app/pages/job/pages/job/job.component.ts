@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job',
@@ -12,7 +12,7 @@ export class JobComponent implements OnInit {
   links = ['code', 'vars'];
   // TODO: Вставить активный линк из роута
   // Еще бы и вкладку запоминала, а?
-  activeLink: string;
+  activeLink = 'code';
   background: ThemePalette = undefined;
 
   constructor(public router: Router){}
