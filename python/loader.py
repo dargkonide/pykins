@@ -29,19 +29,34 @@ def dump(data):
             with open(item+'.py' if type(v)==str else item+'.json','w',encoding='utf-8') as f:
                 f.write(v if type(v)==str else dumps(v))
 
+def dump_logs(data):
+    for n,v in data['logs'].items():
+        log_path=os.path.join('logs',n)+'.log'
+        with open(log_path,'w',encoding='utf-8') as f:
+            f.write('\n'.join(v))
+
+def load_logs(data):
+    for a,b,c in os.walk('logs'):
+        for n in c:
+            with open(os.path.join(a,n),encoding='utf-8') as f:
+                data['logs'][n[:-4]]=[f.read()]
+        
+
 def work(data):
     data['x']['jobs']=load()
+    load_logs(data)
     while 1:
         try:
             q.get()
             dump(data)
+            dump_logs(data)
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()
                 traceback.print_exc(file=ff)
 
 if __name__ == '__main__':
-    jobs=load()
-    jobs['new']=jobs['start_scenario']
-    dump(jobs)
-    print(jobs)
+    data={'logs':{}}
+    load_logs(data)
+ 
+    print(data)

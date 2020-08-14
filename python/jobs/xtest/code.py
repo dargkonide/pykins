@@ -1,5 +1,5 @@
 from time import sleep
 
-for n in range(1000000):
+for n in range(int(count)):
     print(n)
-    sleep(0.01)
+    sleep(0.1)

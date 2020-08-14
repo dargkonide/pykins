@@ -9,7 +9,7 @@ import { JobService } from '../../../service/job.service';
 })
 export class JobsHistoryComponent implements OnInit {
 
-  jobHistory$
+  jobHistory$;
 
   constructor(
     private jobService: JobService,
@@ -20,6 +20,6 @@ export class JobsHistoryComponent implements OnInit {
     this.jobHistory$ = this.webSocketService.getObservable({
       type: 'history',
       name: this.jobService.jobRoute
-    })
+    });
   }
 }

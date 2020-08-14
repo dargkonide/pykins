@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { JobService } from '../../service/job.service';
 
@@ -11,8 +10,6 @@ import { JobService } from '../../service/job.service';
 export class DeleteJobDialogComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     public jobService: JobService,
     public webSocketService: WebSocketService,
   ) { }

@@ -7,7 +7,9 @@
                             let odd = odd;"
                             class=""  [class.example-alternate]="odd"
                             [routerLink]="['/jobs/', item.name]">
-          <td style="width: 100px;">{{index}}</td>
+          <td style="width: 100px" *ngIf="item.status == 'running'"><mat-spinner [diameter]="20" ></mat-spinner></td>
+          <td style="width: 100px" *ngIf="item.status == 'success'"><mat-icon class="success" >check_circle</mat-icon></td>
+          <td style="width: 100px" *ngIf="item.status == 'failed'"><mat-icon class="failed" >report</mat-icon></td>
           <td>{{item.name}}</td>
           <td>{{item.status}}</td>
         </tr>

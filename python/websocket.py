@@ -15,7 +15,7 @@ class SimpleEcho(WebSocket):
 
     def xsend(self,msg):
         self.send_message(dumps(msg))
-        # print(f"Send: {msg}")
+        print(f"Send: {msg}")
 
     def xsend_all(self,msg):
         for n in clients:
@@ -167,8 +167,9 @@ class SimpleEcho(WebSocket):
 
             if msg.get('type')=="history":
                 job=self.gdata['x']['jobs'].get(msg['name'])
-                history=[{'id':k,'status':v['status']} for k,v in job['history'].items()]
+                history=[{'id':k,'status':v['status'],'start':v['start'],'end':v.get('end',''),'delta':v.get('delta','')} for k,v in job['history'].items()]
                 self.xsend({'type':'history','msg':history})
+                self.gdata['imports']['executor'].qhistory.setdefault(msg['name'],[]).append(self)
         except:
             print(self.data)
             traceback.print_exc()

@@ -1,4 +1,5 @@
 from importlib import util
+from datetime import datetime
 from queue import Queue
 from uuid import uuid4
 from time import time,sleep
@@ -105,6 +106,7 @@ def run(code,data,vrs,run_id,job_name):
     return result
 
 q=Queue()
+qhistory={}
 
 def work(data):
     if not q in data['subproxy']:
@@ -116,17 +118,25 @@ def work(data):
                 v=run(x.get('c'),data,x['v'],x['r'],x['j'])
                 data['send'].put((host,{'n':'executed','v':v,'r':x['r'],'j':x['j']}))
             if x['n']=='run':
-                job=data['x']['jobs'][x['v']]
-                history=job['history']
-                if x.get('r'):
-                    run_id=x['r']
+                if x.get('r'):run_id=x['r']
                 else:
-                    run_id=str(job['last_build_id'])
-                    job['last_build_id']+=1
-                history[run_id]={}
-                history[run_id]['status']='running'
-                v=run(job['code'],data,x['vars'],run_id,x['v'])
-                history[run_id]['status']='failed' if v.get('trace') else 'success'
+                    run_id=str(data['x']['jobs'][x['v']]['last_build_id'])
+                    data['x']['jobs'][x['v']]['last_build_id']+=1
+                data['x']['jobs'][x['v']]['history'][run_id]={}
+                data['x']['jobs'][x['v']]['history'][run_id]['status']='running'
+                start_time=datetime.now()
+                data['x']['jobs'][x['v']]['history'][run_id]['start']=str(start_time).split('.')[0]
+                v=run(data['x']['jobs'][x['v']]['code'],data,x['vars'],run_id,x['v'])
+                end_time=datetime.now()
+                data['x']['jobs'][x['v']]['history'][run_id]['end']=str(end_time).split('.')[0]
+                data['x']['jobs'][x['v']]['history'][run_id]['delta']=str(end_time-start_time).split('.')[0]
+                data['x']['jobs'][x['v']]['history'][run_id]['status']='failed' if v.get('trace') else 'success'
+                data['x']['jobs'][x['v']]['status']=['failed' if v.get('trace') else 'success']
+                history=[{'id':k,'status':v['status']} for k,v in data['x']['jobs'][x['v']]['history'].items()]
+                for n in qhistory.get(x['v'],[]):
+                    n.xsend({'type':'history','msg':history})
+                # print(job['history'])
+                # print(data['x']['jobs'][x['v']]['history'])
         except:
             with open('err.log','a') as ff:
                 traceback.print_exc()

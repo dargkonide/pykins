@@ -14,7 +14,5 @@ def read(con):
         except:break
         if data:buf+=data
         else:break
-
-    buf=buf[:-3]
-    return loads(buf)
+    return [loads(n) for n in buf.split(b'<~>') if n]
 

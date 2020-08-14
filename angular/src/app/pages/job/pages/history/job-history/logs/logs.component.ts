@@ -15,7 +15,9 @@ export class LogsComponent implements OnInit, OnDestroy {
     automaticLayout: true,
     forceMoveMarkers: false,
     wordWrap: 'off',
-    readOnly: true };
+    readOnly: true,
+    scrollBeyondLastLine: true
+  };
   jobLogsSub;
   jobLogsUpdateSub;
   jobLogs;

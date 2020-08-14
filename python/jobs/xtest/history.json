@@ -1,1 +1,1 @@
-{"1": {"status": "running"}, "2": {"status": "running"}, "3": {"status": "running"}, "4": {"status": "running"}, "5": {"status": "running"}, "6": {"status": "running"}, "7": {"status": "running"}}
+{"1": {"status": "success", "start": "2020-08-12 19:03:45", "end": "2020-08-12 19:03:46", "delta": "0:00:01"}, "2": {"status": "success", "start": "2020-08-12 19:03:54", "end": "2020-08-12 19:04:04", "delta": "0:00:10"}, "3": {"status": "success", "start": "2020-08-12 19:04:09", "end": "2020-08-12 19:04:19", "delta": "0:00:10"}}

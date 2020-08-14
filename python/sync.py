@@ -12,19 +12,19 @@ def lisner(ip,con,data):
     print(f'lisn: {host}')
     while 1:
         try:
-            x=read(con)
-            # print(x)
-            if x['n']=='new':
-                data['x']=x['v']
-            if x['n']=='get':
-                send(con,{'n':'new','v':data['x']})
-            if x['n']=='ping':
-                send(con,{'n':'pong'})
-            if data['subscribe'].get(host):
-                for n in data['subscribe'][host]:
-                    n.put(x)
-            for n in data['subproxy']:
-                n.put((host,x))
+            for x in read(con):
+                # print(x)
+                if x['n']=='new':
+                    data['x']=x['v']
+                if x['n']=='get':
+                    send(con,{'n':'new','v':data['x']})
+                if x['n']=='ping':
+                    send(con,{'n':'pong'})
+                if data['subscribe'].get(host):
+                    for n in data['subscribe'][host]:
+                        n.put(x)
+                for n in data['subproxy']:
+                    n.put((host,x))
         except:
             traceback.print_exc()
             data['connects'][ip].remove(con)
@@ -41,9 +41,8 @@ def work(data):
         try:
             if data.get('connects'):
                 for n in list(data['connects'].keys()):
-                    if data['host']==data['x']['master']:
-                        try:send(data['connects'][n][0],{'n':'new','v':data['x']})
-                        except:pass
+                    if data['x']['ip'].get(n)!=data['host'] and data['host']==data['x']['master']:
+                        data['send'].put((data['x']['ip'].get(n),{'n':'new','v':data['x']}))
                     for con in set(data['connects'][n])-lisn:
                         Thread(target=lisner,args=(n,con,data)).start()
                         lisn.add(con)

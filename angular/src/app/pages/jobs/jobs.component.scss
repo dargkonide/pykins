@@ -2,6 +2,16 @@ cdk-virtual-scroll-viewport{
   height: calc(100vh - 150px)
 }
 
+mat-spinner, mat-icon{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.success{
+  color: #107C10;
+}
+.failed{
+  color: #D52A1D;
+}
 
 .cdk-virtual-scroll-viewport::-webkit-scrollbar {
   overflow: auto;

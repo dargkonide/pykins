@@ -1,1 +1,1 @@
-{"1": {"status": "running"}, "3": {"status": "running"}}
+{"1": {"status": "failed", "start": "2020-08-12 19:00:36", "end": "2020-08-12 19:00:36", "delta": "0:00:00"}}

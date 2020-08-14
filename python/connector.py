@@ -18,11 +18,11 @@ def acceptor(data):
             con,addr=s.accept()
             ips=data['x']['ip']
             if ips.get(addr[0]):  
-                host=read(con)
+                host=read(con)[0]
                 data['connects'].setdefault(addr[0],[]).append(con)
                 print(f'{host} s connected')
             else:
-                host=read(con)
+                host=read(con)[0]
                 data['x']['servers'].append(host)
                 data['x']['ip'][addr[0]]=host
                 data['x']['host'][host.split('.')[0]]=addr[0]

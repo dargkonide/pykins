@@ -20,9 +20,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     firstDay: 1,
-    editable: true,
+    editable: false,
     navLinks: true,
-    droppable: true,
+    droppable: false,
     nowIndicator: true,
     dayHeaders: true,
     headerToolbar: {
@@ -31,13 +31,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       right: 'timeGridWeek,timeGridDay'
     },
     locale: 'ru',
-    selectable: true,
+    selectable: false,
     selectMirror: true,
     dayMaxEvents: true,
-    select: this.handleDateSelect.bind(this),
-    eventClick: this.handleEventClick.bind(this),
-    eventDrop: this.handleEventDrop.bind(this),
-    eventResize: this.handleEventResize.bind(this),
     datesSet: this.handleEvents.bind(this),
     events: this.currentEvents,
     height: 'parent'
@@ -49,49 +45,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
     private webSocketService: WebSocketService,
     private jobService: JobService
   ) { }
-
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect(); // clear date selection
-    this.webSocketService.sendMessage({
-      type: 'calendar_select',
-      name: this.jobService.jobRoute,
-      vars: this.vars,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      allDay: selectInfo.allDay
-    });
-  }
-
-  handleEventDrop(dropInfo: EventDropArg) {
-    this.webSocketService.sendMessage({
-      type: 'calendar_move',
-      id: dropInfo.event.id,
-      start: dropInfo.event.startStr,
-      end: dropInfo.event.endStr,
-      allDay: dropInfo.event.allDay
-    });
-  }
-
-  handleEventResize(resizeInfo: EventResizeDoneArg) {
-    this.webSocketService.sendMessage({
-      type: 'calendar_move',
-      id: resizeInfo.event.id,
-      start: resizeInfo.event.startStr,
-      end: resizeInfo.event.endStr,
-      allDay: resizeInfo.event.allDay
-    });
-  }
-
-  handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      // clickInfo.event.remove();
-      this.webSocketService.sendMessage({
-        type: 'calendar_delete',
-        id: clickInfo.event.id
-      });
-    }
-  }
 
   handleEvents(events: EventApi[]) {
     if (this.currentEventsSub) {
