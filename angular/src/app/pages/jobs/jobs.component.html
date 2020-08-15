@@ -12,6 +12,7 @@
           <td style="width: 100px" *ngIf="item.status == 'failed'"><mat-icon class="failed" >report</mat-icon></td>
           <td>{{item.name}}</td>
           <td>{{item.status}}</td>
+          <td><button mat-raised-button [routerLink]="['/jobs/', item.name, 'build']">Build</button></td>
         </tr>
       </tbody>
     </table>
