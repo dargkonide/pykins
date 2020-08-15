@@ -26,8 +26,8 @@ export class JobPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.jobService.jobRoute = params.jobName;
-      this.jobRoute = params.jobName;
+      this.jobService.jobRoute = decodeURIComponent(params.jobName);
+      this.jobRoute = decodeURIComponent(params.jobName);
   });
   }
 
