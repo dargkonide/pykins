@@ -132,7 +132,12 @@ class SimpleEcho(WebSocket):
                 self.xsend_xall({'type':'getVars','vars':job['vars']})
 
             if msg.get('type')=="jobs":
-                jobs=[{'name':k,'status':v['status']} for k,v in self.gdata['x']['jobs'].items()]
+                jobs=[{'name':k } for k,v in self.gdata['x']['jobs'].items()]
+                for job in jobs:
+                    history=self.gdata['x']['jobs'][job['name']]['history']
+                    if history:
+                        job.update(history[max(history.keys())])
+                print(self.gdata['x']['scheduler'])
                 self.xsend({'type':'jobs','msg':jobs})
 
             if msg.get('type')=="job":
@@ -165,9 +170,14 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="delete":
                 self.gdata['x']['jobs'].pop(msg['name'])
 
+# TODO: Подписка на обновление шедулера
             if msg.get('type')=="history":
                 job=self.gdata['x']['jobs'].get(msg['name'])
                 history=[{'id':k,'status':v['status'],'start':v['start'],'end':v.get('end',''),'delta':v.get('delta','')} for k,v in job['history'].items()]
+                for k in self.gdata['x']['scheduler']:
+                    if k['name'] == msg['name']:
+                        history.append({'id':k['id'],'status':'sheduled','start':iso(k['start']),'end':iso(k['end'])})
+                print(history)
                 self.xsend({'type':'history','msg':history})
                 self.gdata['imports']['executor'].qhistory.setdefault(msg['name'],[]).append(self)
         except:

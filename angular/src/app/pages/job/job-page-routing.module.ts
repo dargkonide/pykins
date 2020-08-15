@@ -14,7 +14,7 @@ const routes: Routes = [{
     {path: 'build', component: BuildComponent},
     {path: 'history', loadChildren: () => import('./pages/history/history.module').then(m => m.HistoryModule) },
 
-    { path: '**', redirectTo: '' },
+    { path: '**', redirectTo: 'history' },
 
   ]
  }];

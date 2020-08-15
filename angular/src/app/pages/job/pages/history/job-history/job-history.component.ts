@@ -7,7 +7,7 @@ import {ThemePalette} from '@angular/material/core';
   styleUrls: ['./job-history.component.scss']
 })
 export class JobHistoryComponent implements OnInit {
-  links = ['logs'];
+  links = ['logs', 'vars', 'stages'];
   activeLink = 'logs';
   background: ThemePalette = undefined;
 

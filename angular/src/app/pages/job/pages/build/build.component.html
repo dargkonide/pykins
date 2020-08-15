@@ -17,7 +17,7 @@
             <div *ngIf="item.type=='select'">
                 <mat-form-field appearance="fill">
                     <mat-label>{{item.name}}</mat-label>
-                    <mat-select [(ngModel)]="item.select">
+                    <mat-select [(ngModel)]="item.select" [(value)]="item.select">
                       <mat-option *ngFor="let value of item.value" [value]="value">
                         {{value}}
                       </mat-option>
@@ -27,7 +27,7 @@
             <div *ngIf="item.type=='multiselect'">
                 <mat-form-field appearance="fill">
                     <mat-label>{{item.name}}</mat-label>
-                    <mat-select [(ngModel)]="item.selected" multiple>
+                    <mat-select [(ngModel)]="item.selected" multiple [(value)]="item.select">
                       <mat-option *ngFor="let value of item.value" [value]="value">{{value}}</mat-option>
                     </mat-select>
                 </mat-form-field>

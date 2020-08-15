@@ -6,11 +6,12 @@ import { MaterialModule} from '../../../../../util/material/material.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { FormsModule } from '@angular/forms';
 import {JobsRoutingModule} from './jobs-history-routing.module';
+import { StagesComponent } from './stages/stages.component';
 
 
 
 @NgModule({
-  declarations: [LogsComponent],
+  declarations: [LogsComponent, StagesComponent],
   imports: [
     CommonModule,
     JobsRoutingModule,

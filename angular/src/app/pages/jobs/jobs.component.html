@@ -7,11 +7,16 @@
                             let odd = odd;"
                             class=""  [class.example-alternate]="odd"
                             [routerLink]="['/jobs/', item.name]">
-          <td style="width: 100px" *ngIf="item.status == 'running'"><mat-spinner [diameter]="20" ></mat-spinner></td>
-          <td style="width: 100px" *ngIf="item.status == 'success'"><mat-icon class="success" >check_circle</mat-icon></td>
-          <td style="width: 100px" *ngIf="item.status == 'failed'"><mat-icon class="failed" >report</mat-icon></td>
+          <td>
+            <mat-spinner [diameter]="20" *ngIf="item.status == 'running'"></mat-spinner>
+            <mat-icon class="success" *ngIf="item.status == 'success'">check_circle</mat-icon>
+            <mat-icon class="failed" *ngIf="item.status == 'failed'">report</mat-icon>
+            <mat-icon  *ngIf="!item.status">info</mat-icon>
+          </td>
           <td>{{item.name}}</td>
-          <td>{{item.status}}</td>
+          <td>Start time: {{item.start}}</td>
+          <td>End time: {{item.end}}</td>
+          <td>Duration: {{item.delta}}</td>
           <td><button mat-raised-button [routerLink]="['/jobs/', item.name, 'build']">Build</button></td>
         </tr>
       </tbody>
