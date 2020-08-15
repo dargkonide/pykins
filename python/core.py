@@ -6,6 +6,11 @@ from queue import Queue
 from time import time
 from os import listdir
 
+import os
+
+target_path=os.path.abspath(dirname(__file__))
+os.chdir(target_path)
+
 # TODO: 'servers':['artem_pc', 'ilya_pc'], 'master':'artem_pc' - add property and change this overlap setup
 imports={}
 data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[],'x':{
@@ -26,7 +31,7 @@ tcount={'executor':100}
 
 filtr=['simple_websocket_server','core']
 
-for n in listdir(dirname(__file__)):
+for n in listdir(target_path):
     if n[-3:]=='.py' and not n[:-3] in filtr and not imports.get(n[:-3]):
         n=n[:-3]
         print(n)
