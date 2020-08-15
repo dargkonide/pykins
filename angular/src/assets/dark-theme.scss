@@ -51,6 +51,12 @@ mat-ink-bar{
 ::-webkit-scrollbar {
   display: none !important;
 }
+.success{
+  color: #ffd740;
+}
+.failed{
+  color: #D52A1D;
+}
 
 $candy-app-primary: mat-palette($mat-grey);
 $candy-app-accent:  mat-palette($mat-amber, A200, A100, A400);
