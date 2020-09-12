@@ -35,7 +35,7 @@ export class WebSocketService {
   currentJob$: Observable<JobInfo>;
 
   constructor() {
-    this.ws = webSocket('ws:/127.0.0.1:5123'); // 95.24.211.79
+    this.ws = webSocket('ws:/127.0.0.1:5124'); // 95.24.211.79
     this.ws.subscribe();
   }
 
@@ -60,6 +60,9 @@ export class WebSocketService {
         errors.pipe(
           tap(err => {
             console.error('Got error for subscribe: ', subscribeType, err);
+            // this.ws.unsubscribe();
+            this.ws = webSocket('ws:/127.0.0.1:5124'); // 95.24.211.79
+            this.ws.subscribe();
           }),
           delay(1000)
         )

@@ -4,12 +4,13 @@ from datetime import datetime
 from exe.mysql import *
 
 
-controllers=['tvsi-erib0031']
+controllers=['tvsi-erib0032']
 
 controller_path={}
 controller_path["tksi-erib0108"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
 controller_path["tvsi-erib0021"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
 controller_path["tvsi-erib0031"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
+controller_path["tvsi-erib0032"]="C:\\hp\\hppch\\bin\\Wlrun.exe"
 
 
 get(f'https://tvsi-erib0054:8123/properties?run=803&stend={stend}',auth=('eriblt','1qaz@WSX'),verify=False)#Подготовка бд
@@ -126,4 +127,7 @@ with node(controller):
     wl_path=controller_path[controller]
     output=popen(f"""taskkill /f /t /im wlrun.exe""").read()
     output=popen(f"""python //TVSI-ERIB0054/auto/full_control/core.py \"{wl_path}\" {test_id}""").read()
-    print(output.encode('utf-8').decode('cp1251'))
+    print(output.encode('cp1251').decode('utf-8'))
+
+with connect() as con:
+    insert(con,"update eriblt_reestr_tests.tests_registry set end_time=%s where id=%s",[[datetime.now(),test_id]])
