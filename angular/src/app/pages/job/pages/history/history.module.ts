@@ -18,7 +18,8 @@ import {JobsRoutingModule} from './job-history/jobs-history-routing.module';
     MaterialModule,
     FormsModule,
     MonacoEditorModule,
-    JobsRoutingModule
+    JobsRoutingModule,
+    
   ]
 })
 export class HistoryModule { }

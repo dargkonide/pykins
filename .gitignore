@@ -9,6 +9,14 @@ bazel-out
 
 # dependencies
 node_modules
+.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
 
 # profiling files
 chrome-profiler-events*.json
@@ -40,6 +48,15 @@ npm-debug.log
 yarn-error.log
 testem.log
 typings
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # System Files
 .DS_Store

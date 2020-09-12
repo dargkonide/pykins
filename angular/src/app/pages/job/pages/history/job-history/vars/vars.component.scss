@@ -1,0 +1,29 @@
+.build {
+    display: flex;
+    min-height: 100%;
+    //font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 12px;
+  }
+  
+  .variables {
+    width: 200px;
+    line-height: 1.5;
+    //background: #eaf9ff;
+    //border-right: 1px solid #d3e2e8;
+  }
+  
+  .calendar {
+    flex-grow: 1;
+    //padding-left: 3em;
+    margin-left: 1em;
+    background-color: #fafafa;
+    color: #121212;
+  }
+  
+  .fc { /* the calendar root */
+    max-width: 2100px;
+    height: calc(100vh - 170px);
+    margin: 0 auto;
+  }
+  
+  
