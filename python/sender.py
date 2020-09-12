@@ -12,7 +12,7 @@ def work(data):
     while 1:
         try:
             host,msg=data['send'].get()
-            ip=data['x']['host'].get(host)
+            ip=data['x']['host'].get(host.split('.')[0])
             z=data['connects'].get(ip)
             if not z:
                 print(f"Node {host} is offline, waiting ...")

@@ -1,4 +1,4 @@
-from socket import socket,AF_INET,SOCK_STREAM,gethostbyname,gethostname
+from socket import socket,AF_INET,SOCK_STREAM,gethostbyname,gethostname,SOL_SOCKET,SO_REUSEADDR
 from threading import Thread,Lock
 from time import sleep
 
@@ -9,7 +9,8 @@ import traceback
 
 xlock=Lock()
 s=socket(AF_INET,SOCK_STREAM)
-s.bind(('',5032))
+s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+s.bind(('',5132))
 s.listen(10)
 
 def acceptor(data):
@@ -52,7 +53,8 @@ def work(data):
                 if not data['connects'].get(n):
                     try:
                         s=socket(AF_INET,SOCK_STREAM)
-                        s.connect((n,5032))
+                        s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+                        s.connect((n,5132))
                         send(s,data['host'])
                         data['connects'].setdefault(n,[]).append(s)
                         print(f'{ips[n].split(".")[0]} c connected')

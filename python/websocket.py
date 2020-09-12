@@ -15,7 +15,7 @@ class SimpleEcho(WebSocket):
 
     def xsend(self,msg):
         self.send_message(dumps(msg))
-        print(f"Send: {msg}")
+        # print(f"Send: {msg}")
 
     def xsend_all(self,msg):
         for n in clients:
@@ -51,6 +51,19 @@ class SimpleEcho(WebSocket):
             })
         return events
 
+    def get_event_integration(self,name):
+        events=[]
+        for n in self.gdata['x']['scheduler']:
+            if n['name']==name:
+                events.append({
+                    'id':n['id'],
+                    'title':f"#{n['id']} {n['name']}",
+                    'start':iso(n['start']),
+                    'end':iso(n['end']),
+                    'vars':n['vars']
+                })
+        return events
+
     def handle(self):
         try:
             msg=loads(self.data)
@@ -65,11 +78,15 @@ class SimpleEcho(WebSocket):
                     self.gdata['imports']['logs'].qsend.setdefault(self.lastname_run_id,[]).remove(self)
                     
 
-            if msg.get('type')=="scheds":
-                self.send_message(self.gdata['x']['scheduler'])
+            if msg.get('type')=="get_schedule_integrations":
+                self.xsend(self.get_event_integration('start_scenario'))
 
-            if msg.get('type')=="schedule":
-                self.gdata['x']['scheduler'].append({'time':msg['time'],'name':msg['name'],'vars':msg['vars']})
+            if msg.get('type')=="set_schedule_integrations":
+                job=self.gdata['x']['jobs'].get('start_scenario')
+                run_id=str(job['last_build_id'])
+                job['last_build_id']+=1
+                self.gdata['x']['scheduler'].append({'id':run_id,'start':tsp(msg['start']),'end':tsp(msg['end']),'name':'start_scenario','vars':msg['vars']})
+                self.xsend_all({'type':'get_schedule','events':self.get_events('start_scenario')})
 
             if msg.get('type')=="get_schedule":
                 # TODO: n['date']
@@ -83,7 +100,16 @@ class SimpleEcho(WebSocket):
                 job=self.gdata['x']['jobs'].get(msg['name'])
                 run_id=str(job['last_build_id'])
                 job['last_build_id']+=1
-                job_vars={n['name']:n.get('select') or n.get('selected') or n['value'] for n in msg['vars']}
+
+                job_vars={}
+                for n in msg['vars']:
+                    if n.get('select') is not None:
+                        job_vars[n['name']]=n.get('select')
+                    elif n.get('selected') is not None:
+                        job_vars[n['name']]=n.get('selected')
+                    else: 
+                        job_vars[n['name']]=n['value'] 
+
                 scheduler=self.gdata['x']['scheduler']
                 scheduler.append({'id':run_id,'start':tsp(msg['start']),'end':tsp(msg['end']),'name':msg['name'],'vars':job_vars})
                 self.xsend_all({'type':'get_schedule','events':self.get_events(msg['name'])})
@@ -136,7 +162,7 @@ class SimpleEcho(WebSocket):
                 for job in jobs:
                     history=self.gdata['x']['jobs'][job['name']]['history']
                     if history:
-                        job.update(history[max(history.keys())])
+                        job.update(history[str(max(int(n) for n in history.keys()))])
                 print(self.gdata['x']['scheduler'])
                 self.xsend({'type':'jobs','msg':jobs})
 
@@ -161,7 +187,7 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="build":
                 self.lastname=msg['name']
                 job=self.gdata['x']['jobs'].get(msg['name']).copy()
-                job_vars=self.gdata['imports']['executor'].run(job['vars'],self.gdata,{},-1,msg['name'])
+                job_vars=self.gdata['imports']['executor'].process.run(job['vars'],self.gdata,{},-1,msg['name'])
                 job_vars.pop('run_id')
                 job_vars.pop('job_name')
                 job_vars=[{'name':k,'value':v,'type':tiper.get(type(v),'xzchto')} for k,v in job_vars.items()]
@@ -173,7 +199,7 @@ class SimpleEcho(WebSocket):
 # TODO: Подписка на обновление шедулера
             if msg.get('type')=="history":
                 job=self.gdata['x']['jobs'].get(msg['name'])
-                history=[{'id':k,'status':v['status'],'start':v['start'],'end':v.get('end',''),'delta':v.get('delta','')} for k,v in job['history'].items()]
+                history=[{'id':k,'status':v['status'],'start':v.get('start',''),'end':v.get('end',''),'delta':v.get('delta','')} for k,v in job['history'].items()]
                 for k in self.gdata['x']['scheduler']:
                     if k['name'] == msg['name']:
                         history.append({'id':k['id'],'status':'sheduled','start':iso(k['start']),'end':iso(k['end'])})
@@ -195,6 +221,6 @@ class SimpleEcho(WebSocket):
 
 clients=[]
 def work(data):
-    server = WebSocketServer('0.0.0.0', 5123, SimpleEcho, data)
+    server = WebSocketServer('0.0.0.0', 5124, SimpleEcho, data)
     server.serve_forever()
 
