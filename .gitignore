@@ -8,6 +8,10 @@ out-tsc
 bazel-out
 
 # dependencies
+lib
+lib64
+share
+bin
 node_modules
 .pnp
 .pnp.js
@@ -49,6 +53,7 @@ yarn-error.log
 testem.log
 typings
 
+pyvenv.cfg
 .env.local
 .env.development.local
 .env.test.local
