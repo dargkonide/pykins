@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 
@@ -7,7 +7,7 @@ import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.se
   templateUrl: './hosts.component.html',
   styleUrls: ['./hosts.component.scss']
 })
-export class HostsComponent implements OnInit, OnDestroy {
+export class HostsComponent implements OnInit {
 
   hosts$: Observable<any>;
   hostsSub;
@@ -18,13 +18,6 @@ export class HostsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.hosts$ = this.webSocketService.getObservable( {type: 'hosts'} );
-    this.hostsSub = this.hosts$.subscribe(
-      m => console.log(m)
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.hostsSub.unsubscribe();
   }
 
 }
