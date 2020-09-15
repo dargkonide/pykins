@@ -6,6 +6,11 @@ import { delayWhen, retryWhen, tap } from 'rxjs/operators';
 const IP: string = 'ws:/127.0.0.1:5124'; // 95.24.211.79
 const RECONNECT_DELAY_SEC: number = 5;
 
+export interface subscribeType{
+  type: string
+  [propName: string]: any;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +37,7 @@ export class WebSocketService {
     console.debug('Send message: \n', message);
   }
 
-  getObservable(subscribeType: { type: string }): Observable<any> {
+  getObservable(subscribeType: subscribeType): Observable<any> {
     return this.ws
       .multiplex(
         () => {

@@ -1,8 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 import { Observable } from 'rxjs';
-import { JobList} from 'src/app/pages/jobs/interfaces/IJobsList';
 import { interval } from 'rxjs';
+
+export interface IJobList{
+  msg: IJob[]
+}
+export interface IJob{
+  name: string;
+  status: string;
+}
+
 
 @Component({
   selector: 'app-jobs',
@@ -12,7 +20,7 @@ import { interval } from 'rxjs';
 })
 export class JobsComponent implements OnInit {
 
-  jobList$: Observable<JobList>;
+  jobList$: Observable<IJobList>;
 
   seconds = interval(1000);
 

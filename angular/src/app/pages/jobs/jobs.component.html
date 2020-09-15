@@ -1,8 +1,8 @@
 <ng-container class="container-table100">
-  <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as joblist" itemSize="22">
+  <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as jobList" itemSize="22">
     <table class="">
       <tbody class="table100-body">
-        <tr *cdkVirtualFor="let item of joblist.msg,
+        <tr *cdkVirtualFor="let item of jobList.msg,
                             let index = index;
                             let odd = odd;"
                             class=""  [class.example-alternate]="odd"

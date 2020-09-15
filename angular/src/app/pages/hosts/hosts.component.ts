@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Hosts, WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
+import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
 
 @Component({
   selector: 'app-hosts',
@@ -9,7 +9,7 @@ import { Hosts, WebSocketService } from 'src/app/core/services/web-socket/web-so
 })
 export class HostsComponent implements OnInit, OnDestroy {
 
-  hosts$: Observable<Hosts>;
+  hosts$: Observable<any>;
   hostsSub;
 
   constructor(
