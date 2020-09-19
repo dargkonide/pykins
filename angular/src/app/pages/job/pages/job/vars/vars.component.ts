@@ -6,31 +6,36 @@ import { JobComponent } from '../job.component';
 @Component({
   selector: 'app-vars',
   templateUrl: './vars.component.html',
-  styleUrls: ['./vars.component.scss']
+  styleUrls: ['./vars.component.scss'],
 })
 export class VarsComponent implements OnInit, OnDestroy {
-
   // https://www.npmjs.com/package/ngx-monaco-editor
-  editorOptions = { theme: 'vs-dark', language: 'python', automaticLayout: true, forceMoveMarkers: false };
+  editorOptions = {
+    theme: 'vs-dark',
+    language: 'python',
+    automaticLayout: true,
+    forceMoveMarkers: false,
+  };
   jobVars;
   jobVarsSub;
-
 
   constructor(
     public webSocketService: WebSocketService,
     public jobService: JobService,
-    public jobComponent: JobComponent,
-  ) { }
+    public jobComponent: JobComponent
+  ) {
+    this.webSocketService.connect()
+  }
 
   ngOnInit(): void {
     this.jobService.jobPath = 'vars';
     this.jobComponent.activeLink = 'vars';
-    this.jobVarsSub = this.webSocketService.getObservable({
-      type: 'getVars',
-      name: this.jobService.jobRoute
-    }).subscribe(
-      m => this.jobVars = m.vars
-    );
+    this.jobVarsSub = this.webSocketService
+      .getObservable({
+        type: 'getVars',
+        name: this.jobService.jobRoute,
+      })
+      .subscribe((m) => (this.jobVars = m.vars));
   }
 
   ngOnDestroy(): void {
@@ -44,5 +49,4 @@ export class VarsComponent implements OnInit, OnDestroy {
       vars: this.jobVars,
     });
   }
-
 }

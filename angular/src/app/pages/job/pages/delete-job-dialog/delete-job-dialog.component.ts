@@ -5,19 +5,19 @@ import { JobService } from '../../service/job.service';
 @Component({
   selector: 'app-delete-job-dialog',
   templateUrl: './delete-job-dialog.component.html',
-  styleUrls: ['./delete-job-dialog.component.scss']
+  styleUrls: ['./delete-job-dialog.component.scss'],
 })
 export class DeleteJobDialogComponent implements OnInit {
-
   constructor(
     public jobService: JobService,
-    public webSocketService: WebSocketService,
-  ) { }
-
-  ngOnInit(): void {
+    public webSocketService: WebSocketService
+  ) {
+    this.webSocketService.connect();
   }
 
-  deleteJob(){
+  ngOnInit(): void {}
+
+  deleteJob() {
     this.webSocketService.sendMessage({
       type: 'delete',
       name: this.jobService.jobRoute,

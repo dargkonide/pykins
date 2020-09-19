@@ -1,7 +1,12 @@
-
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
-import { FullCalendarComponent, CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
+import {
+  FullCalendarComponent,
+  CalendarOptions,
+  DateSelectArg,
+  EventClickArg,
+  EventApi,
+} from '@fullcalendar/angular';
 import { formatDate } from '@angular/common';
 import { EventDropArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 import { JobService } from 'src/app/pages/job/service/job.service';
@@ -9,11 +14,9 @@ import { JobService } from 'src/app/pages/job/service/job.service';
 @Component({
   selector: 'app-vars',
   templateUrl: './vars.component.html',
-  styleUrls: ['./vars.component.scss']
+  styleUrls: ['./vars.component.scss'],
 })
 export class VarsComponent implements OnInit {
-
-
   varsSub;
   vars;
   currentEventsSub;
@@ -30,7 +33,7 @@ export class VarsComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'timeGridWeek,timeGridDay'
+      right: 'timeGridWeek,timeGridDay',
     },
     locale: 'ru',
     selectable: true,
@@ -42,7 +45,7 @@ export class VarsComponent implements OnInit {
     eventResize: this.handleEventResize.bind(this),
     datesSet: this.handleEvents.bind(this),
     events: this.currentEvents,
-    height: 'parent'
+    height: 'parent',
   };
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
@@ -50,7 +53,9 @@ export class VarsComponent implements OnInit {
   constructor(
     private webSocketService: WebSocketService,
     private jobService: JobService
-  ) { }
+  ) {
+    this.webSocketService.connect();
+  }
 
   // handleDateSelect(selectInfo: DateSelectArg) {
   //   const calendarApi = selectInfo.view.calendar;
@@ -72,7 +77,7 @@ export class VarsComponent implements OnInit {
       id: dropInfo.event.id,
       start: dropInfo.event.startStr,
       end: dropInfo.event.endStr,
-      allDay: dropInfo.event.allDay
+      allDay: dropInfo.event.allDay,
     });
   }
 
@@ -83,17 +88,21 @@ export class VarsComponent implements OnInit {
       id: resizeInfo.event.id,
       start: resizeInfo.event.startStr,
       end: resizeInfo.event.endStr,
-      allDay: resizeInfo.event.allDay
+      allDay: resizeInfo.event.allDay,
     });
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+    if (
+      confirm(
+        `Are you sure you want to delete the event '${clickInfo.event.title}'`
+      )
+    ) {
       // clickInfo.event.remove();
       this.webSocketService.sendMessage({
         type: 'schedule_delete',
         name: this.jobService.jobRoute,
-        id: clickInfo.event.id
+        id: clickInfo.event.id,
       });
     }
   }
@@ -103,23 +112,31 @@ export class VarsComponent implements OnInit {
       this.currentEventsSub.unsubscribe();
     }
 
-    this.currentEventsSub = this.webSocketService.getObservable({
-      type: 'get_schedule',
-      name: this.jobService.jobRoute,
-      date: formatDate(this.calendarComponent.getApi().getDate(), 'yyyy-MM-ddThh:mm:ssZZZZZ', 'en')
-    }).subscribe(m => {this.calendarOptions.events = m.events; });
+    this.currentEventsSub = this.webSocketService
+      .getObservable({
+        type: 'get_schedule',
+        name: this.jobService.jobRoute,
+        date: formatDate(
+          this.calendarComponent.getApi().getDate(),
+          'yyyy-MM-ddThh:mm:ssZZZZZ',
+          'en'
+        ),
+      })
+      .subscribe((m) => {
+        this.calendarOptions.events = m.events;
+      });
   }
 
   ngOnInit(): void {
-    this.varsSub = this.webSocketService.getObservable({
-      type: 'build',
-      name: this.jobService.jobRoute
-    }).subscribe(
-      m => {
+    this.varsSub = this.webSocketService
+      .getObservable({
+        type: 'build',
+        name: this.jobService.jobRoute,
+      })
+      .subscribe((m) => {
         this.vars = m.msg;
         console.log(m);
-      }
-    );
+      });
   }
 
   ngOnDestroy(): void {
@@ -127,11 +144,11 @@ export class VarsComponent implements OnInit {
     this.currentEventsSub.unsubscribe();
   }
 
-  runJob(){
+  runJob() {
     this.webSocketService.sendMessage({
       type: 'change',
       name: this.jobService.jobRoute,
-      vars: this.vars
+      vars: this.vars,
     });
   }
 }

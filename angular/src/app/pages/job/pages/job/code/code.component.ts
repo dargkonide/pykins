@@ -6,34 +6,36 @@ import { JobComponent } from '../job.component';
 @Component({
   selector: 'app-code',
   templateUrl: './code.component.html',
-  styleUrls: ['./code.component.scss']
+  styleUrls: ['./code.component.scss'],
 })
 export class CodeComponent implements OnInit, OnDestroy {
-
   // https://www.npmjs.com/package/ngx-monaco-editor
-  editorOptions = { theme: 'vs-dark',
+  editorOptions = {
+    theme: 'vs-dark',
     language: 'python',
     automaticLayout: true,
-    forceMoveMarkers: false};
+    forceMoveMarkers: false,
+  };
   jobCodeSub;
   jobCode;
 
   constructor(
     public webSocketService: WebSocketService,
     public jobService: JobService,
-    public jobComponent: JobComponent,
-  ) { }
+    public jobComponent: JobComponent
+  ) {
+    this.webSocketService.connect();
+  }
 
   ngOnInit(): void {
     this.jobService.jobPath = 'code';
     this.jobComponent.activeLink = 'code';
-    this.jobCodeSub = this.webSocketService.getObservable({
-      type: 'getCode',
-      name: this.jobService.jobRoute
-    }).subscribe(
-      m => this.jobCode = m.code
-    );
-
+    this.jobCodeSub = this.webSocketService
+      .getObservable({
+        type: 'getCode',
+        name: this.jobService.jobRoute,
+      })
+      .subscribe((m) => (this.jobCode = m.code));
   }
 
   ngOnDestroy(): void {
@@ -47,5 +49,4 @@ export class CodeComponent implements OnInit, OnDestroy {
       code: this.jobCode,
     });
   }
-
 }

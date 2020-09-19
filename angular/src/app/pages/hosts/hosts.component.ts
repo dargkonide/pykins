@@ -5,19 +5,17 @@ import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.se
 @Component({
   selector: 'app-hosts',
   templateUrl: './hosts.component.html',
-  styleUrls: ['./hosts.component.scss']
+  styleUrls: ['./hosts.component.scss'],
 })
 export class HostsComponent implements OnInit {
-
   hosts$: Observable<any>;
   hostsSub;
 
-  constructor(
-    private webSocketService: WebSocketService
-  ) { }
-
-  ngOnInit(): void {
-    this.hosts$ = this.webSocketService.getObservable( {type: 'hosts'} );
+  constructor(private webSocketService: WebSocketService) {
+    this.webSocketService.connect();
   }
 
+  ngOnInit(): void {
+    this.hosts$ = this.webSocketService.getObservable({ type: 'hosts' });
+  }
 }

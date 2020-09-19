@@ -1,83 +1,114 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import {delay, delayWhen, retryWhen, tap} from 'rxjs/operators';
-import {ActivatedRoute, Router} from '@angular/router';
+import { delayWhen, retryWhen, tap } from 'rxjs/operators';
 
-const IP = 'ws:/127.0.0.1:5124'; // 95.24.211.79
-const RECONNECT_DELAY_SEC = 5;
-
-export interface subscribeType{
+export interface Protocol {
   type: string;
-  [propName: string]: any;
+  [params: string]: any;
 }
+
+const CONN_STR: string = 'ws:/127.0.0.1:5124'; // 95.24.211.79
+const RECONNECT_DELAY_SEC: number = 5;
 
 @Injectable({
   providedIn: 'root',
 })
 export class WebSocketService {
-  ws: WebSocketSubject<any>;
+  ws$: WebSocketSubject<any>;
+  wsSub: Subscription;
+  currentJob$: Observable<any>;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute) {
+  constructor() {
+    this.connect();
+  }
+  connect(): void {
     // https://rxjs-dev.firebaseapp.com/api/webSocket/webSocket
-    // https://rxjs-dev.firebaseapp.com/api/webSocket/WebSocketSubjectConfig
-    this.ws = webSocket({
-      url: IP,
-      openObserver: {
-        next: () => {
-          console.log(`WebSocket '${IP}' connected.`);
+    if (!this.ws$ || this.ws$.closed) {
+      this.ws$ = webSocket({
+        url: CONN_STR,
+        openObserver: {
+          next: (Event) => {
+            console.debug(`WebSocket '${CONN_STR}' connected. \n`, Event);
+          },
         },
-      },
-    });
-    this.ws.subscribe();
+        closeObserver: {
+          next: (closeEvent) => {
+            console.debug(
+              `WebSocket '${CONN_STR}' disconnected. \n`,
+              closeEvent
+            );
+          },
+        },
+        closingObserver: {
+          next: (ss) => {
+            console.log(`WebSocket '${CONN_STR}' closing Observer. \n`, ss);
+          },
+        },
+      });
+      // need for 1 connect on all session, without this all pages will reconnect per request
+      this.wsSub = this.ws$
+        .pipe(
+          // https://www.learnrxjs.io/learn-rxjs/operators/error_handling/retrywhen
+          retryWhen((errors) =>
+            errors.pipe(
+              //log error message
+              tap(() =>
+                console.debug(`WebSocket '${CONN_STR}' trying reconnect`)
+              ),
+              //restart in 5 seconds
+              delayWhen(() => timer(RECONNECT_DELAY_SEC * 1000))
+            )
+          )
+        )
+        .subscribe();
+    }
+  }
+  disconnect(): void {
+    this.wsSub.unsubscribe();
+    this.ws$.complete();
+    this.ws$ = null;
   }
 
-  sendMessage(message) {
-    this.ws.next(message);
-    console.log('Send message: \n', message);
+  sendMessage(message: Protocol) {
+    this.ws$.next(message);
+    console.debug('Send message: \n', message);
   }
-
-  getObservable(subscribeType): Observable<any> {
-    return this.ws
+  getObservable(subscribeType: Protocol): Observable<Protocol> {
+    return this.ws$
       .multiplex(
         () => {
-          console.log('Try sub: \n', subscribeType);
+          console.debug(`Subscribe to type '${subscribeType.type}'.`);
           return subscribeType;
         },
         () => {
-          console.log('Unsub: \n', subscribeType);
-
+          console.debug(`Unsubscribe to type '${subscribeType.type}'.`);
           return { type: 'unsubscribe', msg: subscribeType.type };
         },
         (message: { type: string }) => {
           if (message.type === subscribeType.type) {
-            console.log('Subbed: \n', subscribeType);
+            console.debug(
+              `Get msg for type '${subscribeType.type}'. \n`,
+              message
+            );
+            return true;
+          } else {
+            return false;
           }
-          return message.type === subscribeType.type;
         }
       )
       .pipe(
         // https://www.learnrxjs.io/learn-rxjs/operators/error_handling/retrywhen
         retryWhen((errors) =>
           errors.pipe(
-            // log error message
-            tap(() => {
-              this.ws.unsubscribe();
-              this.ws = webSocket({
-                url: IP,
-                openObserver: {
-                  next: () => {
-                    console.log(`WebSocket '${IP}' connected.`);
-                  },
-                },
-              });
-              this.ws.subscribe();
-              if (this.router.url==='/jobs') this.router.navigate(['/hosts'])
-              else this.router.navigate(['/jobs'])
-              }),
-            // restart in 5 seconds
-              delayWhen(() => timer(RECONNECT_DELAY_SEC * 1000))
+            //log error message
+            tap(() =>
+              console.debug(
+                `WebSocket '${CONN_STR}' trying reconnect for type '${subscribeType.type}'`
+              )
+            ),
+            //restart in 5 seconds
+            delayWhen(() => timer(RECONNECT_DELAY_SEC * 1000))
           )
         )
       );
