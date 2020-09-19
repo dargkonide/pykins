@@ -1,0 +1,42 @@
+<div class='build' style="margin: 2%;">
+  <mat-card>
+    <div class='variables'>
+        <div *ngFor="let item of vars">
+            <div *ngIf="item.type=='string'">
+                <mat-form-field class="form" >
+                    <mat-label>{{item.name}}</mat-label>
+                    <input matInput [(ngModel)]="item.value">
+                </mat-form-field>
+            </div>
+            <div *ngIf="item.type=='checkbox'">
+                <mat-slide-toggle [(ngModel)]="item.value">{{item.name}}</mat-slide-toggle>
+            </div>
+            <div *ngIf="item.type=='select'">
+                <mat-form-field appearance="fill">
+                    <mat-label>{{item.name}}</mat-label>
+                    <mat-select [(ngModel)]="item.select" [(value)]="item.select">
+                      <mat-option *ngFor="let value of item.value" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div *ngIf="item.type=='multiselect'">
+                <mat-form-field appearance="fill">
+                    <mat-label>{{item.name}}</mat-label>
+                    <mat-select [(ngModel)]="item.selected" multiple [(value)]="item.select">
+                      <mat-option *ngFor="let value of item.value" [value]="value">{{value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <button mat-stroked-button (click)="runJob()">Run Job</button>
+    </div>
+  </mat-card>
+  <mat-card class='calendar'>
+    <div >
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </mat-card>
+</div>
+

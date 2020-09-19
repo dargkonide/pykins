@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HostsRoutingModule } from './hosts-routing.module';
 import { HostsComponent } from './hosts.component';
-import { MaterialModule } from 'src/app/util/material/material.module';
+import { ComponentsModule } from 'src/app/components/material.module';
 
 
 @NgModule({
@@ -11,7 +11,7 @@ import { MaterialModule } from 'src/app/util/material/material.module';
   imports: [
     CommonModule,
     HostsRoutingModule,
-    MaterialModule
+    ComponentsModule
   ]
 })
 export class HostsModule { }

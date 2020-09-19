@@ -4,7 +4,7 @@ import {
   EventApi,
   FullCalendarComponent,
 } from '@fullcalendar/angular';
-import { WebSocketService } from '../../core/services/web-socket/web-socket.service';
+import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 import { formatDate } from '@angular/common';
 
 @Component({

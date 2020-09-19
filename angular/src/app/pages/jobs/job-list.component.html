@@ -1,0 +1,26 @@
+<ng-container>
+  <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as jobList" itemSize="22">
+    <table>
+      <tbody>
+        <tr *cdkVirtualFor="let item of jobList.msg,
+                            let index = index;
+                            let odd = odd;"
+                            [routerLink]="['/jobs/', item.name]"
+        >
+          <td>
+            <mat-spinner [diameter]="20" *ngIf="item.status == 'running'"></mat-spinner>
+            <mat-icon class="success" *ngIf="item.status == 'success'">check_circle</mat-icon>
+            <mat-icon class="failed" *ngIf="item.status == 'failed'">report</mat-icon>
+            <mat-icon  *ngIf="!item.status">info</mat-icon>
+          </td>
+
+          <td>{{item.name}}</td>
+          <td>Start time: {{item.start}}</td>
+          <td>End time: {{item.end}}</td>
+          <td>Duration: {{item.delta}}</td>
+          <td><button mat-raised-button [routerLink]="['/jobs/', item.name, 'build']">Build</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </cdk-virtual-scroll-viewport>
+</ng-container>

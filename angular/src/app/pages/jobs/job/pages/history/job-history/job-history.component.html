@@ -1,0 +1,18 @@
+<nav mat-tab-nav-bar [backgroundColor]="background">
+  <button mat-button routerLink="../" class="back-btn">
+    <mat-icon class="mat-accent">navigate_before</mat-icon>
+  </button>
+  <button
+    mat-button
+    mat-tab-link
+    *ngFor="let link of links"
+    [routerLink]="link"
+    (click)="activeLink = link"
+    [active]="activeLink == link"
+  >
+    {{ link }}
+  </button>
+</nav>
+<div>
+  <router-outlet></router-outlet>
+</div>

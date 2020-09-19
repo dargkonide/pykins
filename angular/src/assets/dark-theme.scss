@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -39,40 +39,43 @@ $mat-grey: (
     A200: $dark-primary-text,
     A400: $dark-primary-text,
     A700: $light-primary-text,
-  )
+  ),
 );
 
-mat-ink-bar{
+mat-ink-bar {
   background-color: #ffd740 !important;
 }
-.mat-progress-spinner circle, .mat-spinner circle{
+.mat-progress-spinner circle,
+.mat-spinner circle {
   stroke: #ffd740 !important;
 }
 ::-webkit-scrollbar {
   display: none !important;
 }
-.success{
-  color: #ffd740;
+.success {
+  color: #43a047;
 }
-.failed{
-  color: #D52A1D;
+.failed {
+  color: #d52a1d;
 }
 
 $candy-app-primary: mat-palette($mat-grey);
-$candy-app-accent:  mat-palette($mat-amber, A200, A100, A400);
+$candy-app-accent: mat-palette($mat-amber, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$candy-app-warn:    mat-palette($mat-deep-orange);
+$candy-app-warn: mat-palette($mat-deep-orange);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as `color` or `typography`.
-$candy-app-theme: mat-dark-theme((
-  color: (
-    primary: $candy-app-primary,
-    accent: $candy-app-accent,
-    warn: $candy-app-warn,
+$candy-app-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $candy-app-primary,
+      accent: $candy-app-accent,
+      warn: $candy-app-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

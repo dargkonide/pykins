@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WebSocketService } from 'src/app/core/services/web-socket/web-socket.service';
+import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 
 @Component({
   selector: 'app-hosts',
