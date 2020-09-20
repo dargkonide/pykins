@@ -1,6 +1,6 @@
 <div *ngIf="(jobHistory$ | async) as jobHistory">
     <table>
-            <tr *ngFor="let job of jobHistory.msg.slice().reverse()" [routerLink]="['id', job.id]">
+            <tr *ngFor="let job of jobHistory.msg.slice().reverse()" [routerLink]="['./', job.id]">
                 <mat-card>
                     <td class="status">
                         <mat-spinner [diameter]="20" *ngIf="job.status == 'running'"></mat-spinner>

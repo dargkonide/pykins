@@ -32,14 +32,14 @@ export class LogsComponent implements OnInit, OnDestroy {
     this.jobLogsSub = this.webSocketService
       .getObservable({
         type: 'getLogs',
-        id: location.pathname.split('/')[5],
+        id: location.pathname.split('/')[4],
         name: this.jobService.jobRoute,
       })
       .subscribe((m) => (this.jobLogs = m.logs));
     this.jobLogsUpdateSub = this.webSocketService
       .getObservable({
         type: 'glu',
-        id: location.pathname.split('/')[5],
+        id: location.pathname.split('/')[4],
         name: this.jobService.jobRoute,
       })
       .subscribe((m) => (this.jobLogs = this.jobLogs + '\n' + m.logs));

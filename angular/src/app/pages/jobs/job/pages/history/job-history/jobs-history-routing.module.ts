@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { JobHistoryComponent } from './job-history.component';
 import {LogsComponent} from './logs/logs.component';
-import { StagesComponent } from './stages/stages.component';
 import { VarsComponent } from './vars/vars.component';
 
 const routes: Routes = [{ path: '', component: JobHistoryComponent,
@@ -11,7 +10,6 @@ const routes: Routes = [{ path: '', component: JobHistoryComponent,
     { path: '', redirectTo: 'logs' },
     { path: 'logs', component: LogsComponent },
     { path: 'vars', component: VarsComponent },
-    { path: 'stages', component: StagesComponent },
   ]}];
 
 @NgModule({

@@ -2,9 +2,6 @@
     <mat-card>
       <div class='variables'>
           <div *ngFor="let item of vars">
-              <!-- <p>Type: {{item.type}}</p>
-              <p>Key: {{item.name}}</p>
-              <p>Value: {{item.value}}</p> -->
               <div *ngIf="item.type=='string'">
                   <mat-form-field class="form" >
                       <mat-label>{{item.name}}</mat-label>
@@ -33,14 +30,9 @@
                   </mat-form-field>
               </div>
           </div>
-          <button mat-stroked-button (click)="runJob()">Confirm</button>
+          <button mat-stroked-button (click)="confirm()">Confirm</button>
       </div>
     </mat-card>
-    <!-- <mat-card class='calendar'>
-      <div >
-          <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-      </div>
-    </mat-card> -->
   </div>
   
   

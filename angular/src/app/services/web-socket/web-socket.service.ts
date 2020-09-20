@@ -5,6 +5,7 @@ import { delayWhen, retryWhen, tap } from 'rxjs/operators';
 
 export interface Protocol {
   type: string;
+  msg?: any
   [params: string]: any;
 }
 

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JobsHistoryComponent } from './jobs-history.component';
+import { HistoryListComponent } from './history-list.component';
 
 describe('JobsHistoryComponent', () => {
-  let component: JobsHistoryComponent;
-  let fixture: ComponentFixture<JobsHistoryComponent>;
+  let component: HistoryListComponent;
+  let fixture: ComponentFixture<HistoryListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JobsHistoryComponent ]
+      declarations: [ HistoryListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JobsHistoryComponent);
+    fixture = TestBed.createComponent(HistoryListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
