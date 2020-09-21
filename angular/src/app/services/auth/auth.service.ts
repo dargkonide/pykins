@@ -31,8 +31,7 @@ export class AuthenticationService {
     return this.webSocketService
       .getObservable({ type: 'authenticate', user: username, pass: password })
       .pipe(
-        map((resp) => {
-          console.debug(resp)
+        map((resp: IAuth) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('user', JSON.stringify(resp.msg));
           this.userSubject.next(resp.msg);
