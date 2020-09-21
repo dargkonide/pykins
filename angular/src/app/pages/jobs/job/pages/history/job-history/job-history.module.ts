@@ -20,7 +20,6 @@ import { JobHistoryComponent } from './job-history.component';
     CommonModule,
     JobsRoutingModule,
     ComponentsModule,
-    FormsModule,
     MonacoEditorModule,
     FullCalendarModule,
   ],

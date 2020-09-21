@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/services/auth/AuthGuard ';
 import { HistoryListComponent } from './history-list.component';
 
 const routes: Routes = [
-  { path: '', component: HistoryListComponent },
+  { path: '', canActivate: [AuthGuard], component: HistoryListComponent },
 ];
 
 @NgModule({

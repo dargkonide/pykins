@@ -21,7 +21,6 @@ import { DeleteJobDialogComponent } from './pages/delete-job-dialog/delete-job-d
     CommonModule,
     JobRoutingModule,
     ComponentsModule,
-    FormsModule,
     FullCalendarModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

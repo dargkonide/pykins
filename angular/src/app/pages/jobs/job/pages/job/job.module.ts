@@ -14,7 +14,6 @@ import { VarsComponent } from './vars/vars.component';
     CommonModule,
     JobRoutingModule,
     ComponentsModule,
-    FormsModule,
     MonacoEditorModule,
   ],
 })

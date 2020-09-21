@@ -196,6 +196,11 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="delete":
                 self.gdata['x']['jobs'].pop(msg['name'])
 
+            if msg.get('type')=="authenticate":
+                print(msg)
+                print({'type':'authenticate', 'msg': { 'id':'1', 'username': 'user', 'role':'user' } })
+                self.xsend({'type':'authenticate', 'msg': { 'id':'1', 'username': 'user', 'role':'user' } })
+
 # TODO: Подписка на обновление шедулера
             if msg.get('type')=="history":
                 job=self.gdata['x']['jobs'].get(msg['name'])
