@@ -21,13 +21,21 @@ export interface IJobHistory {
   styleUrls: ['./history-list.component.scss'],
 })
 export class HistoryListComponent implements OnInit {
-  jobHistory$: Observable<IHistoryList>
+  jobHistory$: Observable<IHistoryList>;
 
   constructor(
     private jobService: JobService,
     private webSocketService: WebSocketService
   ) {
-    this.webSocketService.connect();
+    // this.webSocketService.connect();
+  }
+
+  stop(id): void {
+    this.webSocketService.sendMessage({
+      type: 'stop',
+      name: this.jobService.jobRoute,
+      id: id,
+    });
   }
 
   ngOnInit(): void {

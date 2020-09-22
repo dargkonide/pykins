@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { delayWhen, retryWhen, tap } from 'rxjs/operators';
+import {delayWhen, map, retryWhen, tap} from 'rxjs/operators';
+import {IAuth} from '../auth/model/user';
 
 export interface Protocol {
   type: string;
-  msg?: any
+  msg?: any;
   [params: string]: any;
 }
 
-const CONN_STR: string = 'ws:/127.0.0.1:5124'; // 95.24.211.79
-const RECONNECT_DELAY_SEC: number = 5;
+const CONN_STR = 'ws:/127.0.0.1:5124'; // 95.24.211.79
+const RECONNECT_DELAY_SEC = 5;
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,13 @@ export class WebSocketService {
 
   constructor() {
     this.connect();
+    // this.ws$.next(localStorage.getItem('user'));
+  }
+  get_token(): void {
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (user){
+      return user.token;
+    }
   }
   connect(): void {
     // https://rxjs-dev.firebaseapp.com/api/webSocket/webSocket
@@ -30,6 +38,7 @@ export class WebSocketService {
         url: CONN_STR,
         openObserver: {
           next: (Event) => {
+            this.ws$.next({type: 'auth_token', token: this.get_token()});
             console.debug(`WebSocket '${CONN_STR}' connected. \n`, Event);
           },
         },
@@ -53,11 +62,11 @@ export class WebSocketService {
           // https://www.learnrxjs.io/learn-rxjs/operators/error_handling/retrywhen
           retryWhen((errors) =>
             errors.pipe(
-              //log error message
+              // log error message
               tap(() =>
                 console.debug(`WebSocket '${CONN_STR}' trying reconnect`)
               ),
-              //restart in 5 seconds
+              // restart in 5 seconds
               delayWhen(() => timer(RECONNECT_DELAY_SEC * 1000))
             )
           )
@@ -102,13 +111,13 @@ export class WebSocketService {
         // https://www.learnrxjs.io/learn-rxjs/operators/error_handling/retrywhen
         retryWhen((errors) =>
           errors.pipe(
-            //log error message
+            // log error message
             tap(() =>
               console.debug(
                 `WebSocket '${CONN_STR}' trying reconnect for type '${subscribeType.type}'`
               )
             ),
-            //restart in 5 seconds
+            // restart in 5 seconds
             delayWhen(() => timer(RECONNECT_DELAY_SEC * 1000))
           )
         )

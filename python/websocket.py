@@ -67,6 +67,9 @@ class SimpleEcho(WebSocket):
     def handle(self):
         try:
             msg=loads(self.data)
+            if msg.get('type')=="auth_token":
+                print(msg['token'])
+                return
             # print(f"Receive: {msg}")
             if msg.get('type')=="unsubscribe":
                 # print(f"Receive: {msg}")
@@ -198,8 +201,8 @@ class SimpleEcho(WebSocket):
 
             if msg.get('type')=="authenticate":
                 print(msg)
-                print({'type':'authenticate', 'msg': { 'id':'1', 'username': 'user', 'role':'user' } })
-                self.xsend({'type':'authenticate', 'msg': { 'id':'1', 'username': 'user', 'role':'user' } })
+                print({'type':'authenticate', 'msg': { 'id': '1', 'username': 'admin', 'role': 'admin', 'token': 'qwerty'} })
+                self.xsend({'type':'authenticate', 'msg': { 'id': '1', 'username': 'admin', 'role': 'admin', 'token': 'qwerty'} })
 
 # TODO: Подписка на обновление шедулера
             if msg.get('type')=="history":
@@ -211,6 +214,8 @@ class SimpleEcho(WebSocket):
                 print(history)
                 self.xsend({'type':'history','msg':history})
                 self.gdata['imports']['executor'].qhistory.setdefault(msg['name'],[]).append(self)
+            if msg.get('type')=='stop':
+                print(msg)
         except:
             print(self.data)
             traceback.print_exc()
