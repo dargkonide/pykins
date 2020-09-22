@@ -11,7 +11,7 @@
             <mat-spinner [diameter]="20" *ngIf="item.status == 'running'"></mat-spinner>
             <mat-icon class="success" *ngIf="item.status == 'success'">check_circle</mat-icon>
             <mat-icon class="failed" *ngIf="item.status == 'failed'">report</mat-icon>
-            <mat-icon  *ngIf="!item.status">info</mat-icon>
+            <mat-icon  *ngIf="!item.status">new_releases</mat-icon>
           </td>
 
           <td>{{item.name}}</td>
