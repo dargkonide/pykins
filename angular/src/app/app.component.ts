@@ -10,6 +10,5 @@ export class AppComponent {
   title = 'pynkins';
   showRouter = false;
 
-  constructor(public authSocketService: AuthSocketService) {
-  }
+  constructor() {}
 }
