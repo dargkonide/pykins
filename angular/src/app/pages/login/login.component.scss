@@ -3,13 +3,14 @@ mat-card {
   margin: 2em auto;
   text-align: center;
 }
+mat-card-header,
 mat-form-field {
   display: block;
 }
-button{
-    margin-top: 1em;
+button {
+  margin-top: 1em;
 }
-mat-spinner{
-    text-align: center;
-    margin: 0 auto;
+mat-spinner {
+  text-align: center;
+  margin: 0 auto;
 }
