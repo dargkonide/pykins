@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from './services/auth/auth.service';
+import { AuthSocketService } from './services/auth-socket/auth-socket.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,8 @@ import { AuthenticationService } from './services/auth/auth.service';
 })
 export class AppComponent {
   title = 'pynkins';
-  user;
   showRouter = false;
 
-  constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.user.subscribe((user) => (this.user = user));
+  constructor(public authSocketService: AuthSocketService) {
   }
 }

@@ -4,7 +4,7 @@ import { JobService } from './service/job.service';
 
 import { BuildComponent } from './pages/build/build.component';
 import { JobPageComponent } from './job-page.component';
-import { AuthGuard } from 'src/app/services/auth/AuthGuard ';
+import { AuthGuard } from 'src/app/services/auth/AuthGuard';
 
 const routes: Routes = [
   {

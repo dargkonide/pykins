@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 
 @Component({
   selector: 'app-hosts',
@@ -11,11 +11,11 @@ export class HostsComponent implements OnInit {
   hosts$: Observable<any>;
   hostsSub;
 
-  constructor(private webSocketService: WebSocketService) {
-    this.webSocketService.connect();
+  constructor(private authSocketService: AuthSocketService) {
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
-    this.hosts$ = this.webSocketService.getObservable({ type: 'hosts' });
+    this.hosts$ = this.authSocketService.getObservable({ type: 'hosts' });
   }
 }

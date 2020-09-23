@@ -200,9 +200,9 @@ class SimpleEcho(WebSocket):
                 self.gdata['x']['jobs'].pop(msg['name'])
 
             if msg.get('type')=="authenticate":
-                print(msg)
-                print({'type':'authenticate', 'msg': { 'id': '1', 'username': 'admin', 'role': 'admin', 'token': 'qwerty'} })
-                self.xsend({'type':'authenticate', 'msg': { 'id': '1', 'username': 'admin', 'role': 'admin', 'token': 'qwerty'} })
+                # self.xsend({'type':'authenticate', 'msg': { 'id': '1', 'username': 'admin', 'role': 'admin', 'token': 'qwerty'} })
+                self.xsend({'type':'authenticate', 'error': 'user dont exist' })
+
 
 # TODO: Подписка на обновление шедулера
             if msg.get('type')=="history":

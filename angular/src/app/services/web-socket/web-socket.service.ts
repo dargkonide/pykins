@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import {delayWhen, map, retryWhen, tap} from 'rxjs/operators';
-import {IAuth} from '../auth/model/user';
+import { delayWhen, map, retryWhen, tap } from 'rxjs/operators';
+import { IAuth } from '../auth/model/user';
 
 export interface Protocol {
   type: string;
+  token?: string
+  error?: string
   msg?: any;
   [params: string]: any;
 }
@@ -17,19 +19,12 @@ const RECONNECT_DELAY_SEC = 5;
   providedIn: 'root',
 })
 export class WebSocketService {
-  ws$: WebSocketSubject<any>;
-  wsSub: Subscription;
-  currentJob$: Observable<any>;
+  private ws$: WebSocketSubject<any>;
+  private wsSub: Subscription;
+  public currentJob$: Observable<any>;
 
   constructor() {
     this.connect();
-    // this.ws$.next(localStorage.getItem('user'));
-  }
-  get_token(): void {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if (user){
-      return user.token;
-    }
   }
   connect(): void {
     // https://rxjs-dev.firebaseapp.com/api/webSocket/webSocket
@@ -38,7 +33,6 @@ export class WebSocketService {
         url: CONN_STR,
         openObserver: {
           next: (Event) => {
-            this.ws$.next({type: 'auth_token', token: this.get_token()});
             console.debug(`WebSocket '${CONN_STR}' connected. \n`, Event);
           },
         },
@@ -80,7 +74,7 @@ export class WebSocketService {
     this.ws$ = null;
   }
 
-  sendMessage(message: Protocol) {
+  sendMessage(message: Protocol): void {
     this.ws$.next(message);
     console.debug('Send message: \n', message);
   }

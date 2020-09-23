@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { JobService } from '../../service/job.service';
 import {
   FullCalendarComponent,
@@ -51,16 +51,16 @@ export class BuildComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   constructor(
-    private webSocketService: WebSocketService,
+    private authSocketService: AuthSocketService,
     private jobService: JobService
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect(); // clear date selection
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'schedule_select',
       name: this.jobService.jobRoute,
       vars: this.vars,
@@ -71,7 +71,7 @@ export class BuildComponent implements OnInit, OnDestroy {
   }
 
   handleEventDrop(dropInfo: EventDropArg) {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'schedule_move',
       name: this.jobService.jobRoute,
       id: dropInfo.event.id,
@@ -82,7 +82,7 @@ export class BuildComponent implements OnInit, OnDestroy {
   }
 
   handleEventResize(resizeInfo: EventResizeDoneArg) {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'schedule_move',
       name: this.jobService.jobRoute,
       id: resizeInfo.event.id,
@@ -99,7 +99,7 @@ export class BuildComponent implements OnInit, OnDestroy {
       )
     ) {
       // clickInfo.event.remove();
-      this.webSocketService.sendMessage({
+      this.authSocketService.sendMessage({
         type: 'schedule_delete',
         name: this.jobService.jobRoute,
         id: clickInfo.event.id,
@@ -112,7 +112,7 @@ export class BuildComponent implements OnInit, OnDestroy {
       this.currentEventsSub.unsubscribe();
     }
 
-    this.currentEventsSub = this.webSocketService
+    this.currentEventsSub = this.authSocketService
       .getObservable({
         type: 'get_schedule',
         name: this.jobService.jobRoute,
@@ -128,7 +128,7 @@ export class BuildComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.varsSub = this.webSocketService
+    this.varsSub = this.authSocketService
       .getObservable({
         type: 'build',
         name: this.jobService.jobRoute,
@@ -145,7 +145,7 @@ export class BuildComponent implements OnInit, OnDestroy {
   }
 
   runJob() {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'runJob',
       name: this.jobService.jobRoute,
       vars: this.vars,

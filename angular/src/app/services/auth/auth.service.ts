@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { WebSocketService } from '../web-socket/web-socket.service';
@@ -32,10 +32,14 @@ export class AuthenticationService {
       .getObservable({ type: 'authenticate', user: username, pass: password })
       .pipe(
         map((resp: IAuth) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('user', JSON.stringify(resp.msg));
-          this.userSubject.next(resp.msg);
-          return resp.msg;
+          if (resp.error) {
+            throw new Error(resp.error);
+          } else {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(resp.msg));
+            this.userSubject.next(resp.msg);
+            return resp.msg;
+          }
         })
       );
   }

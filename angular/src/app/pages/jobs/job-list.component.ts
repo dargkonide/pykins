@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   Protocol,
-  WebSocketService,
 } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { Observable } from 'rxjs';
 
 export interface IJobList extends Protocol {
@@ -22,11 +22,11 @@ export interface IJob {
 export class JobListComponent implements OnInit {
   jobList$: Observable<IJobList>;
 
-  constructor(private webSocketService: WebSocketService) {
-    this.webSocketService.connect();
+  constructor(private authSocketService: AuthSocketService) {
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
-    this.jobList$ = this.webSocketService.getObservable({ type: 'jobs' });
+    this.jobList$ = this.authSocketService.getObservable({ type: 'jobs' });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { JobService } from '../../../../service/job.service';
 
 @Component({
@@ -22,21 +22,21 @@ export class LogsComponent implements OnInit, OnDestroy {
   jobLogs;
 
   constructor(
-    public webSocketService: WebSocketService,
+    public authSocketService: AuthSocketService,
     public jobService: JobService
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
-    this.jobLogsSub = this.webSocketService
+    this.jobLogsSub = this.authSocketService
       .getObservable({
         type: 'getLogs',
         id: location.pathname.split('/')[4],
         name: this.jobService.jobRoute,
       })
       .subscribe((m) => (this.jobLogs = m.logs));
-    this.jobLogsUpdateSub = this.webSocketService
+    this.jobLogsUpdateSub = this.authSocketService
       .getObservable({
         type: 'glu',
         id: location.pathname.split('/')[4],

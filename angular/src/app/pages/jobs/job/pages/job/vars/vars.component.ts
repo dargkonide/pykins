@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { JobService } from '../../../service/job.service';
 import { JobComponent } from '../job.component';
 
@@ -20,17 +20,17 @@ export class VarsComponent implements OnInit, OnDestroy {
   jobVarsSub;
 
   constructor(
-    public webSocketService: WebSocketService,
+    public authSocketService: AuthSocketService,
     public jobService: JobService,
     public jobComponent: JobComponent
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
     this.jobService.jobPath = 'vars';
     this.jobComponent.activeLink = 'vars';
-    this.jobVarsSub = this.webSocketService
+    this.jobVarsSub = this.authSocketService
       .getObservable({
         type: 'getVars',
         name: this.jobService.jobRoute,
@@ -43,7 +43,7 @@ export class VarsComponent implements OnInit, OnDestroy {
   }
 
   sendChangedVars() {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'setVars',
       name: this.jobService.jobRoute,
       vars: this.jobVars,

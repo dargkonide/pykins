@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { JobService } from '../../service/job.service';
 
 @Component({
@@ -10,15 +10,15 @@ import { JobService } from '../../service/job.service';
 export class DeleteJobDialogComponent implements OnInit {
   constructor(
     public jobService: JobService,
-    public webSocketService: WebSocketService
+    public authSocketService: AuthSocketService
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {}
 
   deleteJob() {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'delete',
       name: this.jobService.jobRoute,
     });

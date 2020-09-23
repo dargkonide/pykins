@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
 import { JobService } from 'src/app/pages/jobs/job/service/job.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 
 @Component({
   selector: 'app-vars',
@@ -12,14 +12,14 @@ export class VarsComponent implements OnInit {
   vars;
 
   constructor(
-    private webSocketService: WebSocketService,
+    private authSocketService: AuthSocketService,
     private jobService: JobService
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
-    this.varsSub = this.webSocketService
+    this.varsSub = this.authSocketService
       .getObservable({
         type: 'build',
         name: this.jobService.jobRoute,
@@ -35,7 +35,7 @@ export class VarsComponent implements OnInit {
   }
 
   confirm() {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'change_vars',
       name: this.jobService.jobRoute,
       id: location.pathname.split('/')[4],

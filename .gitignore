@@ -13,6 +13,8 @@ lib64
 share
 bin
 node_modules
+.yarn
+!.yarn/releases
 .pnp
 .pnp.js
 
@@ -37,7 +39,6 @@ speed-measure-plugin*.json
 
 # IDE - VSCode
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json

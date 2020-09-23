@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Protocol, WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
+import { Protocol } from 'src/app/services/web-socket/web-socket.service';
 import { JobService } from '../../../service/job.service';
 
 
@@ -25,13 +26,13 @@ export class HistoryListComponent implements OnInit {
 
   constructor(
     private jobService: JobService,
-    private webSocketService: WebSocketService
+    private authSocketService: AuthSocketService
   ) {
-    // this.webSocketService.connect();
+    // this.authSocketService.connect();
   }
 
   stop(id): void {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'stop',
       name: this.jobService.jobRoute,
       id: id,
@@ -39,7 +40,7 @@ export class HistoryListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.jobHistory$ = this.webSocketService.getObservable({
+    this.jobHistory$ = this.authSocketService.getObservable({
       type: 'history',
       name: this.jobService.jobRoute,
     });

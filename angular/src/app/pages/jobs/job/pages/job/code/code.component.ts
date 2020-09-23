@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { JobService } from '../../../service/job.service';
 import { JobComponent } from '../job.component';
 
@@ -20,17 +20,17 @@ export class CodeComponent implements OnInit, OnDestroy {
   jobCode;
 
   constructor(
-    public webSocketService: WebSocketService,
+    public authSocketService: AuthSocketService,
     public jobService: JobService,
     public jobComponent: JobComponent
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
     this.jobService.jobPath = 'code';
     this.jobComponent.activeLink = 'code';
-    this.jobCodeSub = this.webSocketService
+    this.jobCodeSub = this.authSocketService
       .getObservable({
         type: 'getCode',
         name: this.jobService.jobRoute,
@@ -43,7 +43,7 @@ export class CodeComponent implements OnInit, OnDestroy {
   }
 
   sendChangedCode() {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'setCode',
       name: this.jobService.jobRoute,
       code: this.jobCode,

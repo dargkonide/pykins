@@ -4,7 +4,7 @@ import {
   EventApi,
   FullCalendarComponent,
 } from '@fullcalendar/angular';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -42,8 +42,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
-  constructor(private webSocketService: WebSocketService) {
-    this.webSocketService.connect();
+  constructor(private authSocketService: AuthSocketService) {
+    this.authSocketService.connect();
   }
 
   handleEvents(events: EventApi[]) {
@@ -51,7 +51,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.currentEventsSub.unsubscribe();
     }
 
-    this.currentEventsSub = this.webSocketService
+    this.currentEventsSub = this.authSocketService
       .getObservable({
         type: 'get_calendar',
         date: formatDate(

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WebSocketService } from 'src/app/services/web-socket/web-socket.service';
+import { AuthSocketService } from 'src/app/services/auth-socket/auth-socket.service';
+
 import { DeleteJobDialogComponent } from './pages/delete-job-dialog/delete-job-dialog.component';
 import { JobService } from './service/job.service';
 
@@ -17,10 +18,10 @@ export class JobPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public jobService: JobService,
-    public webSocketService: WebSocketService,
+    public authSocketService: AuthSocketService,
     public dialog: MatDialog
   ) {
-    this.webSocketService.connect();
+    this.authSocketService.connect();
   }
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class JobPageComponent implements OnInit {
   }
 
   navigate() {
-    this.webSocketService.sendMessage({
+    this.authSocketService.sendMessage({
       type: 'name',
       old: this.jobService.jobRoute,
       new: this.jobRoute,
