@@ -5,6 +5,7 @@ from dateutil import parser
 from threading import Thread
 from random import randint
 from datetime import datetime,timedelta
+from uuid import uuid4
 import traceback
 
 iso=lambda x:datetime.fromtimestamp(x).isoformat()
@@ -67,10 +68,23 @@ class SimpleEcho(WebSocket):
     def handle(self):
         try:
             msg=loads(self.data)
+            print(f"Receive: {msg}")
             if msg.get('type')=="auth_token":
-                print(msg['token'])
+                if users.get(msg.get('token')):
+                    self.user=users[msg['token']]
+                else:
+                    self.xsend({'type':'auth_token','auth':False})
                 return
-            # print(f"Receive: {msg}")
+
+            if msg.get('type')=="authenticate":
+                self.user=msg['user']
+                token=str(uuid4())
+                users[token]=msg['user']
+                self.xsend({'type':'authenticate', 'msg': { 'id': '1', 'username': msg['user'], 'role': 'admin', 'token': token}})
+                #self.xsend({'type':'authenticate', 'error': 'user dont exist'})
+
+            if not hasattr(self, 'user'):return
+
             if msg.get('type')=="unsubscribe":
                 # print(f"Receive: {msg}")
                 if msg['msg']=="getCode":
@@ -199,10 +213,7 @@ class SimpleEcho(WebSocket):
             if msg.get('type')=="delete":
                 self.gdata['x']['jobs'].pop(msg['name'])
 
-            if msg.get('type')=="authenticate":
-                # self.xsend({'type':'authenticate', 'msg': { 'id': '1', 'username': 'admin', 'role': 'admin', 'token': 'qwerty'} })
-                self.xsend({'type':'authenticate', 'error': 'user dont exist' })
-
+            
 
 # TODO: Подписка на обновление шедулера
             if msg.get('type')=="history":
@@ -230,6 +241,7 @@ class SimpleEcho(WebSocket):
         clients.remove(self)
 
 clients=[]
+users={}
 def work(data):
     server = WebSocketServer('0.0.0.0', 5124, SimpleEcho, data)
     server.serve_forever()

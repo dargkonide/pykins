@@ -44,10 +44,14 @@ export class AuthenticationService {
       );
   }
 
-  logout() {
+  logout(url?) {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
+    if (url) {
+      this.router.navigate(['/login'],{ queryParams: { returnUrl: url } });
+    }else{
+      this.router.navigate(['/login']);
+    }
   }
 }
