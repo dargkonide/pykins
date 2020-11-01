@@ -5,7 +5,17 @@ import { AuthGuard } from 'src/app/services/auth/AuthGuard';
 import { JobListComponent } from './job-list.component';
 
 const routes: Routes = [
-  { path: '', canActivate: [AuthGuard], component: JobListComponent },
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    component: JobListComponent,
+    children: [
+      {
+        path: '**',
+        component: JobListComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({

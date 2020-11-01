@@ -4,6 +4,7 @@ import { AuthenticationService } from '../auth/auth.service';
 import { IUser } from '../auth/model/user';
 import { Protocol, WebSocketService } from '../web-socket/web-socket.service';
 import {Router} from '@angular/router';
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root',

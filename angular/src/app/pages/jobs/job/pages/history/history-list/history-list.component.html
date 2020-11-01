@@ -1,25 +1,26 @@
 <div *ngIf="(jobHistory$ | async) as jobHistory">
     <table>
-            <tr *ngFor="let job of jobHistory.msg.slice().reverse()" [routerLink]="['./', job.id]">
-                <mat-card>
-                    <td class="status" style="">
-                        <mat-spinner [diameter]="20" *ngIf="job.status == 'running'"></mat-spinner>
-                        <mat-icon class="success" *ngIf="job.status == 'success'">check_circle</mat-icon>
-                        <mat-icon class="failed" *ngIf="job.status == 'failed'">report</mat-icon>
-                        <mat-icon *ngIf="job.status=='sheduled'">schedule</mat-icon>
-                        <mat-icon *ngIf="job.status=='stopped'">stop</mat-icon>
-                    </td>
+            <tr *ngFor="let job of jobHistory.msg.slice().reverse()">
+                <mat-card [routerLink]="['./', job.id]">
+                        <td class="status">
+                            <mat-spinner [diameter]="20" *ngIf="job.status == 'running'"></mat-spinner>
+                            <mat-icon class="success" *ngIf="job.status == 'success'">check_circle</mat-icon>
+                            <mat-icon class="failed" *ngIf="job.status == 'failed'">report</mat-icon>
+                            <mat-icon *ngIf="job.status=='sheduled'">schedule</mat-icon>
+                            <mat-icon *ngIf="job.status=='stopped'">stop</mat-icon>
+                        </td>
 
-                    <td style="">Build: #{{job.id}}</td>
-                    <td style="">Start time: {{job.start}}</td>
-                    <td style="">End time: {{job.end}} </td>
-                    <td style="">Delta: {{job.delta}}</td>
-                    <td class="stop">
-                        <button class="stop" (click)="stop(job.id)" mat-raised-button *ngIf="job.status=='running'">
-                          Stop
-                        </button>
-                    </td>
-                </mat-card>
+                        <td>Build: #{{job.id}}</td>
+                        <td>Start time: {{job.start}}</td>
+                        <td>End time: {{job.end}} </td>
+                        <td>Delta: {{job.delta}}</td>
+
+                    </mat-card>
+                        <td class="stop">
+                            <button class="stop" (click)="stop(job.id)" mat-raised-button *ngIf="job.status=='running'">
+                              Stop
+                            </button>
+                        </td>
             </tr>
     </table>
 </div>

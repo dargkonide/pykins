@@ -12,7 +12,7 @@ export interface Protocol {
   [params: string]: any;
 }
 
-const CONN_STR = 'ws:/127.0.0.1:5124'; // 95.24.211.79
+const CONN_STR = 'ws:/26.36.13.124:5124'; // 95.24.211.79
 const RECONNECT_DELAY_SEC = 5;
 
 @Injectable({
@@ -46,7 +46,7 @@ export class WebSocketService {
         },
         closingObserver: {
           next: (ss) => {
-            console.log(`WebSocket '${CONN_STR}' closing Observer. \n`, ss);
+            console.debug(`WebSocket '${CONN_STR}' closing Observer. \n`, ss);
           },
         },
       });

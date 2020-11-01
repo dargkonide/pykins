@@ -1,18 +1,22 @@
 <ng-container>
+  <mat-card>
+    <button mat-flat-button [routerLink]="['/jobs']">{{currentUrl}}</button>
+  </mat-card>
   <cdk-virtual-scroll-viewport class="" *ngIf="(jobList$ | async) as jobList" itemSize="22">
     <table>
       <tbody>
         <tr *cdkVirtualFor="let item of jobList.msg,
                             let index = index;
                             let odd = odd;"
-                            [routerLink]="['/jobs/', item.name]"
+                            (click)="navigate(item.type, item.name)"
         >
           <td>
             <mat-spinner [diameter]="20" *ngIf="item.status == 'running'"></mat-spinner>
             <mat-icon class="success" *ngIf="item.status == 'success'">check_circle</mat-icon>
             <mat-icon class="failed" *ngIf="item.status == 'failed'">report</mat-icon>
             <mat-icon *ngIf="item.status=='stopped'">stop</mat-icon>
-            <mat-icon  *ngIf="!item.status">new_releases</mat-icon>
+            <mat-icon  *ngIf="!item.status && item.type=='job'">new_releases</mat-icon>
+            <mat-icon  *ngIf="item.type=='folder'">folder</mat-icon>
           </td>
 
           <td>{{item.name}}</td>

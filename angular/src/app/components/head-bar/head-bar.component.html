@@ -6,10 +6,10 @@
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="this.authSocketService.user">
       <button mat-button><mat-icon style="margin-right: 10px" svgIcon="python"></mat-icon>Pykins</button>
-      <button mat-button routerLink="/jobs"  routerLinkActive="mat-accent">Job list</button>
-      <button mat-button routerLink="/hosts"  routerLinkActive="mat-accent">Hosts</button>
-      <button mat-button routerLink="/calendar"  routerLinkActive="mat-accent">Calendar</button>
-      <button mat-raised-button [routerLink]="['/jobs/', 'New Job']">
+      <button mat-button [routerLink]="['/jobs']" routerLinkActive="mat-accent">Job list</button>
+      <button mat-button [routerLink]="['/hosts']"  routerLinkActive="mat-accent">Hosts</button>
+      <button mat-button [routerLink]="['/calendar']"  routerLinkActive="mat-accent">Calendar</button>
+      <button mat-raised-button [routerLink]="['/job/', 'New Job']">
         Create Job
         <!-- <mat-icon>add_box</mat-icon> -->
       </button>

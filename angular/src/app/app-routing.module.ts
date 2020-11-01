@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'jobs',
@@ -33,7 +33,7 @@ const routes: Routes = [
       import('./pages/calendar/calendar.module').then((m) => m.CalendarModule),
   },
   {
-    path: 'jobs/:jobName',
+    path: 'job/:jobName',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/jobs/job/job-page.module').then((m) => m.JobModule),
