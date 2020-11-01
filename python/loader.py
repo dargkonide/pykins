@@ -3,21 +3,28 @@ import traceback
 from time import sleep
 from queue import Queue,Empty
 from json import loads,dumps
+from pprint import pprint
 
 q=Queue()
 
+def setter(root,path):
+    if path:setter(root.setdefault(path[0],{}),path[1:])
+
+
 def load():
     jobs={}
+    root={}
     for a,b,c in os.walk('jobs'):
         if not b:
             for n in c:
                 if '.py' in n:
                     with open(os.path.join(a,n),encoding='utf-8') as f:
-                        jobs.setdefault(a.split(os.sep)[1],{}).update({n.split('.')[0]:f.read()})
+                        setter(root,a.split(os.sep))
+                        jobs.setdefault(a,{}).update({n.split('.')[0]:f.read()})
                 if '.json' in n:
                     with open(os.path.join(a,n),encoding='utf-8') as f:
-                        jobs.setdefault(a.split(os.sep)[1],{}).update({n.split('.')[0]:loads(f.read())})
-    return jobs
+                        jobs.setdefault(a,{}).update({n.split('.')[0]:loads(f.read())})
+    return jobs,root
 
 def dump(data):
     for n,p in data['x']['jobs'].items():
@@ -43,7 +50,7 @@ def load_logs(data):
         
 
 def work(data):
-    data['x']['jobs']=load()
+    data['x']['jobs'],data['x']['root']=load()
     load_logs(data)
     while 1:
         try:
@@ -56,7 +63,6 @@ def work(data):
                 traceback.print_exc(file=ff)
 
 if __name__ == '__main__':
-    data={'logs':{}}
-    load_logs(data)
+    
  
-    print(data)
+    pprint(load()[1])
