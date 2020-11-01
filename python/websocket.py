@@ -175,12 +175,28 @@ class SimpleEcho(WebSocket):
                 self.xsend_xall({'type':'getVars','vars':job['vars']})
 
             if msg.get('type')=="jobs":
-                jobs=[{'name':k } for k,v in self.gdata['x']['jobs'].items()]
-                for job in jobs:
-                    history=self.gdata['x']['jobs'][job['name']]['history']
-                    if history:
-                        job.update(history[str(max(int(n) for n in history.keys()))])
-                print(self.gdata['x']['scheduler'])
+                folder=['jobs']+msg.get('folder')
+                last_folder=self.gdata['x']['root']
+                for n in folder:
+                    last_folder=last_folder.get(n)
+                jobs=[]
+                for n in last_folder:
+                    if not last_folder.get(n):
+                        job={'name':n,'type':'job'}
+                        name='\\'.join(folder+[n])
+                        history=self.gdata['x']['jobs'][name]['history']
+                        if history:
+                            job.update(history[str(max(int(n) for n in history.keys()))])
+                        jobs.append(job)
+                    else:
+                        jobs.append({'name':n,'type':'folder'})
+                
+                # jobs=[{'name':k } for k,v in self.gdata['x']['jobs'].items()]
+                # for job in jobs:
+                #     history=self.gdata['x']['jobs'][job['name']]['history']
+                #     if history:
+                #         job.update(history[str(max(int(n) for n in history.keys()))])
+                # print(self.gdata['x']['scheduler'])
                 self.xsend({'type':'jobs','msg':jobs})
 
             if msg.get('type')=="job":
