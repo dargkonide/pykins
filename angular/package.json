@@ -31,11 +31,11 @@
     "@fullcalendar/timegrid": "^5.3.1",
     "angular-svg-icon": "^10.0.0",
     "material-design-icons": "^3.0.1",
-    "ngx-monaco-editor": "^9.0.0",
-    "npm": "^6.14.8",
+    "ngx-monaco-editor": "^10.0.0-beta.1",
+    "npm": "^7.0.7",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.1",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.11.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1002.0",
@@ -43,17 +43,17 @@
     "@angular/compiler-cli": "^10.2.1",
     "@types/jasmine": "^3.5.14",
     "@types/jasminewd2": "~2.0.3",
-    "codelyzer": "^5.1.2",
-    "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
+    "codelyzer": "^6.0.1",
+    "jasmine-core": "~3.6.0",
+    "jasmine-spec-reporter": "~6.0.0",
+    "karma": "~5.2.3",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
+    "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
-    "ts-node": "~8.3.0",
+    "ts-node": "~9.0.0",
     "tslint": "^6.1.3",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.5"
   }
 }
