@@ -1,0 +1,1 @@
+shell('net stop restarter')

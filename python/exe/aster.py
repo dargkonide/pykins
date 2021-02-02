@@ -2,7 +2,43 @@ import ast
 import re
 from uuid import uuid4
 
-code_string = open(r"C:\Users\Python\Documents\pykins\python\jobs\start_scenario\code.py",encoding='utf-8').read()
+code_string = """
+from time import time
+
+t=time()
+
+
+with node('tvsi-erib0054'):
+    from time import time
+    print(time()-t)
+    with node('tvsi-erib0054'):
+        from time import time
+        print(time()-t)
+        with node('tvsi-erib0054'):
+            from time import time
+            print(time()-t)
+            with node('tvsi-erib0054'):
+                from time import time
+                print(time()-t)
+                with node('tvsi-erib0054'):
+                    from time import time
+                    print(time()-t)
+                    with node('tvsi-erib0054'):
+                        from time import time
+                        print(time()-t)
+                        with node('tvsi-erib0054'):
+                            from time import time
+                            print(time()-t)
+                            with node('tvsi-erib0054'):
+                                from time import time
+                                print(time()-t)
+                                with node('tvsi-erib0054'):
+                                    from time import time
+                                    print(time()-t)
+                                    print(1)
+
+print(time()-t)
+""".strip()
 
 def get_var_name():
     x=str(uuid4())
@@ -21,11 +57,17 @@ for with_node in with_nodes:
         for i,node in enumerate(ast.walk(with_node)):
             if i and isinstance(node, ast.With):
                 filtr.append(node)
-        start,end=with_node.lineno-1,with_node.end_lineno
+        start=with_node.lineno-1
+        if hasattr(with_node,'end_lineno'):#in python3.8
+            end=with_node.end_lineno
+        else:
+            end=max(n.lineno for n in ast.walk(with_node) if hasattr(n,'lineno'))
+
+        print(end)
         nodes[with_node]=(start,end,code_split[start:end])
 for n in filtr:
     if nodes.get(n):nodes.pop(n)
-# print(nodes)
+
 send_code_vars={}
 mapping=[]
 for k,v in nodes.items():
@@ -42,7 +84,7 @@ for k,v in nodes.items():
         node=code.split(':')[0]
     else:char=''
 
-    send_code=[n for n in code[len(node)+1:].split('\n') if n.strip()]
+    send_code=[n for n in code.split(node)[1][1:].split('\n') if n.strip()]
     for i,n in enumerate(send_code):
         if not i:
             spaces=re.search(r'^\s*',n)[0]
@@ -72,8 +114,7 @@ while i<len(code_split):
     i+=1
 for n in new_code_split:
     print(n)
-print('_'*45)
+
 for k,v in send_code_vars.items():
-    print()
     print(k)
     print(v)

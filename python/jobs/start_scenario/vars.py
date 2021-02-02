@@ -23,3 +23,4 @@ with connect('eriblt_reestr_tests') as con:
     jira_comment = ''
     properties_scheduler = ''
     user = 'khudyakov1-ad'
+    del pref

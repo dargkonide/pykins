@@ -31,10 +31,8 @@ def wright_number(list_generators, number ,path = '/opt/data/FilesForStubs/CardT
 
 
 if decision_list == 'create':
-    print("1")
     create_file(list_generators)
 elif decision_list == 'delete':
-    print("2")
     delete_folder(list_generators)
 
 
@@ -42,11 +40,10 @@ elif decision_list == 'delete':
 print(numbers)
 
 if numbers == 0 or numbers == 1:
-    print("4")
     wright_number(list_generators, numbers)
 
 
-print("3")
+
 
 
 

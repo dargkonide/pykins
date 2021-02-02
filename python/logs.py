@@ -6,10 +6,10 @@ qsend={}
 
 def work(data):
     q=Queue()
-    data['subproxy'].append(q)
+    data['subproxy']['logs']=q
     while 1:
         try:
-            con,x=q.get()
+            host,x=q.get()
             if x['n']=='logs':
                 data['logs'].setdefault(x['i']+x['j'],[]).append(x['v'])
                 for n in qsend.get(x['i']+x['j'],[]):

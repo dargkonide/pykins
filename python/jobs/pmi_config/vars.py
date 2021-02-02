@@ -1,0 +1,1 @@
+stend=['ALL','NT1','NT2','NT3']

@@ -12,7 +12,7 @@ export interface Protocol {
   [params: string]: any;
 }
 
-const CONN_STR = 'ws:/85.249.192.240:5124'; // 95.24.211.79
+const CONN_STR = 'ws:/cpython.site:5124'; // 95.24.211.79
 const RECONNECT_DELAY_SEC = 5;
 
 @Injectable({

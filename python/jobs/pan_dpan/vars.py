@@ -1,0 +1,13 @@
+bd=['NT1 erib','NT1 csa','NT1 logs','NT1 standin','NT2 erib','NT2 csa','NT2 logs']
+table=[
+    'SRB_IKFL.LT$PAN_DPAN_MBK_CARDS',
+    'SRB_IKFL.PAN_DPAN_BAD',
+    'CSA_IKFL.TMP$PAN_DPAN_DHIST',
+    'SRB_IKFL.PAN_DPAN_DHIST',
+    'SRB_IKFL.PAN_DPAN',
+    'CSA_IKFL.PAN_DPAN_ALL',
+    'SRB_WAY4_DBLINK.ADDITIONAL_CLIENTS_FOR_ESA',
+    'SRB_WAY4_DBLINK.ADDITIONAL_CLIENTS_FOR_USB']
+send_count=100
+upload_count=1000000
+download_count=1000000

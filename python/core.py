@@ -1,6 +1,5 @@
 from importlib import import_module
 from threading import Thread
-# from multiprocessing import Process,Queue
 from os.path import dirname
 from socket import gethostname,gethostbyname,getfqdn
 from queue import Queue
@@ -13,26 +12,21 @@ target_path=os.path.abspath(dirname(__file__))
 os.chdir(target_path)
 
 imports={}
-data={'host':gethostname(),'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':[],'x':{
-        'servers':[gethostname()],
-        'master':gethostname(),
+data={'host':gethostname(),'running':{},'ping':{},'send':Queue(),'imports':imports,'connects':{},'subscribe':{},'subproxy':{},'x':{
+        'servers':list({'cpython.site',getfqdn()}),
+        'master':'tvsi-erib0054',
         'jobs':{},
         'scheduler':[]
     },'logs':{}
 }
 
 if __name__ == '__main__':
-
-    # if data['host']==data['x']['master']:
-    #     data['x']['scheduler'].append({'time':time(),'name':'start_scenario',
-    #         'vars':data['x']['jobs']['start_scenario']['vars']})
+    data['send'].put((data['x']['master'],{'n':'host','v':data['host']},None))
     data['x']['ip']={gethostbyname(n):n for n in data['x']['servers']}
     data['x']['host']={n.split('.')[0]:gethostbyname(n) for n in data['x']['servers']}
     threads=[]
-    tcount={'executor':100}
-    filtr=['simple_websocket_server','core','process']
-    pdata=data.copy()
-    pdata.pop('imports')
+    tcount={'executor':100,'sender':100}
+    filtr=['simple_websocket_server','core','process','ast']
     for n in listdir(target_path):
         if n[-3:]=='.py' and not n[:-3] in filtr and not imports.get(n[:-3]):
             n=n[:-3]
